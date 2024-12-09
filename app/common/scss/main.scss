@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	@apply text-main;
+	font-family: "Rubik", sans-serif;
+	font-style: normal;
+	font-optical-sizing: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+.wrapper {
+	max-width: 1150px;
+	margin: 0 auto;
+	@apply max-[1150px]:px-4;
+}
+
+
+svg {
+	vertical-align: center;
+}
+

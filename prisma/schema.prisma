@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Admin {
+  id           Int    @id @default(autoincrement())
+  login        String
+  passwordHash String
+}
+
+model Listing {
+  id          Int    @id @default(autoincrement())
+  title       String
+  description String
+  minPrice    Int
+
+  photos       Photo[]
+  pricePeriods PricePeriod[]
+
+  createdAt DateTime @default(now())
+
+  //*****Адрес
+  address   String
+  longitude Float
+  latitude  Float
+  //*********
+
+  //*****Параметры квартиры
+  roomCount       Int
+  bedDescription  String
+  area            Int
+  floor           Int
+  maxFloor        Int
+  balcony         String
+  viewDescription String
+
+  appliances    Appliances[]
+  internetAndTV InternetAndTV[]
+  amenities     Amenity[]
+  monthlyRental Boolean         @default(false)
+  withAnimals   Boolean         @default(false)
+  places        Int
+}
+
+model Appliances {
+  id        Int      @id @default(autoincrement())
+  label     String
+  listing   Listing? @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId Int
+}
+
+model InternetAndTV {
+  id        Int      @id @default(autoincrement())
+  label     String
+  listing   Listing? @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId Int
+}
+
+model Amenity {
+  id        Int      @id @default(autoincrement())
+  label     String
+  listing   Listing? @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId Int
+}
+
+model Photo {
+  id        Int      @id @default(autoincrement())
+  urlMin    String
+  urlFull   String
+  rotation  Int      @default(0)
+  position  Int      @default(0)
+  listing   Listing? @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId Int?
+}
+
+model PricePeriod {
+  id        Int      @id @default(autoincrement())
+  price     Int
+  startDate DateTime
+  endDate   DateTime
+  listingId Int?
+  listing   Listing? @relation(fields: [listingId], references: [id], onDelete: Cascade)
+}
