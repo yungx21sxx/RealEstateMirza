@@ -18,15 +18,15 @@ import CallSubmitForm from "~/common/forms/CallSubmitForm.vue";
 					<PhoneIcon class="contact__icon"/>
 					<div class="contact__info">
 						<div class="contact__title">Телефон</div>
-						<div class="contact__data">+7 (928) 851-40-84</div>
+						<NuxtLink to="tel:/+79816981100" class="contact__data">+7 (981) 698-11-00</NuxtLink>
 						<div class="flex gap-4 mt-3 flex-wrap">
-							<UButton class="rounded-full py-1">
+							<UButton class="rounded-full py-1" to="https://wa.me/79816981100">
 								<template #leading>
 									<WhatsUpIcon fill="white"/>
 								</template>
 								Whats up
 							</UButton>
-							<UButton class="rounded-full py-1">
+							<UButton class="rounded-full py-1" to="https://t.me/Mir_durov">
 								<template #leading>
 									<TelegramIcon fill="white"/>
 								</template>
@@ -39,15 +39,14 @@ import CallSubmitForm from "~/common/forms/CallSubmitForm.vue";
 					<AddressIcon class="contact__icon"/>
 					<div class="contact__info">
 						<div class="contact__title">Адрес</div>
-						<div class="contact__data">99 S.t Jomblo Park Pekanbaru
-							28292. Indonesia</div>
+						<div class="contact__data">Овражная улица, 47А, Новоивановское, Московская Область</div>
 					</div>
 				</div>
 				<div class="contact">
 					<MailIcon class="contact__icon"/>
 					<div class="contact__info">
 						<div class="contact__title">Почта</div>
-						<div class="contact__data">info@yourdomain.com</div>
+						<div class="contact__data">sheikhov.amin@mail.ru</div>
 					</div>
 				</div>
 			</div>

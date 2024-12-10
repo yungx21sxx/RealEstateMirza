@@ -26,13 +26,13 @@ export default class ListingService {
             }
         })
 
-        for (const photo of photos) {
+        for (const [index, photo] of photos.entries()) {
             await prisma.photo.update({
                 where: {
                     id: photo.photoId
                 },
                 data: {
-                    position: photo.position
+                    position: index
                 }
             })
         }

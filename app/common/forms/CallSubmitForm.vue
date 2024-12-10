@@ -1,8 +1,9 @@
 <script setup lang="ts">
 	import type {FormError, FormSubmitEvent} from '#ui/types'
-	const emits = defineEmits<{
-		onSubmit: () => void
-	}>();
+	import PhoneInput from "~/common/inputs/PhoneInput.vue";
+	import useTelegram from "~/common/composables/useTelegram";
+	
+	const emits = defineEmits(['onSubmit']);
 	
 	
 	
@@ -19,8 +20,19 @@
 		return errors
 	}
 	
+	const loading = ref(false);
+	
 	async function onSubmit(event: FormSubmitEvent<any>) {
-		console.log(event.data)
+		loading.value = true;
+		const {fetchForCallData} = useTelegram();
+		if (!state.name || !state.phone) {
+			return;
+		}
+		await fetchForCallData(state.phone, state.name, state.question);
+		loading.value = false;
+		const toast = useToast()
+		emits('onSubmit');
+		toast.add({ title: 'Заявка отправлена!' })
 	}
 
 
@@ -29,23 +41,23 @@
 <template>
 	
 	<UForm :validate="validate" :state="state" class="space-y-4" @submit="onSubmit">
-		<UFormGroup label="Почта" name="email">
-			<UInput v-model="state.name" type="email"/>
+		<UFormGroup label="Как Вас зовут?" name="name">
+			<UInput v-model="state.name"/>
 		</UFormGroup>
 		
 		<UFormGroup label="Телефон" name="phone">
-			<UInput v-model="state.phone"/>
+			<PhoneInput v-model="state.phone"/>
 		</UFormGroup>
 		
 		<UFormGroup label="Ваш вопрос (необязательно)">
 			<UTextarea v-model="state.question" />
 		</UFormGroup>
 		
-		<UButton type="submit" class="mt-10" block>
+		<UButton type="submit" class="mt-10" block :loading="loading">
 			Отправить заявку
 		</UButton>
 	</UForm>
-	<p class="text-gray-500 mt-6 text-sm text-center max-md:text-xs">Нажимая кнопку "Отправить Заявку", вы соглашаетесь с условиями <a href="">пользовательского соглашения</a> и на <a href="">обработку персональных данных</a> </p>
+	<p class="text-gray-500 mt-6 text-sm text-center max-md:text-xs">Нажимая кнопку "Отправить Заявку", вы соглашаетесь с условиями <a href="" class="text-main">обработки персональных данных</a> </p>
 </template>
 
 <style scoped lang="scss">

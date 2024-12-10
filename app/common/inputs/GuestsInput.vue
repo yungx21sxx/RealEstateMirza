@@ -7,7 +7,9 @@ const ageOptions = [
 	"до года",
 	...Array.from({ length: 17 }, (_, i) => `${i + 1} ${getYearWord(i + 1)}`)
 ];
+
 const guests = defineModel<BookingFiltersDTO>({required: true});
+
 withDefaults(
 	defineProps<{
 		block?: boolean,
@@ -41,6 +43,8 @@ const options = computed(() =>
 	ageOptions.map((label, value) => ({ label, value }))
 );
 
+const isOpen = ref(false)
+
 </script>
 
 <template>
@@ -48,7 +52,7 @@ const options = computed(() =>
 		<span class="btn-label" v-if="target === 'listing-page'">
 			Заселение и выезд
 		</span>
-		<UPopover>
+		<UPopover v-model="isOpen">
 			<UButton :block="block" :class="[target === 'listing-page' ? 'listing-page_btn' : 'catalog_btn']" :variant="target === 'listing-page' ? 'solid' : 'outline'" icon="i-prime:user">{{describeGroup(guests.adults, guests.childrenCount)}}</UButton>
 			<template #panel>
 				<div class="p-4 overflow-visible w-[300px]">
@@ -92,7 +96,7 @@ const options = computed(() =>
 							<UButton variant="soft" icon="material-symbols:close" @click="removeChild(index)"/>
 						</div>
 					</div>
-					<UButton class="mt-4" block>Готово</UButton>
+					<UButton class="mt-4" block @click="isOpen = false">Готово</UButton>
 				</div>
 			</template>
 		</UPopover>

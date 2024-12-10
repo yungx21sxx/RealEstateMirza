@@ -21,17 +21,17 @@
 	        <div class="hidden md:flex items-center gap-4 ml-auto">
 		        <NuxtLink
 			        :class="['rounded-full h-10 px-4 flex items-center active transition-all', variant === 'light' ? 'bg-white/10 hover:bg-white/20 ' : 'bg-gray-100 hover:bg-gray-200']"
-			        to="/"
+			        to="tel:/+79816981100"
 		        >
 			        <UIcon name="i-prime:phone" class="h-6 w-6"/>
 			        <span class="ml-2">
-				         +7 (111) 111-11-11
+				         +7 (981) 698-11-00
 			        </span>
 		        </NuxtLink>
-		       <NuxtLink to="/" class="bg-accent rounded-full h-10 w-10 p-0 flex justify-center items-center hover:bg-accent-200 transition-all">
+		       <NuxtLink to="https://wa.me/79816981100" class="bg-accent rounded-full h-10 w-10 p-0 flex justify-center items-center hover:bg-accent-200 transition-all">
 			       <WhatsIcon class="h-5 w-5"/>
 		       </NuxtLink>
-		        <NuxtLink to="/" class="bg-accent rounded-full h-10 w-10 p-0 flex justify-center items-center hover:bg-accent-200 transition-all">
+		        <NuxtLink to="https://t.me/Mir_durov" class="bg-accent rounded-full h-10 w-10 p-0 flex justify-center items-center hover:bg-accent-200 transition-all">
 			        <TelegramIcon class="h-5 w-5"/>
 		        </NuxtLink>
 	        </div>

@@ -39,8 +39,8 @@ export default () => {
 
 
 
-	const fetchForCallData = async (phone: string, name: string, ) => {
-		let text = `Клиент оставил заявку на подбор объектов: %0A👶Имя: ${name} %0A📱Номер телефона: ${phone} `
+	const fetchForCallData = async (phone: string, name: string, question: string | undefined ) => {
+		let text = `Клиент оставил заявку на звонок: %0A👶Имя: ${name} %0A📱Номер телефона: ${phone} `
 		const url = getUrl(text, bookingBotToken, bookingBotChatID);
 		return useFetch(url)
 	}

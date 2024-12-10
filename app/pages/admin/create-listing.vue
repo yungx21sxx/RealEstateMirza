@@ -2,6 +2,10 @@
 
 import ListingForm from "~/modules/admin/components/ListingForm.vue";
 import MenuMain from "~/modules/menu/components/MenuMain.vue";
+
+definePageMeta({
+	middleware: ['admin-only']
+})
 </script>
 
 <template>

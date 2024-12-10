@@ -18,9 +18,6 @@ watch(dates, (newValue) => {
 	
 	bookingData.value.checkIn = start;
 	bookingData.value.checkOut = end;
-	if (start && end) {
-		dateInputOpen.value = false;
-	}
 });
 
 watch(
@@ -61,16 +58,20 @@ const datesSelectModal = ref(false);
 			</UButton>
 			
 			<template #panel="{ close }">
-				<div class="flex items-center sm:divide-x divide-gray-200 dark:divide-gray-800">
+				<div class="flex flex-col">
 					<DatePicker
 						v-model.range="dates"
 						:min-date="new Date()"
-						expanded
 						:rows="1"
 						:columns="2"
 						color="orange"
+						borderless
 					/>
+					<div class="ml-auto pr-4 pb-4 -mt-4 z-10">
+						<UButton @click="dateInputOpen = false">Сохранить</UButton>
+					</div>
 				</div>
+				
 			</template>
 		</UPopover>
 		

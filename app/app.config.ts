@@ -3,7 +3,7 @@ export default defineAppConfig({
     primary: 'accent',
     notifications: {
       // Show toasts at the top right of the screen
-      position: 'top-0 bottom-[unset]'
+      position: 'bottom-0 bottom-[unset]'
     },
     button: {
       font: 'font-medium',

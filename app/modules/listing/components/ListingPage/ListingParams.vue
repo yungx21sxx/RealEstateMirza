@@ -1,5 +1,6 @@
 <script setup lang="ts">
 	import useListing from "~/modules/listing/composables/useListing";
+	import {getRoomLabel} from "~/common/utils/listing.utils";
 	
 	const {listing} = useListing();
 	
@@ -15,7 +16,7 @@
 		<div class="max-[640px]:block grid grid-cols-2">
 			<ul>
 				<li>
-					Количество комнат: <strong>{{listing.roomCount}}</strong>
+					Количество комнат: <strong>{{getRoomLabel(listing.roomCount)}}</strong>
 				</li>
 				<li>
 					Кровати: <strong>{{listing.bedDescription}}</strong>

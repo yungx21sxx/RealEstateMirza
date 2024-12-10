@@ -46,8 +46,8 @@
 		await navigateTo({
 			path: `/listing/${listing.value.id}`,
 			query: {
-				checkIn: checkIn?.toString(),
-				checkOut: checkOut?.toString(),
+				checkIn: checkIn?.toISOString(),
+				checkOut: checkOut?.toISOString(),
 				...guests
 			}
 		})
@@ -62,11 +62,13 @@
 			<div class="space-y-6 max-[960px]:space-y-4">
 				<ListingHeader/>
 				<GalleryMainSlider/>
+				<ListingSetBookingInfo class="max-[960px]:block hidden"/>
 				<ListingParams/>
+				<RealtorContacts class="max-[960px]:flex hidden"/>
 				<ListingYMap/>
 				<ListingDescription/>
 			</div>
-			<div class="space-y-6 sticky top-16 max-[960px]:block">
+			<div class="space-y-6 sticky top-16 max-[960px]:hidden">
 				<RealtorContacts/>
 				<ListingSetBookingInfo/>
 			</div>

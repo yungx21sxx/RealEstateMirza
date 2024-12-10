@@ -48,13 +48,13 @@ watch(bookingFilters, async (booking) => {
 	<MenuMain/>
 	<header class="flex justify-center py-12">
 		<div class="max-w-xl text-center">
-			<div class="uppercase font-semibold text-accent mb-1">Все объекты</div>
-			<h1 class="font-semibold text-4xl mb-4">Бронируйте жилье быстро и выгодно</h1>
-			<p class="text-secondary mb-8">Выберите даты поездки и количество гостей, чтобы увидеть актуальные цены или оставьте заявку, и я подберу Вам самое лучше предложение.</p>
-			<div class="flex justify-center gap-4">
-				<UButton>Оставить заявку</UButton>
-				<UButton variant="soft">Смотреть жилье</UButton>
-			</div>
+			<div class="uppercase font-semibold text-accent mb-1 max-md:text-sm">Все объекты</div>
+			<h1 class="font-semibold text-4xl max-md:text-2xl mb-4">Апартаменты бизнес-класса</h1>
+			<p class="text-secondary">Если вы планируете командировку, путешествие или просто хотите сменить привычную обстановку, то наши апартаменты как нельзя лучше подходят для этих целей.</p>
+<!--			<div class="flex justify-center gap-4">-->
+<!--				<UButton>Оставить заявку</UButton>-->
+<!--				<UButton variant="soft">Смотреть жилье</UButton>-->
+<!--			</div>-->
 		</div>
 	</header>
 	<div class="bg-block-gray py-12" v-if="data">
@@ -79,5 +79,9 @@ watch(bookingFilters, async (booking) => {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 		gap: 24px;
+		
+		@media screen and (min-width: 1000px) {
+			grid-template-columns: repeat(3, 1fr);
+		}
 	}
 </style>

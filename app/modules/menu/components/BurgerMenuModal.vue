@@ -8,6 +8,7 @@
 	import MailIcon from "~/modules/mainPage/icons/contacts/MailIcon.vue";
 	import TelegramIcon from "~/modules/mainPage/icons/TelegramIcon.vue";
 	import PhoneIcon from "~/modules/mainPage/icons/contacts/PhoneIcon.vue";
+	import useModals from "~/common/composables/useModals";
 
 	const {burgerMenuIsOpen, open, close} = useBurgerMenu();
 	const links = useLinks();
@@ -19,6 +20,13 @@
 		await navigateTo({
 			path: link
 		});
+	}
+	
+	const {openCallSubmitModal} = useModals();
+	
+	const openSubmitModal = () => {
+		burgerMenuIsOpen.value = false;
+		openCallSubmitModal();
 	}
 </script>
 
@@ -42,8 +50,7 @@
 				</div>
 			</div>
 			<div class="px-4 mt-8">
-				<UButton block class="mb-4">Заявка на звонок</UButton>
-				<UButton block variant="soft">Подобрать жилье</UButton>
+				<UButton block class="mb-4" @click="openSubmitModal">Заявка на звонок</UButton>
 			</div>
 			<div class="px-4 mt-6">
 				<h3 class="font-semibold text-xl mb-6">Мои контакты</h3>
@@ -51,15 +58,15 @@
 					<PhoneIcon class="contact__icon"/>
 					<div class="contact__info">
 						<div class="contact__title">Телефон</div>
-						<div class="contact__data">+7 (928) 851-40-84</div>
+						<NuxtLink to="tel:/+79816981100" class="contact__data">+7 (981) 698-11-00</NuxtLink>
 						<div class="flex gap-4 mt-3 flex-wrap">
-							<UButton class="rounded-full py-1">
+							<UButton class="rounded-full py-1" to="https://wa.me/79816981100">
 								<template #leading>
 									<WhatsUpIcon fill="white"/>
 								</template>
 								Whats up
 							</UButton>
-							<UButton class="rounded-full py-1">
+							<UButton class="rounded-full py-1" to="https://t.me/Mir_durov">
 								<template #leading>
 									<TelegramIcon fill="white"/>
 								</template>
@@ -72,15 +79,14 @@
 					<AddressIcon class="contact__icon"/>
 					<div class="contact__info">
 						<div class="contact__title">Адрес</div>
-						<div class="contact__data">99 S.t Jomblo Park Pekanbaru
-							28292. Indonesia</div>
+						<div class="contact__data">Овражная улица, 47А, Новоивановское, Московская Область</div>
 					</div>
 				</div>
 				<div class="contact">
 					<MailIcon class="contact__icon"/>
 					<div class="contact__info">
 						<div class="contact__title">Почта</div>
-						<div class="contact__data">info@yourdomain.com</div>
+						<div class="contact__data">sheikhov.amin@mail.ru</div>
 					</div>
 				</div>
 			</div>

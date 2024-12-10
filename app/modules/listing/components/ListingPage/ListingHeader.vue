@@ -1,7 +1,11 @@
 <script setup lang="ts">
 	import useListing from "~/modules/listing/composables/useListing";
 	import useBooking from "~/modules/listing/composables/useBooking";
-	import {getDaysWord} from "~/common/utils/dates.utils";
+	import useAuthUser from "~/modules/auth/composables/useAuthUser";
+	
+	const authUser = useAuthUser();
+	
+	const isAdmin = computed(() => authUser.value && authUser.value.role === 'ADMIN')
 	
 	const {listing} = useListing();
 	const {calculatedPrices} = useBooking()
@@ -23,6 +27,27 @@
 		}
 		return `от ${listing.value.minPrice.toLocaleString('ru-RU')} ₽ за сутки`
 	})
+	
+	const toast = useToast()
+	
+	const toastActions = [
+		{
+			label: 'Удалить',
+			click: async () => {
+				await $fetch(`/api/admin/listing/${listing.value.id}`, {
+					method: 'DELETE'
+				})
+				alert('Объект удален')
+				await navigateTo('/catalog')
+			}
+		},
+		{
+			label: 'Отмена',
+			click: () => {
+				toast.clear()
+			}
+		}
+	]
 </script>
 
 <template>
@@ -38,6 +63,12 @@
 				<span class="text-secondary">{{listing.address}}</span>
 			</div>
 			<UButton variant="link" icon="material-symbols:map-outline">На карте</UButton>
+		</div>
+		
+		<div v-if="isAdmin" class="flex gap-4 mt-4 max-md:flex-col">
+			<UButton to="/admin/create-listing" class="bg-blue-400">Создать объект</UButton>
+			<UButton :to="`/admin/update/${listing.id}`" class="bg-orange-400">Редактировать объект</UButton>
+			<UButton @click="toast.add({ title: 'Точно удалять?', actions: toastActions })" class="bg-red-500">Удалить объект</UButton>
 		</div>
 	</div>
 	

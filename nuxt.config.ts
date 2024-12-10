@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     '@nuxtjs/google-fonts',
     '@nuxt/image',
     'vue-yandex-maps/nuxt',
-    'nuxt-delay-hydration',
+    // 'nuxt-delay-hydration',
   ],
   routeRules: {
     '/': {prerender: true}
@@ -69,12 +69,12 @@ export default defineNuxtConfig({
       omitLineBreaks: false
     }
   },
-  webpack: {
-    optimization: {
-      minimize: true,
-      // Other optimization options
-    }
-  },
+  // webpack: {
+  //   optimization: {
+  //     minimize: true,
+  //     // Other optimization options
+  //   }
+  // },
 
   compatibilityDate: '2024-11-23'
 })

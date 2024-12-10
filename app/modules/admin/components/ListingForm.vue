@@ -15,9 +15,10 @@
 	import useCreateListing from "~/modules/admin/composables/useCreateListing";
 	import {transformFormToDTO} from "~/modules/admin/composables/useTransformToDTO";
 	import type {H3Error} from "h3";
+	import useUpdateListing from "~/modules/admin/composables/useUpdateListing";
 	
 	const {updateMode = false} = defineProps<{
-		updateMode?: boolean
+		updateMode: boolean
 	}>();
 	
 	const listingFormValidationSchema = z.object({
@@ -48,12 +49,29 @@
 	const loading = ref(false);
 	const route = useRoute();
 	
+	const {fetchUpdateData, updateListing} = useUpdateListing();
+	
+	if (updateMode) {
+		try {
+			listingFormData.value = await fetchUpdateData(parseInt(route.params.id as string))
+		} catch (e) {
+			alert('Возможно объект был удален')
+		}
+	}
+	
 	async function onSubmit(event: FormSubmitEvent<Schema>) {
 		loading.value = true;
 		const {submitListingData} = useCreateListing();
+		
 		const dto: ListingCreateDTO = transformFormToDTO(listingFormData.value);
 		try {
 			if (updateMode && route.params.id) {
+				const {listingId} = await updateListing(parseInt(route.params.id as string), dto);
+				await navigateTo({
+					path: `/listing/${listingId}`,
+				}, {
+					external: true
+				})
 				return;
 			} else {
 				const {listingId} = await submitListingData(dto);
@@ -62,6 +80,7 @@
 				}, {
 					external: true
 				})
+				return;
 			}
 		} catch (e: H3Error | any) {
 			console.log(e);
@@ -70,6 +89,7 @@
 		}
 	}
 	
+
 	
 
 </script>
@@ -78,7 +98,8 @@
 	<UForm :schema="listingFormValidationSchema" :state="listingFormData" ref="form" class="space-y-4" @submit="onSubmit">
 		<UCard class="-mx-4">
 			<template #header>
-				<h2 class="font-semibold text-xl">Создание объекта</h2>
+				<h2 class="font-semibold text-xl" v-if="!updateMode">Создание объекта</h2>
+				<h2 class="font-semibold text-xl" v-else>Редактирование объекта</h2>
 			</template>
 			<div class="space-y-4">
 				<UFormGroup label="Название" name="title">
@@ -123,7 +144,7 @@
 		<UCard class="-mx-4">
 			<h2 class="font-semibold text-xl mb-4">Параметры объекта</h2>
 			<div class="space-y-4">
-				<UFormGroup label="Количество комнат" name="roomCount">
+				<UFormGroup label="Количество комнат (0 - если студия)" name="roomCount">
 					<UInput :model-modifiers="{number: true}" type="number" v-model="listingFormData.roomCount" />
 				</UFormGroup>
 				<UFormGroup label="Какие кровати?"  name="bedDescription">
@@ -160,8 +181,11 @@
 		</UCard>
 		<FileUploader v-model="listingFormData.photos"/>
 		<SetLocation/>
-		<UButton type="submit">
+		<UButton type="submit" v-if="!updateMode">
 			 Загрузить объект
+		</UButton>
+		<UButton type="submit" v-else>
+			Обновить объект
 		</UButton>
 		
 	</UForm>

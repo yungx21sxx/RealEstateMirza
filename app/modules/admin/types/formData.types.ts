@@ -24,7 +24,6 @@ export interface IListingFormData {
 
     pricePeriods: IListingPricePeriod[];
     photos: PhotoUploadResponse[];
-
     monthlyRental: boolean;
     withAnimals: boolean;
     places: number | null;

@@ -4,6 +4,7 @@
 		<BurgerMenuModal/>
 	</NuxtLayout>
 	<UNotifications />
+	<CallSubmitModal/>
 </template>
 
 
@@ -12,4 +13,5 @@
 </style>
 <script setup lang="ts">
 	import BurgerMenuModal from "~/modules/menu/components/BurgerMenuModal.vue";
+	import CallSubmitModal from "~/common/modals/CallSubmitModal.vue";
 </script>

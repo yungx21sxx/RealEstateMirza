@@ -5,21 +5,31 @@
 	import RoomIIcon from "~/modules/listing/icons/RoomIIcon.vue";
 	import DotIcon from "~/modules/listing/icons/DotIcon.vue";
 	import {formatNights} from "../../../../common/utils/dates.utils";
+	import {getRoomLabel} from "../../../../common/utils/listing.utils";
 	
 	defineProps<{
 		listing: ListingCatalogResponse
-	}>()
+	}>();
+	
+	const goToListing = async (id: number) => {
+		await navigateTo({
+			path: `/listing/${id}`
+		})
+	}
 
 </script>
 
 <template>
-	<div class="shadow-card rounded-md bg-white hover:shadow-card-active transition-all">
-		<div >
-			<UCarousel v-slot="{ item }" :items="listing.photos" :ui="{ item: 'basis-full' }" class="rounded-t-lg overflow-hidden" arrows>
-				<img :src="item" class="w-full h-[200px] object-cover" draggable="false">
-			</UCarousel>
+	<div class="shadow-card rounded-md bg-white hover:shadow-card-active transition-all cursor-pointer"
+	     @click="goToListing(listing.id)"
+	>
+		<div>
+<!--			<UCarousel v-slot="{ item }" :items="listing.photos" :ui="{ item: 'basis-full' }" class="rounded-t-lg overflow-hidden" arrows>-->
+<!--				<img :src="item" class="w-full h-[200px] object-cover" draggable="false">-->
+<!--			</UCarousel>-->
+			<img :src="listing.photos[0]" alt="" class="w-full rounded-t-lg h-[200px] object-cover">
 		</div>
-		<NuxtLink :to="`/listing/${listing.id}`" class="p-4 block">
+		<div class="p-4 block">
 			<p class="text-lg">{{listing.title}}</p>
 			<div class="flex flex-wrap gap-2 mt-4">
 				<div class="chip">
@@ -32,20 +42,20 @@
 				</div>
 				<div class="chip">
 					<RoomIIcon/>
-					<span>{{listing.rooms}} комнат</span>
+					<span>{{getRoomLabel(listing.rooms)}}</span>
 				</div>
 			</div>
 			<div class="flex items-center gap-2 mt-4" v-if="!listing.calculatedPrices">
-				<span class="font-semibold text-lg">от {{listing.minPrice.toLocaleString()}} ₽</span>
+				<span class="font-semibold text-lg">от {{listing.minPrice.toLocaleString('ru-RU')}} ₽</span>
 				<DotIcon/>
 				<span class="text-secondary text-lg">в сутки</span>
 			</div>
 			<div class="flex items-center gap-2 mt-4" v-else>
-				<span class="font-semibold text-lg">от {{listing.calculatedPrices.totalPrice?.toLocaleString()}} ₽</span>
+				<span class="font-semibold text-lg">от {{listing.calculatedPrices.totalPrice?.toLocaleString('ru-RU')}} ₽</span>
 				<DotIcon/>
 				<span class="text-secondary text-lg">за {{formatNights(listing.calculatedPrices.daysCount)}}</span>
 			</div>
-		</NuxtLink>
+		</div>
 		
 	</div>
 

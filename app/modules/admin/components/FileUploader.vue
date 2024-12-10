@@ -118,7 +118,7 @@ const deletePhoto = async (id: number) => {
 				Загрузить
 			</UButton>
 			<div v-if="photos && photos.length > 0" class="overflow mt-4">
-				<h3>Загруженные фотки</h3>
+				<h3 class="font-bold mb-2">Загруженные фотки</h3>
 				<p>Фотографии можно менять местами и переворачивать.</p>
 				<VueDraggableNext v-model="photos" class="gallery mt-4">
 					<transition-group>

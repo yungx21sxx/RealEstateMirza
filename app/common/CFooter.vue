@@ -17,8 +17,8 @@ import PhoneIcon from "~/modules/mainPage/icons/contacts/PhoneIcon.vue";
 				<h4 class="font-semibold text-xl">Карта сайта</h4>
 				<div class="links flex flex-wrap gap-4 text-gray-200 mt-4">
 					<NuxtLink to="/">Главная</NuxtLink>
-					<NuxtLink to="/">Контакты</NuxtLink>
-					<NuxtLink to="/">Апартаменты</NuxtLink>
+					<NuxtLink to="/contacts">Контакты</NuxtLink>
+					<NuxtLink to="/catalog">Апартаменты</NuxtLink>
 					<NuxtLink to="/">Политика конфиденциальности</NuxtLink>
 				</div>
 			
@@ -29,15 +29,15 @@ import PhoneIcon from "~/modules/mainPage/icons/contacts/PhoneIcon.vue";
 					<UIcon name="i-prime:phone" class="contact__icon"/>
 					<div class="contact__info">
 						<div class="contact__title">Телефон:</div>
-						<NuxtLink to="/" class="contact__data">+7 (928) 851-40-84</NuxtLink>
+						<NuxtLink to="tel:/+79816981100" class="contact__data">+7 (981) 698-11-00</NuxtLink>
 						<div class="flex gap-4 mt-3 flex-wrap">
-							<UButton class="rounded-full py-1">
+							<UButton class="rounded-full py-1" to="https://wa.me/79816981100">
 								<template #leading>
 									<WhatsUpIcon fill="white"/>
 								</template>
 								Whats up
 							</UButton>
-							<UButton class="rounded-full py-1">
+							<UButton class="rounded-full py-1" to="https://t.me/Mir_durov">
 								<template #leading>
 									<TelegramIcon fill="white"/>
 								</template>
@@ -50,7 +50,7 @@ import PhoneIcon from "~/modules/mainPage/icons/contacts/PhoneIcon.vue";
 					<UIcon name="i-prime:map-marker" class="contact__icon"/>
 					<div class="contact__info">
 						<div class="contact__title">Адрес:</div>
-						<NuxtLink class="contact__data">г. Гудаута, Очамчирская 89</NuxtLink>
+						<NuxtLink class="contact__data">Овражная улица, 47А, Новоивановское, Московская Область</NuxtLink>
 					</div>
 				</div>
 			</div>

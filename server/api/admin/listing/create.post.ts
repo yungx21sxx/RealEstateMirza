@@ -13,7 +13,6 @@ export default defineEventHandler<Promise<ListingSuccessCreateResponse | H3Error
             listingId
         }
     } catch (error) {
-        console.log(error)
         throw createError({
             status: 404,
             message: `Ошибка создания объекта. Билиберда ебаная: ${error} `
