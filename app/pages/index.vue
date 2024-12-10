@@ -5,12 +5,10 @@ import About from "~/modules/mainPage/About.vue";
 import Advantages from "~/modules/mainPage/Advantages.vue";
 import ContactsBlock from "~/modules/mainPage/ContactsBlock.vue";
 import ReviewsWidget from "~/modules/mainPage/ReviewsWidget.vue";
-
-
+import ListingCarousel from "~/modules/listing/components/shared/ListingCarousel.vue";
 const isLoading = ref(true);
 const isIntersecting = ref(false);
 
-const ListingCarousel = defineAsyncComponent(() => import('@/modules/Listing/components/shared/ListingCarousel.vue'))
 
 const componentContainer = ref(null)
 const showComponent = ref(false)
