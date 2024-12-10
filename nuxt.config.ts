@@ -34,6 +34,15 @@ export default defineNuxtConfig({
   dir: {
     app: 'app'
   },
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: "modern",
+        },
+      }
+    }
+  },
   sourcemap: {
     server: process.env.NODE_ENV === 'development',
     client: process.env.NODE_ENV === 'development'
