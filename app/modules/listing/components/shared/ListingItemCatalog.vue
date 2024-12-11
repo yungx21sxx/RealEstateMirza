@@ -6,14 +6,17 @@
 	import DotIcon from "~/modules/listing/icons/DotIcon.vue";
 	import {formatNights} from "../../../../common/utils/dates.utils";
 	import {getRoomLabel} from "../../../../common/utils/listing.utils";
+	import type {BookingFiltersDTO} from "#shared/types/dto.types";
 	
-	defineProps<{
-		listing: ListingCatalogResponse
+	const {bookingInfo = undefined} = defineProps<{
+		listing: ListingCatalogResponse,
+		bookingInfo?: BookingFiltersDTO | undefined
 	}>();
 	
 	const goToListing = async (id: number) => {
 		await navigateTo({
-			path: `/listing/${id}`
+			path: `/listing/${id}`,
+			query: bookingInfo || {}
 		})
 	}
 
@@ -24,10 +27,9 @@
 	     @click="goToListing(listing.id)"
 	>
 		<div>
-<!--			<UCarousel v-slot="{ item }" :items="listing.photos" :ui="{ item: 'basis-full' }" class="rounded-t-lg overflow-hidden" arrows>-->
-<!--				<img :src="item" class="w-full h-[200px] object-cover" draggable="false">-->
-<!--			</UCarousel>-->
-			<img :src="listing.photos[0]" alt="" class="w-full rounded-t-lg h-[200px] object-cover">
+			<UCarousel v-slot="{ item }" :items="listing.photos.slice(0,6)" :ui="{ item: 'basis-full' }" class="rounded-t-lg overflow-hidden" arrows>
+				<img :src="item" class="w-full h-[200px] object-cover" draggable="false">
+			</UCarousel>
 		</div>
 		<div class="p-4 block">
 			<p class="text-lg">{{listing.title}}</p>

@@ -23,7 +23,7 @@ export function calculateDaysBetweenDates(startDate: Date, endDate: Date): strin
     const oneDay = 24 * 60 * 60 * 1000; // Количество миллисекунд в одном дне
     const differenceInTime = endDate.getTime() - startDate.getTime();
     const days =  Math.round(differenceInTime / oneDay);
-    return `${days} ${getDaysWord(days)}`
+    return `${formatNights(days)}`
 }
 
 export function formatNights(nights: number): string {

@@ -42,7 +42,7 @@ onMounted(() => {
 	<ListingCarousel :listings="data.listings.slice(0, 8)"/>
 
 	<About/>
-	<ReviewsWidget/>
+	
 	<Advantages/>
 	<ContactsBlock class="mt-10"/>
 </template>

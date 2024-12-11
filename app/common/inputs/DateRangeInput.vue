@@ -42,6 +42,12 @@ withDefaults(
 
 const datesSelectModal = ref(false);
 
+const resetDates = () => {
+	bookingData.value.checkIn = null;
+	bookingData.value.checkOut = null;
+	dateInputOpen.value = false;
+}
+
 </script>
 
 <template>
@@ -59,6 +65,18 @@ const datesSelectModal = ref(false);
 			
 			<template #panel="{ close }">
 				<div class="flex flex-col">
+					<div class="pl-4 pt-4">
+						<div v-if="!dates.start && !dates.end">
+							<p class="mb-4">Введите даты поездки чтобы увидеть актуальные цены</p>
+						</div>
+						<div class="header__dates" v-else>
+							<h2 class="font-semibold text-lg mb-2">
+								{{beautifyDate(dates.start || new Date())}} - {{beautifyDate(dates.end || new Date())}}
+							</h2>
+							<p class="mb-4">{{calculateDaysBetweenDates(dates.start || new Date(), dates.end || new Date())}}</p>
+						</div>
+					</div>
+					
 					<DatePicker
 						v-model.range="dates"
 						:min-date="new Date()"
@@ -67,7 +85,8 @@ const datesSelectModal = ref(false);
 						color="orange"
 						borderless
 					/>
-					<div class="ml-auto pr-4 pb-4 -mt-4 z-10">
+					<div class="ml-auto pr-4 pb-4 -mt-4 z-10 flex gap-4">
+						<UButton variant="soft" @click="resetDates">Сбросить</UButton>
 						<UButton @click="dateInputOpen = false">Сохранить</UButton>
 					</div>
 				</div>
@@ -79,7 +98,7 @@ const datesSelectModal = ref(false);
 			<UButton :class="[target === 'listing-page' ? 'listing-page_btn' : 'catalog_btn']" :block="block" icon="i-heroicons-calendar-days-20-solid" v-if="!dates.start && !dates.end" @click="dateInputOpen = true">
 				Выберите даты
 			</UButton>
-			<UButton :class="[target === 'listing-page' ? 'listing-page_btn' : 'catalog_btn']" :block="block" icon="i-heroicons-calendar-days-20-solid" v-else  @click="datesSelectModal = true">
+			<UButton :class="[target === 'listing-page' ? 'listing-page_btn' : 'catalog_btn']" :block="block" icon="i-heroicons-calendar-days-20-solid" v-else  @click="dateInputOpen = true">
 				{{beautifyDate(dates.start || new Date())}} - {{beautifyDate(dates.end || new Date())}}
 			</UButton>
 			<UModal fullscreen v-model="dateInputOpen">
@@ -109,7 +128,7 @@ const datesSelectModal = ref(false);
 							color="orange"
 						/>
 					</div>
-					<div class="fixed bottom-0 left-0 right-0 z-[1000] p-4">
+					<div class="fixed bottom-0 left-0 right-0 z-[1000] p-4 ">
 						<UButton block @click="dateInputOpen = false">Сохранить</UButton>
 					</div>
 				</UCard>

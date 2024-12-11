@@ -25,29 +25,24 @@ const {data, error, refresh} = await useAsyncData<{
 watch(bookingFilters, async (booking) => {
 	const {checkIn, checkOut, ...guests} = booking;
 	
-	if (!checkIn && !checkOut) {
-		return;
-	}
 	await refresh();
 	await navigateTo({
 		path: `/catalog`,
 		query: {
-			checkIn: checkIn?.toISOString(),
-			checkOut: checkOut?.toISOString(),
+			checkIn: checkIn ? checkIn.toISOString() : null,
+			checkOut: checkOut ? checkOut.toISOString() : null,
 			...guests
 		}
 	})
 }, {deep: true})
 
-
-
-
+const {isMobile} = useDevice()
 </script>
 
 <template>
 	<MenuMain/>
 	<header class="flex justify-center py-12">
-		<div class="max-w-xl text-center">
+		<div class="px-4 max-w-xl text-center">
 			<div class="uppercase font-semibold text-accent mb-1 max-md:text-sm">Все объекты</div>
 			<h1 class="font-semibold text-4xl max-md:text-2xl mb-4">Апартаменты бизнес-класса</h1>
 			<p class="text-secondary">Если вы планируете командировку, путешествие или просто хотите сменить привычную обстановку, то наши апартаменты как нельзя лучше подходят для этих целей.</p>
@@ -57,11 +52,11 @@ watch(bookingFilters, async (booking) => {
 <!--			</div>-->
 		</div>
 	</header>
-	<div class="bg-block-gray py-12" v-if="data">
+	<div class="bg-block-gray py-8" v-if="data">
 		<div class="wrapper">
-			<div class="flex gap-4">
-				<DateRangeInput v-model="bookingFilters"/>
-				<GuestsInput v-model="bookingFilters"/>
+			<div class="flex gap-4 max-[430px]:flex-col">
+				<DateRangeInput :block="isMobile" v-model="bookingFilters"/>
+				<GuestsInput :block="isMobile" v-model="bookingFilters"/>
 			</div>
 			<div class="listings-grid mt-8">
 				<ListingItemCatalog

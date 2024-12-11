@@ -9,6 +9,7 @@
 	import TelegramIcon from "~/modules/mainPage/icons/TelegramIcon.vue";
 	import PhoneIcon from "~/modules/mainPage/icons/contacts/PhoneIcon.vue";
 	import useModals from "~/common/composables/useModals";
+	import useAuthUser from "~/modules/auth/composables/useAuthUser";
 
 	const {burgerMenuIsOpen, open, close} = useBurgerMenu();
 	const links = useLinks();
@@ -21,6 +22,8 @@
 			path: link
 		});
 	}
+	
+	const authUser = useAuthUser();
 	
 	const {openCallSubmitModal} = useModals();
 	
@@ -49,7 +52,9 @@
 					<span>{{link.label}}</span>
 				</div>
 			</div>
+			
 			<div class="px-4 mt-8">
+				<UButton to="/admin/create-listing" v-if="authUser && authUser.role === 'ADMIN'">Создать объект</UButton>
 				<UButton block class="mb-4" @click="openSubmitModal">Заявка на звонок</UButton>
 			</div>
 			<div class="px-4 mt-6">

@@ -19,9 +19,9 @@ const {openCallSubmitModal} = useModals()
 </script>
 
 <template>
-	<header class="hero relative">
+	<header class="hero relative bg-gradient-to-b from-black/30 via-black/0">
 		<MenuMain variant="light" class="absolute z-10"/>
-		<div class="wrapper z-10 bg-gradient-to-b from-black/30 via-black/0 to-transparent">
+		<div class="z-10 wrapper ">
 			<div class=" text-white py-44 max-w-xl">
 				<h1 class="font-semibold text-4xl max-md:text-3xl">Управление жилой <br> недвижимостью в Москве</h1>
 				<p class="text-lg mt-2 text-gray-100">Сдача квартир посуточно с гарантией надежности и максимальной доходности.</p>

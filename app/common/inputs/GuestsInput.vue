@@ -52,7 +52,7 @@ const isOpen = ref(false)
 		<span class="btn-label" v-if="target === 'listing-page'">
 			Заселение и выезд
 		</span>
-		<UPopover v-model="isOpen">
+		<UPopover v-model:open="isOpen">
 			<UButton :block="block" :class="[target === 'listing-page' ? 'listing-page_btn' : 'catalog_btn']" :variant="target === 'listing-page' ? 'solid' : 'outline'" icon="i-prime:user">{{describeGroup(guests.adults, guests.childrenCount)}}</UButton>
 			<template #panel>
 				<div class="p-4 overflow-visible w-[300px]">
