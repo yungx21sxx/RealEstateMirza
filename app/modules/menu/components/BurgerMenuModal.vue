@@ -54,7 +54,7 @@
 			</div>
 			
 			<div class="px-4 mt-8">
-				<UButton to="/admin/create-listing" v-if="authUser && authUser.role === 'ADMIN'">Создать объект</UButton>
+				<UButton variant="soft" block class="mb-4" to="/admin/create-listing" v-if="authUser && authUser.role === 'ADMIN'">Создать объект</UButton>
 				<UButton block class="mb-4" @click="openSubmitModal">Заявка на звонок</UButton>
 			</div>
 			<div class="px-4 mt-6">
