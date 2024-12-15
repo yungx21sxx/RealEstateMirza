@@ -25,6 +25,7 @@
     "@iconify-json/prime": "^1.2.1",
     "@prisma/client": "^6.0.1",
     "date-fns": "^4.1.0",
+    "heic-convert": "^2.1.0",
     "jsonwebtoken": "^9.0.2",
     "libphonenumber-js": "^1.11.16",
     "nodemailer": "^6.9.16",

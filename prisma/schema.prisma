@@ -71,13 +71,14 @@ model Listing {
   //*********
 
   //*****Параметры квартиры
-  roomCount       Int
-  bedDescription  String
-  area            Int
-  floor           Int
-  maxFloor        Int
-  balcony         String
-  viewDescription String
+  roomCount          Int
+  bedDescription     String
+  area               Int
+  floor              Int
+  maxFloor           Int
+  balcony            String
+  viewDescription    String
+  parkingDescription String
 
   appliances    Appliances[]
   internetAndTV InternetAndTV[]

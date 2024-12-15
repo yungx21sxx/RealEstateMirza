@@ -37,4 +37,6 @@ export interface IListingProperties {
     monthlyRental: boolean;
     withAnimals: boolean;
     places: number;
+
+    parkingDescription: string;
 }

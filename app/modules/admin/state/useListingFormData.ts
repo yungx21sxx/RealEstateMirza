@@ -28,6 +28,7 @@ export default () => {
         monthlyRental: false,
         withAnimals: false,
         places: null,
+        parkingDescription: null,
     }))
 
 

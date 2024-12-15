@@ -6,7 +6,8 @@ export const appliancesProperties = [
     "водонагреватель",
     "телевизор",
     "фен",
-    "утюг"
+    "утюг",
+    'кондиционер'
 ];
 export const internetAndTVProperties = [
     "Wi-Fi",
@@ -24,4 +25,10 @@ export const balconyProperties = [
     "Балкон",
     "Лоджия",
     "Терраса"
+]
+
+export const parkingProperties = [
+    'Нет',
+    'На улице',
+    'В здании'
 ]

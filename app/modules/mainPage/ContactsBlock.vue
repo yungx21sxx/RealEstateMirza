@@ -19,6 +19,7 @@ import CallSubmitForm from "~/common/forms/CallSubmitForm.vue";
 					<div class="contact__info">
 						<div class="contact__title">Телефон</div>
 						<NuxtLink to="tel:/+79816981100" class="contact__data">+7 (981) 698-11-00</NuxtLink>
+						<NuxtLink to="tel:/+79939163454" class="contact__data">+7 (993) 916-34-54</NuxtLink>
 						<div class="flex gap-4 mt-3 flex-wrap">
 							<UButton class="rounded-full py-1" to="https://wa.me/79816981100">
 								<template #leading>
@@ -50,7 +51,7 @@ import CallSubmitForm from "~/common/forms/CallSubmitForm.vue";
 					</div>
 				</div>
 			</div>
-			<div class="bg-white rounded-md py-4 px-8 max-md:px-4">
+			<div class="bg-white rounded-md py-4 px-8 max-md:px-4 h-fit">
 				<h4 class="font-semibold mb-4 text-xl">Оставить заявку</h4>
 				<CallSubmitForm/>
 			</div>
@@ -73,6 +74,10 @@ import CallSubmitForm from "~/common/forms/CallSubmitForm.vue";
 		
 		&__text {
 			@apply text-secondary mb-4;
+		}
+		
+		&__data {
+			@apply block mb-4;
 		}
 	}
 

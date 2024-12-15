@@ -33,6 +33,9 @@
 				<li>
 					Вид из окна: <strong>{{listing.viewDescription}}</strong>
 				</li>
+				<li>
+					Парковка: <strong>{{listing.parkingDescription}}</strong>
+				</li>
 			</ul>
 			
 			<UButton variant="link" class="max-[640px]:block hidden p-0 mt-4 text-accent text-base" @click="detailsModal = true">Показать все</UButton>

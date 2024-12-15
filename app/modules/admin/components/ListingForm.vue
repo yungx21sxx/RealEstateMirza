@@ -8,7 +8,7 @@
 		amenitiesProperties,
 		appliancesProperties,
 		balconyProperties,
-		internetAndTVProperties
+		internetAndTVProperties, parkingProperties
 	} from "~/modules/admin/constants/properties";
 	import FileUploader from "~/modules/admin/components/FileUploader.vue";
 	import SetLocation from "~/modules/admin/components/SetLocation.vue";
@@ -39,8 +39,8 @@
 		amenities: z.array(z.string()).refine((arr) => arr.length > 0, { message: "Выберите хотя бы одну опцию в поле 'Удобства'." }),
 		
 		places: z.number({ message: "Поле 'Количество мест' обязательно для заполнения." }),
+		parkingDescription: z.string({ message: "Поле 'Описание парковки' обязательно для заполнения." }),
 	});
-
 	
 	type Schema = z.output<typeof listingFormValidationSchema>
 	
@@ -161,6 +161,9 @@
 				</UFormGroup>
 				<UFormGroup label="Балкон" name="balcony">
 					<USelect v-model="listingFormData.balcony" :options="balconyProperties"/>
+				</UFormGroup>
+				<UFormGroup label="Парковка" name="parkingDescription">
+					<USelect v-model="listingFormData.parkingDescription" :options="parkingProperties"/>
 				</UFormGroup>
 				<UFormGroup label="Описание вида" name="viewDescription">
 					<UInput v-model="listingFormData.viewDescription" />

@@ -27,4 +27,5 @@ export interface IListingFormData {
     monthlyRental: boolean;
     withAnimals: boolean;
     places: number | null;
+    parkingDescription: string ;
 }

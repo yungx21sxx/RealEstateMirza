@@ -27,5 +27,6 @@ export function transformFormToDTO(formData: IListingFormData): ListingCreateDTO
         monthlyRental: formData.monthlyRental,
         withAnimals: formData.withAnimals,
         places: formData.places ?? 2,
+        parkingDescription: formData.parkingDescription ?? 'Нет'
     };
 }
