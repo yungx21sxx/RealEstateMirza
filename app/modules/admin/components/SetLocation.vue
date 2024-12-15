@@ -76,7 +76,7 @@
 		<UInputMenu
 			v-model="selectedAddress"
 			:search="search"
-			placeholder="Search for a user..."
+			placeholder="Поиск адреса..."
 			option-attribute="address"
 			trailing
 		/>

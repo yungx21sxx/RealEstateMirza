@@ -2,8 +2,8 @@
 	<NuxtLoadingIndicator/>
 	<NuxtLayout>
 		<NuxtPage/>
-		<BurgerMenuModal/>
 	</NuxtLayout>
+	<BurgerMenuModal/>
 	<UNotifications />
 	<CallSubmitModal/>
 </template>

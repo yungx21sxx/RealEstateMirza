@@ -1,3 +1,6 @@
 ssh root@31.129.110.160
 
 7AgWkKXTJ!D*
+
+cp .output/server/node_modules/.prisma/client/dev.db prisma/
+cp prisma/dev.db .output/server/node_modules/.prisma/client
