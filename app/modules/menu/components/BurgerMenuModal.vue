@@ -14,8 +14,6 @@
 	const {burgerMenuIsOpen, open, close} = useBurgerMenu();
 	const links = useLinks();
 	
-	prerenderRoutes(links.value.map(i => i.to));
-	
 	async function goToLink(link: string) {
 		burgerMenuIsOpen.value = false
 		await navigateTo({

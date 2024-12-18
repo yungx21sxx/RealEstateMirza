@@ -10,7 +10,7 @@ export default defineNuxtConfig({
     'nuxt-delay-hydration',
   ],
   routeRules: {
-    '/': {prerender: true}
+    // '/': {prerender: true}
   },
   nitro: {
     compressPublicAssets: {
@@ -102,15 +102,15 @@ export default defineNuxtConfig({
         {name: "msapplication-TileColor", content: "#ffffff"},
         {name: "theme-color", content: "#ffffff"},
         {charset: 'utf-16'},
-        {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+        {name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no'},
         {name: 'format-detection', content: 'telephone=no'},
         {
           name: 'description',
-          content: 'Я занимаюсь сдачей квартир посуточно уже более 5 лет, помогая собственникам получать стабильный доход, а арендаторам — находить удобное жилье. Мой опыт и внимание к деталям обеспечивают высокую заполняемость и безопасное сотрудничество.'
+          content: 'Я занимаюсь сдачей квартир посуточно уже более 5 лет, помогая собственникам получать стабильный доход, а арендаторам — находить удобное жилье. Мой опыт и внимание к деталям обеспечивают высокую заполняемость и безопасное сотрудничество. '
         },
 
       ],
-      title: 'Сдать квартиру посуточно в Москве с гарантией надежности и максимальной доходности.'
+      title: 'Сдать квартиру посуточно в Москве с гарантией надежности и максимальной доходности. '
     },
   },
 
