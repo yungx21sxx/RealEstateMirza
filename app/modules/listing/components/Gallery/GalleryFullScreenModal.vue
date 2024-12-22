@@ -3,9 +3,16 @@
 		fullscreen
 		v-model="currentPhoto.modal"
 	>
-		<div class="bg-black h-[100svh] rounded-none">
-			<div class="wrapper flex items-center h-[56px]">
-				<button class="text-white flex items-center gap-1 outline-none" @click="closeModal">
+		<UCard class="bg-black rounded-none" :ui="{
+          base: 'h-full flex flex-col',
+          rounded: '',
+          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+          body: {
+            base: 'grow'
+          }
+        }">
+			<div class="wrapper flex items-center">
+				<button class="text-white flex items-center gap-1 outline-none mb-4" @click="closeModal">
 					<UIcon name="i-material-symbols:chevron-left" class="h-6 w-6"/>
 					<span>Назад</span>
 				</button>
@@ -55,7 +62,7 @@
 					</Swiper>
 				</div>
 			</div>
-		</div>
+		</UCard>
 
 	</UModal>
 </template>
@@ -154,6 +161,7 @@ const photos = computed(() => {
 		gap: 16px;
 		flex-direction: column;
 		max-width: 1200px;
+		width: 100%;
 		margin: 0 auto;
 		height: 100%;
 		flex-grow: 1;
@@ -181,6 +189,8 @@ const photos = computed(() => {
 	padding-top: 25px;
 	padding-bottom: 8px;
 	max-width: 1150px;
+	width: 100%;
+	overflow: hidden;
 	box-sizing: border-box;
 }
 

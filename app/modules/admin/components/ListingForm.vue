@@ -55,7 +55,7 @@
 		try {
 			listingFormData.value = await fetchUpdateData(parseInt(route.params.id as string))
 		} catch (e) {
-			alert('Возможно объект был удален')
+			console.log(e)
 		}
 	}
 	
