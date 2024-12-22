@@ -61,6 +61,7 @@ const {isMobile} = useDevice()
 			<div class="listings-grid mt-8">
 				<ListingItemCatalog
 					v-for="listing of data.listings"
+					:booking-info="bookingFilters"
 					:key="listing.id"
 					:listing="listing"
 				></ListingItemCatalog>
@@ -74,7 +75,7 @@ const {isMobile} = useDevice()
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 		gap: 24px;
-		
+
 		@media screen and (min-width: 1000px) {
 			grid-template-columns: repeat(3, 1fr);
 		}

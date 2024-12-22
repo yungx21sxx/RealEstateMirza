@@ -35,7 +35,7 @@ const carouselRef = ref();
 			
 			<div class="flex gap-4 mt-8">
 				<div class="action">
-					<UButton>Смотреть все</UButton>
+					<UButton to="/catalog">Смотреть все</UButton>
 				</div>
 				<div class="flex gap-4" >
 					<UButton @click="carouselRef.prev()" size="xl" variant="soft" icon="i-prime:arrow-circle-left" class="rounded-full h-10 w-10"></UButton>

@@ -3,51 +3,60 @@
 		fullscreen
 		v-model="currentPhoto.modal"
 	>
-		<div border="0" class="h-[80svh] bg-black">
-			<div class="img-preview__wrapper">
-				<client-only>
-					<swiper
-						:spaceBetween="16"
-						:navigation="true"
-						:zoom="true"
-						:style="{
+		<div class="bg-black h-[100svh] rounded-none">
+			<div class="wrapper flex items-center h-[56px]">
+				<button class="text-white flex items-center gap-1 outline-none" @click="closeModal">
+					<UIcon name="i-material-symbols:chevron-left" class="h-6 w-6"/>
+					<span>Назад</span>
+				</button>
+			</div>
+			<div border="0" class="h-[90svh]">
+				<div class="img-preview__wrapper">
+					<client-only>
+						<Swiper
+							:spaceBetween="16"
+							:navigation="true"
+							:zoom="true"
+							:style="{
 					        '--swiper-navigation-color': '#7059FF',
 					        '--swiper-pagination-color': '#7059FF',
 			            }"
-						:pagination="{
+							:pagination="{
 	                        type: 'fraction',
 	                    }"
-						@swiper="getSwiperInstance"
-						:thumbs="{ swiper: thumbsSwiper }"
-						:modules="[Zoom, Pagination, Navigation, Scrollbar, Thumbs, FreeMode]"
-						class="img-preview"
-						@slide-change="onSlideChange"
-					>
-						<swiper-slide
-							v-for="photo of photos"
-							class="img-preview__slide"
+							@swiper="getSwiperInstance"
+							:thumbs="{ swiper: thumbsSwiper }"
+							:modules="[Zoom, Pagination, Navigation, Scrollbar, Thumbs, FreeMode]"
+							class="img-preview"
+							@slide-change="onSlideChange"
 						>
-							<div class="swiper-zoom-container">
-								<img loading="lazy" :alt="listing.title"  class="img-preview__img" :src="photo.urlFull" />
-							</div>
+							<SwiperSlide
+								v-for="photo of photos"
+								class="img-preview__slide"
+							>
+								<div class="swiper-zoom-container">
+									<img draggable="false" loading="lazy" :alt="listing.title"  class="img-preview__img" :src="photo.urlFull" />
+								</div>
+							</SwiperSlide>
+						</Swiper>
+					</client-only>
+					<Swiper
+						@swiper="setThumbsSwiper"
+						:spaceBetween="10"
+						:slides-per-view="'auto'"
+						:modules="[Pagination, Navigation, Scrollbar, Thumbs, FreeMode]"
+						:freeMode="true"
+						:watchSlidesProgress="true"
+						class="img-preview__thumbs"
+					>
+						<swiper-slide class="img-preview__thumbs__slide" v-for="photo of photos">
+							<img :alt="listing.title"  class="thumbs__img" :src="photo.urlMin" />
 						</swiper-slide>
-					</swiper>
-				</client-only>
-				<swiper
-					@swiper="setThumbsSwiper"
-					:spaceBetween="10"
-					:slides-per-view="'auto'"
-					:modules="[Pagination, Navigation, Scrollbar, Thumbs, FreeMode]"
-					:freeMode="true"
-					:watchSlidesProgress="true"
-					class="img-preview__thumbs"
-				>
-					<swiper-slide class="img-preview__thumbs__slide" v-for="photo of photos">
-						<img :alt="listing.title"  class="thumbs__img" :src="photo.urlMin" />
-					</swiper-slide>
-				</swiper>
+					</Swiper>
+				</div>
 			</div>
 		</div>
+
 	</UModal>
 </template>
 <script setup lang="ts">
@@ -56,6 +65,7 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
+import 'swiper/css/zoom';
 import { Swiper, SwiperSlide  } from 'swiper/vue';
 import { Scrollbar, FreeMode, Thumbs, Pagination, Navigation, Zoom, } from 'swiper/modules';
 import useGallery from "~/modules/listing/composables/useGallery";
@@ -65,12 +75,13 @@ const {currentPhoto} = useGallery()
 
 const {listing} = useListing();
 
-
 const swiperController = ref();
 const thumbsSwiper = ref();
 //@ts-ignore
 const getSwiperInstance = (swiper) => {
 	swiperController.value = swiper;
+	const currentPhotoIndex = currentPhoto.value.index;
+	swiperController.value?.slideTo(currentPhotoIndex, 0)
 }
 //
 // onMounted(() => {
@@ -118,17 +129,14 @@ const photos = computed(() => {
 })
 
 //Срабаьывает в момент открытия и закрытия модального окна
-watch(currentPhoto, () => {
-	setTimeout(() => {
-		const currentPhotoIndex = currentPhoto.value.index;
-		swiperController.value?.slideTo(currentPhotoIndex, 0)
-	}, 100)
-}, {
-	deep: true
-})
-
-
-
+// watch(currentPhoto, () => {
+// 	console.log(swiperController.value?.slideTo)
+// 	const currentPhotoIndex = currentPhoto.value.index;
+// 	swiperController.value?.slideTo(currentPhotoIndex, 0)
+//
+// }, {
+// 	deep: true
+// })
 
 </script>
 
@@ -138,13 +146,15 @@ watch(currentPhoto, () => {
 
 
 .img-preview {
-	height: calc(100svh - 62px - 100px);
+	height: calc(100svh - 62px);
 	width: 100%;
 	
 	&__wrapper {
 		display: flex;
 		gap: 16px;
 		flex-direction: column;
+		max-width: 1200px;
+		margin: 0 auto;
 		height: 100%;
 		flex-grow: 1;
 	}
@@ -161,9 +171,16 @@ watch(currentPhoto, () => {
 	border: 2px solid orange;
 }
 
+.thumbs__img {
+	object-fit: cover;
+}
 .img-preview__thumbs {
 	
-	margin: 0 8px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 25px;
+	padding-bottom: 8px;
+	max-width: 1150px;
 	box-sizing: border-box;
 }
 

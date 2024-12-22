@@ -1,39 +1,39 @@
 <template>
 	
 	<div class="gallery">
-		<UCarousel v-slot="{ item }" arrows :items="listing.photos" :ui="{ item: 'basis-full' }" class="rounded-lg overflow-hidden" indicators>
-			<div class="relative w-full">
-				<img :src="item.urlFull" class="w-full max-[640px]:h-[300px] max-[960px]:h-[500px] h-[450px] object-cover" draggable="false" loading="lazy">
-			</div>
-		</UCarousel>
+<!--		<UCarousel v-slot="{ item }" arrows :items="listing.photos" :ui="{ item: 'basis-full' }" class="rounded-lg overflow-hidden" indicators>-->
+<!--			<div class="relative w-full">-->
+<!--				<img :src="item.urlFull" class="w-full max-[640px]:h-[300px] max-[960px]:h-[500px] h-[450px] object-cover" draggable="false">-->
+<!--			</div>-->
+<!--		</UCarousel>-->
 		
-<!--		<swiper-container-->
-<!--			:spaceBetween="16"-->
-<!--			:navigation="true"-->
-<!--			:style="{-->
-<!--		      '&#45;&#45;swiper-navigation-color': '#fff',-->
-<!--		      '&#45;&#45;swiper-pagination-color': '#fff',-->
-<!--            }"-->
-<!--			:pagination="{-->
-<!--                 type: 'fraction',-->
-<!--             }"-->
-<!--			@swiper="getSwiperInstance"-->
-<!--			:modules="[Pagination, Navigation, Scrollbar, Thumbs, FreeMode]"-->
-<!--			class="swiper-multiply"-->
-<!--		>-->
-<!--			<swiper-slide-->
-<!--				v-for="photo of listing.photos"-->
-<!--				class="swiper-multiply__slide"-->
-<!--				@click="openGalleryModal(photo.id)"-->
-<!--			>-->
-<!--				<img :src="photo.urlFull" class="swiper-multiply__img object-cover" :alt="listing.title">-->
-<!--&lt;!&ndash;				<v-card>&ndash;&gt;-->
-<!--&lt;!&ndash;					<v-img cover :alt="listing.title"  class="swiper-multiply__img" :src="photo.urlFull" >&ndash;&gt;-->
-<!--&lt;!&ndash;						<v-btn color="#FFFF" @click="openGalleryModal(photo.id)" variant="flat"  class="gallery__btn1" :icon="mdiFullscreen"></v-btn>&ndash;&gt;-->
-<!--&lt;!&ndash;					</v-img>&ndash;&gt;-->
-<!--&lt;!&ndash;				</v-card>&ndash;&gt;-->
-<!--			</swiper-slide>-->
-<!--		</swiper-container>-->
+		<Swiper
+			:spaceBetween="16"
+			:navigation="true"
+			:style="{
+		      '--swiper-navigation-color': '#fff',
+		      '--swiper-pagination-color': '#fff',
+            }"
+			:pagination="{
+                 type: 'fraction',
+             }"
+			@swiper="getSwiperInstance"
+			:modules="[Pagination, Navigation, Scrollbar, Thumbs, FreeMode]"
+			class="swiper-multiply"
+		>
+			<SwiperSlide
+				v-for="photo of listing.photos"
+				class="swiper-multiply__slide"
+				@click="openGalleryModal(photo.position)"
+			>
+				<img :src="photo.urlFull" class="swiper-multiply__img object-cover" :alt="listing.title">
+<!--				<v-card>-->
+<!--					<v-img cover :alt="listing.title"  class="swiper-multiply__img" :src="photo.urlFull" >-->
+<!--						<v-btn color="#FFFF" @click="openGalleryModal(photo.id)" variant="flat"  class="gallery__btn1" :icon="mdiFullscreen"></v-btn>-->
+<!--					</v-img>-->
+<!--				</v-card>-->
+			</SwiperSlide>
+		</Swiper>
 	
 	</div>
 
@@ -42,8 +42,10 @@
 
 <script setup lang="ts">
 // Import Swiper Vue.js components
+	import {Swiper, SwiperSlide} from "swiper/vue";
 	import useGallery from "~/modules/listing/composables/useGallery";
 	import useListing from "~/modules/listing/composables/useListing";
+	import {FreeMode, Navigation, Pagination, Scrollbar, Thumbs} from "swiper/modules";
 	
 	const {currentPhoto} = useGallery()
 	
@@ -63,11 +65,11 @@
 
 
 	// //Срабаьывает в момент открытия и закрытия модального окна
-	// watch(currentPhoto, () => {
-	// 	swiperController.value.slideTo(currentPhoto.value.index, 0)
-	// }, {
-	// 	deep: true
-	// })
+	watch(currentPhoto, () => {
+		swiperController.value.slideTo(currentPhoto.value.index, 0)
+	}, {
+		deep: true
+	})
 
 
 	
@@ -101,7 +103,7 @@
 	}
 	.swiper-multiply {
 		width: 100%;
-		height: 450px;
+		height: 500px;
 		@media screen and (max-width: 900px) {
 			height: 550px;
 		}
@@ -120,7 +122,7 @@
 
 		&__img {
 			width: 100%;
-			height: 450px;
+			height: 500px;
 			border-radius: 10px;
 			@media screen  and (max-width: 630px){
 				border-radius: 0;

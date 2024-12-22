@@ -22,13 +22,12 @@ import PhoneIcon from "~/modules/mainPage/icons/contacts/PhoneIcon.vue";
 			</div>
 			<div>
 				<h4 class="font-semibold text-xl">Карта сайта</h4>
-				<div class="links flex flex-wrap gap-4 text-gray-200 mt-4">
+				<div class="links flex md:flex-col flex-wrap gap-4 text-gray-200 mt-4">
 					<NuxtLink to="/">Главная</NuxtLink>
 					<NuxtLink to="/contacts">Контакты</NuxtLink>
 					<NuxtLink to="/catalog">Апартаменты</NuxtLink>
-					<NuxtLink to="/">Политика конфиденциальности</NuxtLink>
+					<NuxtLink to="/obrabotka_personalnyh_dannyh">Обработка персональных данных</NuxtLink>
 				</div>
-			
 			</div>
 			<div>
 				<h4 class="font-semibold text-xl mb-4">Контакты</h4>
@@ -54,13 +53,13 @@ import PhoneIcon from "~/modules/mainPage/icons/contacts/PhoneIcon.vue";
 						</div>
 					</div>
 				</div>
-				<div class="contact">
-					<UIcon name="i-prime:map-marker" class="contact__icon"/>
-					<div class="contact__info">
-						<div class="contact__title">Адрес:</div>
-						<NuxtLink class="contact__data">Овражная улица, 47А, Новоивановское, Московская Область</NuxtLink>
-					</div>
-				</div>
+<!--				<div class="contact">-->
+<!--					<UIcon name="i-prime:map-marker" class="contact__icon"/>-->
+<!--					<div class="contact__info">-->
+<!--						<div class="contact__title">Адрес:</div>-->
+<!--						<NuxtLink class="contact__data">Овражная улица, 47А, Новоивановское, Московская Область</NuxtLink>-->
+<!--					</div>-->
+<!--				</div>-->
 			</div>
 		</div>
 	</footer>

@@ -8,30 +8,51 @@
 	import {getRoomLabel} from "../../../../common/utils/listing.utils";
 	import type {BookingFiltersDTO} from "#shared/types/dto.types";
 	
-	const {bookingInfo = undefined} = defineProps<{
+	const defaultBookingInfo = {
+		checkIn: null,
+		checkOut: null,
+		adults: 2,
+		childrenAges: [] as number[],
+		childrenCount: 0,
+	};
+	
+	const {bookingInfo = {
+		checkIn: null,
+		checkOut: null,
+		adults: 2,
+		childrenAges: [],
+		childrenCount: 0
+	}} = defineProps<{
 		listing: ListingCatalogResponse,
-		bookingInfo?: BookingFiltersDTO | undefined
+		bookingInfo?: BookingFiltersDTO
 	}>();
 	
 	const goToListing = async (id: number) => {
+		const {checkIn, checkOut, ...guests} = bookingInfo
+		const query = Object.entries(bookingInfo).reduce((result, [key, value]) => {
+			if (JSON.stringify(value) !== JSON.stringify(defaultBookingInfo[key as keyof typeof defaultBookingInfo])) {
+				result[key] = value;
+			}
+			return result;
+		}, {} as Record<string, any>);
+		
 		await navigateTo({
 			path: `/listing/${id}`,
-			query: bookingInfo || {}
-		})
+			query,
+		});
 	}
 
 </script>
 
 <template>
 	<div class="shadow-card rounded-md bg-white hover:shadow-card-active transition-all cursor-pointer"
-	     @click="goToListing(listing.id)"
 	>
-		<div>
+		<div class="relative">
 			<UCarousel v-slot="{ item }" :items="listing.photos.slice(0,6)" :ui="{ item: 'basis-full' }" class="rounded-t-lg overflow-hidden" arrows>
-				<img :src="item" class="w-full h-[200px] object-cover" draggable="false">
+				<img @click="goToListing(listing.id)" :src="item" class="z-5  w-full h-[200px] object-cover">
 			</UCarousel>
 		</div>
-		<div class="p-4 block">
+		<div class="p-4 block" @click="goToListing(listing.id)">
 			<p class="text-lg">{{listing.title}}</p>
 			<div class="flex flex-wrap gap-2 mt-4">
 				<div class="chip">

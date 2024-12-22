@@ -184,10 +184,10 @@
 		</UCard>
 		<FileUploader v-model="listingFormData.photos"/>
 		<SetLocation/>
-		<UButton type="submit" v-if="!updateMode">
+		<UButton type="submit" v-if="!updateMode" :loading="loading">
 			 Загрузить объект
 		</UButton>
-		<UButton type="submit" v-else>
+		<UButton type="submit" v-else :loading="loading">
 			Обновить объект
 		</UButton>
 		

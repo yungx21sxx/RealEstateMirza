@@ -2,23 +2,57 @@
 	import useListing from "~/modules/listing/composables/useListing";
 	import useBooking from "~/modules/listing/composables/useBooking";
 	import useAuthUser from "~/modules/auth/composables/useAuthUser";
+	import type {LocationQuery} from "vue-router";
+	import {parseQueryToBookingFilters} from "#shared/utils/booking.utils";
 	
 	const authUser = useAuthUser();
 	
 	const isAdmin = computed(() => authUser.value && authUser.value.role === 'ADMIN')
 	
 	const {listing} = useListing();
-	const {calculatedPrices} = useBooking()
-	const breadCrumbs = [
-		{
-			label: 'Главная',
-			to: '/'
-		},
-		{
-			label: 'Каталог',
-			to: '/catalog'
+	const {calculatedPrices, bookingData} = useBooking()
+	const objectToQueryString = (params: Record<string, any>): string => {
+		const query = new URLSearchParams();
+		
+		for (const [key, value] of Object.entries(params)) {
+			if (value !== null && value !== undefined) {
+				// Если значение — массив, добавляем его элементы через запятую
+				if (Array.isArray(value)) {
+					query.append(key, value.join(','));
+				} else {
+					query.append(key, String(value));
+				}
+			}
 		}
-	]
+		
+		return query.toString();
+	};
+	const defaultBookingData = {
+		checkIn: null,
+		checkOut: null,
+		adults: 2,
+		childrenAges: [] as number[],
+		childrenCount: 0,
+	};
+	const breadCrumbs = computed(() => {
+		const {checkIn, checkOut, ...guests} = bookingData.value
+		const query = Object.entries(bookingData.value).reduce((result, [key, value]) => {
+			if (JSON.stringify(value) !== JSON.stringify(defaultBookingData[key as keyof typeof defaultBookigData])) {
+				result[key] = value;
+			}
+			return result;
+		}, {} as Record<string, any>);
+		return [
+			{
+				label: 'Главная',
+				to: '/'
+			},
+			{
+				label: 'Каталог',
+				to: `/catalog?${objectToQueryString(query)}`
+			}
+		]
+	})
 	
 	const priceStr = computed(() => {
 		if (calculatedPrices.value) {
