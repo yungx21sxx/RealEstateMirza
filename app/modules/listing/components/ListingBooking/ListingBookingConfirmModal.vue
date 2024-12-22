@@ -93,6 +93,7 @@
 					<UTextarea v-model="state.comment" autoresize/>
 				</UFormGroup>
 				<UButton type="submit">Оставить заявку</UButton>
+				<p class="text-gray-500 mt-6 text-sm text-center max-md:text-xs">Нажимая кнопку "Оставить заявку", вы соглашаетесь с условиями <NuxtLink to="/obrabotka_personalnyh_dannyh" class="text-main">обработки персональных данных</NuxtLink> </p>
 			</UForm>
 			
 		</UCard>

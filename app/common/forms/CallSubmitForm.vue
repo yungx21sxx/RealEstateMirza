@@ -57,7 +57,7 @@
 			Отправить заявку
 		</UButton>
 	</UForm>
-	<p class="text-gray-500 mt-6 text-sm text-center max-md:text-xs">Нажимая кнопку "Отправить Заявку", вы соглашаетесь с условиями <NuxtLink to="/obratka_personalnyh_dannyh" class="text-main">обработки персональных данных</NuxtLink> </p>
+	<p class="text-gray-500 mt-6 text-sm text-center max-md:text-xs">Нажимая кнопку "Отправить Заявку", вы соглашаетесь с условиями <NuxtLink to="/obrabotka_personalnyh_dannyh" class="text-main">обработки персональных данных</NuxtLink> </p>
 </template>
 
 <style scoped lang="scss">
