@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     '@nuxtjs/seo'
   ],
   routeRules: {
-    '/': {prerender: true, sitemap: {priority: 1, changefreq: 'monthly', lastmod: new Date().toISOString(),}},
+    '/': {sitemap: {priority: 1, changefreq: 'monthly', lastmod: new Date().toISOString(),}},
     '/catalog': {sitemap: {priority: 0.8, changefreq: 'weekly'}},
     '/contacts': {sitemap: {priority: 0.6, changefreq: 'yearly'}},
     '/obrabotka_personalnyh_dannyh': {sitemap: {priority: 0.1, changefreq: 'never'}},
