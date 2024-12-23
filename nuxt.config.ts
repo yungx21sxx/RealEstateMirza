@@ -8,9 +8,21 @@ export default defineNuxtConfig({
     '@nuxt/image',
     'vue-yandex-maps/nuxt',
     'nuxt-delay-hydration',
+    '@nuxtjs/seo'
   ],
   routeRules: {
-    // '/': {prerender: true}
+    '/': {prerender: true, sitemap: {priority: 1, changefreq: 'monthly', lastmod: new Date().toISOString(),}},
+    '/catalog': {sitemap: {priority: 0.8, changefreq: 'weekly'}},
+    '/contacts': {sitemap: {priority: 0.6, changefreq: 'yearly'}},
+    '/obrabotka_personalnyh_dannyh': {sitemap: {priority: 0.1, changefreq: 'never'}},
+    '/api/**': { cors: true },
+    '/admin/**': {sitemap: false, robots: false}
+  },
+  sitemap: {
+    xsl: false,
+    sources: [
+      '/api/__sitemap__/urls',
+    ],
   },
   nitro: {
     compressPublicAssets: {
@@ -47,11 +59,14 @@ export default defineNuxtConfig({
     server: process.env.NODE_ENV === 'development',
     client: process.env.NODE_ENV === 'development'
   },
+  site: {
+    url: 'https://sky-apartaments.ru/'
+  },
   delayHydration: {
     // enables nuxt-delay-hydration in dev mode for testing
     // NOTE: you should disable this once you've finished testing, it will break HMR
     debug: process.env.NODE_ENV === 'development',
-    mode: 'init'
+    mode: 'mount'
   },
   // vitalizer: {
   //   // Remove the render-blocking entry CSS
@@ -104,13 +119,8 @@ export default defineNuxtConfig({
         {charset: 'utf-16'},
         {name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no'},
         {name: 'format-detection', content: 'telephone=no'},
-        {
-          name: 'description',
-          content: 'Я занимаюсь сдачей квартир посуточно уже более 5 лет, помогая собственникам получать стабильный доход, а арендаторам — находить удобное жилье. Мой опыт и внимание к деталям обеспечивают высокую заполняемость и безопасное сотрудничество. '
-        },
 
       ],
-      title: 'Сдать квартиру посуточно в Москве с гарантией надежности и максимальной доходности. '
     },
   },
 

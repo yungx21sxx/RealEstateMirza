@@ -8,6 +8,38 @@ import type {LocationQuery} from "vue-router";
 import type {BookingFiltersDTO} from "#shared/types/dto.types";
 import type {ListingCatalogResponse} from "#shared/types/response.types";
 
+useSeoMeta({
+	title: 'Снять аппартаменты в Москве посуточно, цены на 2025 год',
+	description: 'Удобное расположение, стильный интерьер и проверенные объекты для комфортного проживания в Москве',
+	ogTitle: 'Снять аппартаменты в Москве посуточно, цены на 2025 год',
+	ogDescription: 'Удобное расположение, стильный интерьер и проверенные объекты для комфортного проживания в Москве',
+})
+useHead({
+	script: [
+		{
+			type: 'application/ld+json',
+			innerHTML: JSON.stringify({
+				"@context": "https://schema.org",
+				"@type": "BreadcrumbList",
+				"itemListElement": [
+					{
+						"@type": "ListItem",
+						"position": 1,
+						"name": "Главная",
+						"item": "https://sky-apartaments.ru/"
+					},
+					{
+						"@type": "ListItem",
+						"position": 2,
+						"name": "Каталог",
+						"item": "https://sky-apartaments.ru/catalog"
+					}
+				]
+			})
+		}
+	]
+})
+
 const route = useRoute();
 const query = { ...route.query } as LocationQuery;
 
@@ -44,8 +76,8 @@ const {isMobile} = useDevice()
 	<header class="flex justify-center py-12">
 		<div class="px-4 max-w-xl text-center">
 			<div class="uppercase font-semibold text-accent mb-1 max-md:text-sm">Все объекты</div>
-			<h1 class="font-semibold text-4xl max-md:text-2xl mb-4">Апартаменты бизнес-класса</h1>
-			<p class="text-secondary">Если вы планируете командировку, путешествие или просто хотите сменить привычную обстановку, то наши апартаменты как нельзя лучше подходят для этих целей.</p>
+			<h1 class="font-semibold text-4xl max-md:text-2xl mb-4">Аппартаменты посуточно в Москве</h1>
+			<p class="text-secondary">Просторные апартаменты бизнес-класса с современным дизайном и удобным расположением. Идеально подходят для длительного проживания, работы и отдыха.</p>
 <!--			<div class="flex justify-center gap-4">-->
 <!--				<UButton>Оставить заявку</UButton>-->
 <!--				<UButton variant="soft">Смотреть жилье</UButton>-->

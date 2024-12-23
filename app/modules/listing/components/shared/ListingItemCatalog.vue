@@ -49,7 +49,7 @@
 	>
 		<div class="relative">
 			<UCarousel v-slot="{ item }" :items="listing.photos.slice(0,6)" :ui="{ item: 'basis-full' }" class="rounded-t-lg overflow-hidden" arrows>
-				<img @click="goToListing(listing.id)" :src="item" class="z-5  w-full h-[200px] object-cover">
+				<img loading="lazy" :alt="listing.title" @click="goToListing(listing.id)" :src="item" class="z-5  w-full h-[200px] object-cover">
 			</UCarousel>
 		</div>
 		<div class="p-4 block" @click="goToListing(listing.id)">

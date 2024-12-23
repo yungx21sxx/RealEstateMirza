@@ -14,6 +14,8 @@
 	import ListingBookingConfirmModal from "~/modules/listing/components/ListingBooking/ListingBookingConfirmModal.vue";
 	import RealtorContacts from "~/modules/listing/components/ListingPage/RealtorContacts.vue";
 	
+	
+	
 	const {fetchListingData, listing} = useListing();
 	const {setBookingData, setPrices, bookingData} = useBooking();
 	
@@ -52,6 +54,14 @@
 			}
 		})
 	}, {deep: true});
+	
+	useSeoMeta({
+		title: `Sky apartments: ${listing.value.title}`,
+		description: `Аренда квартиры в ${listing.value.address} с ${listing.value.roomCount} комнатами, ${listing.value.area} м². Цена от ${listing.value.minPrice} руб. в месяц. Уютная и удобная для ${listing.value.places} человек.`,
+		ogTitle: `Sky apartments: ${listing.value.title}`,
+		ogDescription: `Аренда квартиры в ${listing.value.address} с ${listing.value.roomCount} комнатами, ${listing.value.area} м². Цена от ${listing.value.minPrice} руб. в месяц. Уютная и удобная для ${listing.value.places} человек.`,
+		ogImage: listing.value.photos[0].urlFull,
+	})
 
 </script>
 

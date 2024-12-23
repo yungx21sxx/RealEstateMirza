@@ -1,7 +1,13 @@
 <template>
     <nav :class="['w-full', variant === 'dark' ? 'nav_dark' : 'nav_light']">
         <div class="wrapper py-2 flex items-center">
-	        <NuxtLink to="/" external class="block md:pr-6 md:border-r border-text-primary">
+	        <NuxtLink
+		        to="/"
+		        external
+		        title="Главная страница"
+		        aria-label="Главная страница"
+		        class="block md:pr-6 md:border-r border-text-primary"
+	        >
 		        <MainLogo :variant="variant" />
 	        </NuxtLink>
 <!--	        <UHorizontalNavigation :links="links"/>-->
@@ -9,13 +15,17 @@
 	            <NuxtLink
 		            v-for="link of links"
 		            :to="link.to"
+		            :key="link.to"
 		            :class="['mr-6 flex items-center gap-2 hover:dark:bg-gray-100', {
-						'!text-accent': link.isActive,
-						'hover:text-secondary': !link.isActive
-		            }]"
+			            '!text-accent': link.isActive,
+			            'hover:text-secondary': !link.isActive
+	                }]"
+		            :aria-label="link.label"
+		            :title="link.label"
+		            :aria-current="link.isActive ? 'page' : undefined"
 	            >
 		            <UIcon class="h-4 w-4" :name="link.icon"/>
-		           <span >{{link.label}}</span>
+		            <span>{{ link.label }}</span>
 	            </NuxtLink>
             </div>
 	        <div class="hidden md:flex items-center gap-4 ml-auto">
@@ -23,6 +33,8 @@
 		        <NuxtLink
 			        :class="['rounded-full h-10 px-4 flex items-center active transition-all', variant === 'light' ? 'bg-white/10 hover:bg-white/20 ' : 'bg-gray-100 hover:bg-gray-200']"
 			        to="tel:/+79816981100"
+			        title="Позвонить"
+			        aria-label="Позвонить"
 			        v-else
 		        >
 			        <UIcon name="i-prime:phone" class="h-6 w-6"/>
@@ -31,15 +43,31 @@
 			        </span>
 		        </NuxtLink>
 		        
-		       <NuxtLink to="https://wa.me/79816981100" class="bg-accent rounded-full h-10 w-10 p-0 flex justify-center items-center hover:bg-accent-200 transition-all">
-			       <WhatsIcon class="h-5 w-5"/>
-		       </NuxtLink>
-		        <NuxtLink to="https://t.me/Mir_durov" class="bg-accent rounded-full h-10 w-10 p-0 flex justify-center items-center hover:bg-accent-200 transition-all">
+		        <NuxtLink
+			        to="https://wa.me/79816981100"
+			        class="bg-accent rounded-full h-10 w-10 p-0 flex justify-center items-center hover:bg-accent-200 transition-all"
+			        aria-label="Написать в WhatsApp"
+			        title="Написать в WhatsApp"
+		        >
+			        <WhatsIcon class="h-5 w-5"/>
+		        </NuxtLink>
+		        
+		        <NuxtLink
+			        to="https://t.me/Mir_durov"
+			        class="bg-accent rounded-full h-10 w-10 p-0 flex justify-center items-center hover:bg-accent-200 transition-all"
+			        aria-label="Написать в Telegram"
+			        title="Написать в Telegram"
+		        >
 			        <TelegramIcon class="h-5 w-5"/>
 		        </NuxtLink>
 	        </div>
-	        <button class="block md:hidden p-0 ml-auto" @click="open()">
-		        <BurgerIcon :variant="variant" class="h-6 w-6"/>
+	        <button
+		        class="block md:hidden p-0 ml-auto"
+		        @click="open()"
+		        aria-label="Открыть меню"
+		        title="Открыть меню"
+	        >
+	            <BurgerIcon :variant="variant" class="h-6 w-6"/>
 	        </button>
         </div>
     </nav>
@@ -86,7 +114,5 @@ const props = withDefaults(
 const authUser = useAuthUser()
 
 const links = useLinks();
-
-console.log(links.value)
 
 </script>

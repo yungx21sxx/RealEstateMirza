@@ -4,47 +4,26 @@ import type {ListingCatalogResponse} from "#shared/types/response.types";
 import About from "~/modules/mainPage/About.vue";
 import Advantages from "~/modules/mainPage/Advantages.vue";
 import ContactsBlock from "~/modules/mainPage/ContactsBlock.vue";
-import ReviewsWidget from "~/modules/mainPage/ReviewsWidget.vue";
-import ListingCarousel from "~/modules/listing/components/shared/ListingCarousel.vue";
 import ListingsSlider from "~/modules/listing/components/shared/ListingsSlider.vue";
-const isLoading = ref(true);
-const isIntersecting = ref(false);
 
-
-const componentContainer = ref(null)
-const showComponent = ref(false)
-
-const {data, error, refresh} = await useAsyncData<{
-	listings: ListingCatalogResponse[],
-	count: number
-}>('listings', () => $fetch(`/api/listing/catalog`));
-
-onMounted(() => {
-	const observer = new IntersectionObserver((entries) => {
-		if (entries[0].isIntersecting) {
-			setTimeout(() => {
-				showComponent.value = true
-			}, 100)
-			observer.disconnect()
-		}
-	})
-	
-	if (componentContainer.value) {
-		observer.observe(componentContainer.value)
-	}
+useSeoMeta({
+	title: 'Сдать квартиру посуточно в Москве. Полное управление, высокая доходность',
+	description: 'Сдача квартир посуточно в Москве с гарантией надежности и стабильного дохода. Обеспечу профессиональный подход, безопасное управление и высокую заполняемость.',
+	ogTitle: 'Сдать квартиру посуточно в Москве. Полное управление, высокая доходность',
+	ogDescription: 'Сдача квартир посуточно в Москве с гарантией надежности и стабильного дохода. Обеспечу профессиональный подход, безопасное управление и высокую заполняемость.',
 })
-
 
 </script>
 
 <template>
 	<HeroSection/>
-<!--	<ListingCarousel :listings="data.listings.slice(0, 8)"/>-->
-	<ListingsSlider :listings="data.listings.slice(0, 8)"/>
-	<About/>
-	
-	<Advantages/>
-	<ContactsBlock class="mt-10"/>
+	<main>
+		<ListingsSlider/>
+		<About/>
+		
+		<Advantages/>
+		<ContactsBlock class="mt-10"/>
+	</main>
 </template>
 
 <style scoped>

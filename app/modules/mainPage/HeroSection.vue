@@ -31,7 +31,7 @@ const {openCallSubmitModal} = useModals()
 				</div>
 			</div>
 		</div>
-		<NuxtImg fit="cover" class="object-cover absolute -z-10 w-full h-full top-0 left-0 right-0 bottom-0" src="/hero.png" format="webp" quality="100" :srcset="srcset"/>
+		<NuxtImg fit="cover" alt="Сдача квартир посуточно с гарантией надежности и максимальной доходности" class="object-cover absolute -z-10 w-full h-full top-0 left-0 right-0 bottom-0" src="/hero.png" format="webp" quality="100" :srcset="srcset"/>
 	</header>
 </template>
 

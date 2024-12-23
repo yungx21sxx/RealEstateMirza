@@ -18,7 +18,7 @@ import PhoneIcon from "~/modules/mainPage/icons/contacts/PhoneIcon.vue";
 					/>
 				</svg>
 				<p class="text-gray-300 mb-5 mt-4">Сдача квартир посуточно с гарантией надежности и максимальной доходности.</p>
-				<div class="text-gray-500 text-sm">2024 © Все права защещены</div>
+				<div class="text-gray-500 text-sm">Sky Apartments 2024 © Все права защещены</div>
 			</div>
 			<div>
 				<h4 class="font-semibold text-xl">Карта сайта</h4>
@@ -38,13 +38,24 @@ import PhoneIcon from "~/modules/mainPage/icons/contacts/PhoneIcon.vue";
 						<NuxtLink to="tel:/+79816981100" class="contact__data">+7 (981) 698-11-00</NuxtLink>
 						<NuxtLink to="tel:/+79939163454" class="contact__data">+7 (993) 916-34-54</NuxtLink>
 						<div class="flex gap-4 mt-3 flex-wrap">
-							<UButton class="rounded-full py-1" to="https://wa.me/79816981100">
+							<UButton
+								class="rounded-full py-1"
+								to="https://wa.me/79816981100"
+								title="Написать в WhatsApp"
+								aria-label="Написать в WhatsApp"
+							>
 								<template #leading>
 									<WhatsUpIcon fill="white"/>
 								</template>
 								Whats up
 							</UButton>
-							<UButton class="rounded-full py-1" to="https://t.me/Mir_durov">
+							<UButton
+								class="rounded-full py-1"
+								to="https://t.me/Mir_durov"
+								title="Написать в Telegram"
+								aria-label="Написать в Telegram"
+							>
+							
 								<template #leading>
 									<TelegramIcon fill="white"/>
 								</template>

@@ -1,7 +1,7 @@
 <template>
-	<div class="bg-light-gray">
+	<section class="bg-light-gray">
 		<div class="wrapper py-10">
-			<h2 class="font-bold text-2xl md:text-3xl mb-6">Объекты в управлении</h2>
+			<h2 class="font-bold text-2xl md:text-3xl md:mb-8 mb-6">Объекты в управлении</h2>
 			<Swiper
 				:slidesPerView="'auto'"
 				:spaceBetween="16"
@@ -12,9 +12,10 @@
 				:modules="modules"
 				@swiper="getSwiperInstance"
 				class="listings-swiper"
+				v-if="mounted"
 			>
 				<SwiperSlide
-					v-for="listing of listings"
+					v-for="listing of data.listings.slice(0, 8)"
 					class="listings-swiper__slide"
 					:style="{
 				paddingBottom: '32px'
@@ -23,17 +24,36 @@
 					<ListingItemCatalog :key="listing.id" class="mr-4 w-[320px] max-w-[350px]:300px" :listing="listing"/>
 				</SwiperSlide>
 			</Swiper>
+			<div v-else class="h-[380px] flex justify-center items-center">
+				<UIcon  name="i-svg-spinners:bars-scale" class="text-accent h-10 w-10"/>
+			</div>
 			<div class="flex gap-4 mt-8">
 				<div class="action">
-					<UButton to="/catalog">Смотреть все</UButton>
+					<UButton to="/catalog" title="Перейти в каталог для просмотра всех объектов" aria-label="Перейти в каталог">
+						Смотреть все
+					</UButton>
 				</div>
-				<div class="flex gap-4" >
-					<UButton @click="swiperController.slidePrev()" size="xl" variant="soft" icon="i-prime:arrow-circle-left" class="rounded-full h-10 w-10"></UButton>
-					<UButton @click="swiperController.slideNext()" size="xl" variant="soft" icon="i-prime:arrow-circle-right" class="rounded-full h-10 w-10"></UButton>
+				<div class="flex gap-4">
+					<UButton
+						@click="swiperController.slidePrev()"
+						size="xl"
+						variant="soft"
+						icon="i-prime:arrow-circle-left"
+						class="rounded-full h-10 w-10"
+						aria-label="Перейти к предыдущему объекту"
+					></UButton>
+					<UButton
+						@click="swiperController.slideNext()"
+						size="xl"
+						variant="soft"
+						icon="i-prime:arrow-circle-right"
+						class="rounded-full h-10 w-10"
+						aria-label="Перейти к следующему объекту"
+					></UButton>
 				</div>
 			</div>
 		</div>
-	</div>
+	</section>
 	
 </template>
 <script setup lang="ts">
@@ -60,11 +80,20 @@
 		swiperController.value = swiper;
 	}
 	
-	defineProps<{
-		listings: ListingCatalogResponse[]
-	}>();
 	
 	const modules = [Pagination, Navigation, FreeMode]
+	
+	const {data, error, refresh, status} = await useAsyncData<{
+		listings: ListingCatalogResponse[],
+		count: number
+	}>('listings', () => $fetch(`/api/listing/catalog`));
+	
+	const mounted = ref(false)
+	
+	onMounted(() => {
+		mounted.value = true
+	})
+	
 </script>
 
 
