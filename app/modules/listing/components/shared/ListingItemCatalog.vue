@@ -48,7 +48,7 @@
 	<div class="shadow-card rounded-md bg-white hover:shadow-card-active transition-all cursor-pointer"
 	>
 		<div class="relative">
-			<UCarousel v-slot="{ item }" :items="listing.photos.slice(0,6)" :ui="{ item: 'basis-full' }" class="rounded-t-lg overflow-hidden" arrows>
+			<UCarousel v-slot="{ item }" :items="listing.photos" :ui="{ item: 'basis-full' }" class="rounded-t-lg overflow-hidden" arrows>
 				<img loading="lazy" :alt="listing.title" @click="goToListing(listing.id)" :src="item" class="z-5  w-full h-[200px] object-cover">
 			</UCarousel>
 		</div>

@@ -18,8 +18,8 @@
 					v-for="listing of data.listings.slice(0, 8)"
 					class="listings-swiper__slide"
 					:style="{
-				paddingBottom: '32px'
-			}"
+						paddingBottom: '32px'
+					}"
 				>
 					<ListingItemCatalog :key="listing.id" class="mr-4 w-[320px] max-w-[350px]:300px" :listing="listing"/>
 				</SwiperSlide>
@@ -108,8 +108,8 @@
 	
 	
 	&__slide {
-		width: fit-content;
-		display: flex;
+		width: fit-content !important;
+		display: flex !important;
 		justify-content: center;
 		align-items: center;
 	}
