@@ -4,20 +4,22 @@
 		v-model="currentPhoto.modal"
 	>
 		<UCard class="bg-black rounded-none" :ui="{
-          base: 'h-full flex flex-col',
+          base: 'h-full flex flex-col ',
           rounded: '',
           divide: 'divide-y divide-gray-100 dark:divide-gray-800',
           body: {
-            base: 'grow'
+            base: 'grow px-0 py-0',
+             background: 'bg-black',
+             padding: 'px-0 py-0 !p-0'
           }
         }">
-			<div class="wrapper flex items-center">
-				<button class="text-white flex items-center gap-1 outline-none mb-4" @click="closeModal">
+			<div class="flex items-center pl-2 md:pl-4 h-[6svh]">
+				<button class="text-white flex items-center gap-1 outline-none" @click="closeModal">
 					<UIcon name="i-material-symbols:chevron-left" class="h-6 w-6"/>
 					<span>Назад</span>
 				</button>
 			</div>
-			<div border="0" class="h-[90svh]">
+			<div border="0" class="h-[92svh]">
 				<div class="img-preview__wrapper">
 					<client-only>
 						<Swiper
@@ -160,9 +162,9 @@ const photos = computed(() => {
 		display: flex;
 		gap: 16px;
 		flex-direction: column;
-		max-width: 1200px;
+		//max-width: 1200px;
 		width: 100%;
-		margin: 0 auto;
+		//margin: 0 auto;
 		height: 100%;
 		flex-grow: 1;
 	}
@@ -188,6 +190,8 @@ const photos = computed(() => {
 	margin-right: auto;
 	padding-top: 25px;
 	padding-bottom: 8px;
+	padding-left: 8px;
+	padding-right: 8px;
 	max-width: 1150px;
 	width: 100%;
 	overflow: hidden;
