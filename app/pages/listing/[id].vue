@@ -13,6 +13,7 @@
 	import ListingDescription from "~/modules/listing/components/ListingPage/ListingDescription.vue";
 	import ListingBookingConfirmModal from "~/modules/listing/components/ListingBooking/ListingBookingConfirmModal.vue";
 	import RealtorContacts from "~/modules/listing/components/ListingPage/RealtorContacts.vue";
+	import {getRoomLabel} from "~/common/utils/listing.utils";
 	
 	
 	
@@ -59,7 +60,7 @@
 		title: `Sky apartments: ${listing.value.title}`,
 		description: `Аренда квартиры в ${listing.value.address} с ${listing.value.roomCount} комнатами, ${listing.value.area} м². Цена от ${listing.value.minPrice} руб. в месяц. Уютная и удобная для ${listing.value.places} человек.`,
 		ogTitle: `Sky apartments: ${listing.value.title}`,
-		ogDescription: `Аренда квартиры в ${listing.value.address} с ${listing.value.roomCount} комнатами, ${listing.value.area} м². Цена от ${listing.value.minPrice} руб. в месяц. Уютная и удобная для ${listing.value.places} человек.`,
+		ogDescription: `Аренда квартиры: ${getRoomLabel(listing.value.roomCount)}, ${listing.value.address}, ${listing.value.area} м². Цена от ${listing.value.minPrice} руб. в месяц. Уютная и удобная для ${listing.value.places} человек.`,
 		ogImage: listing.value.photos[0].urlFull,
 	})
 

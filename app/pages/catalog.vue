@@ -13,6 +13,7 @@ useSeoMeta({
 	description: 'Удобное расположение, стильный интерьер и проверенные объекты для комфортного проживания в Москве',
 	ogTitle: 'Снять аппартаменты в Москве посуточно, цены на 2025 год',
 	ogDescription: 'Удобное расположение, стильный интерьер и проверенные объекты для комфортного проживания в Москве',
+	ogImage: '/catalog.jpeg',
 })
 useHead({
 	script: [
@@ -72,17 +73,19 @@ const {isMobile} = useDevice()
 </script>
 
 <template>
-	<MenuMain/>
-	<header class="flex justify-center py-12">
-		<div class="px-4 max-w-xl text-center">
-			<div class="uppercase font-semibold text-accent mb-1 max-md:text-sm">Все объекты</div>
-			<h1 class="font-semibold text-4xl max-md:text-2xl mb-4">Аппартаменты посуточно в Москве</h1>
-			<p class="text-secondary">Просторные апартаменты бизнес-класса с современным дизайном и удобным расположением. Идеально подходят для длительного проживания, работы и отдыха.</p>
-<!--			<div class="flex justify-center gap-4">-->
-<!--				<UButton>Оставить заявку</UButton>-->
-<!--				<UButton variant="soft">Смотреть жилье</UButton>-->
-<!--			</div>-->
+	<header class="hero relative bg-gradient-to-b from-black/60 to-black/40">
+		<MenuMain variant="light" class="absolute z-10"/>
+		<div class="z-10 wrapper w-full">
+			<div class="text-white py-44 ">
+				<h1 class="font-semibold max-w-xl text-5xl max-md:text-4xl mb-4 leading-[55px] max-md:leading-[45px]">Аппартаменты посуточно в Москве</h1>
+				<div class="p-4 bg-gradient-to-r from-accent/50 backdrop-blur-md to-accent/0 max-w-xl rounded-md">
+					<p class="text-xl max-md:text-base ">Просторные апартаменты бизнес-класса с современным дизайном и удобным расположением. Идеально подходят для длительного проживания, работы и отдыха.</p>
+				</div>
+<!--				<p class="text-xl max-md:text-base max-w-xl">Просторные апартаменты бизнес-класса с современным дизайном и удобным расположением. Идеально подходят для длительного проживания, работы и отдыха.</p>-->
+				
+			</div>
 		</div>
+		<NuxtImg fit="cover" alt="Сдача квартир посуточно с гарантией надежности и максимальной доходности" class="object-cover absolute -z-10 w-full h-full top-0 left-0 right-0 bottom-0" src="/catalog.jpeg" format="webp" quality="100"/>
 	</header>
 	<div class="bg-block-gray py-8" v-if="data">
 		<div class="wrapper">

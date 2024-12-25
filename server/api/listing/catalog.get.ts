@@ -48,7 +48,10 @@ export default defineEventHandler(async event => {
             listings: listings.map(listing => ({
                 id: listing.id,
                 title: listing.title,
-                photos: listing.photos.map(photo => photo.urlMin),
+                photos: listing.photos
+                    .sort((a, b) => (a.position - b.position))
+                    .map(photo => photo.urlMin)
+                    .slice(0,5),
                 rooms: listing.roomCount,
                 area: listing.area,
                 places: listing.places,

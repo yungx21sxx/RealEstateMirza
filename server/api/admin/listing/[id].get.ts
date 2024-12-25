@@ -27,10 +27,12 @@ export default defineEventHandler<Promise<IListingFormData | H3Error>>(async eve
 
     return {
         ...listingUpdateData,
-        photos: photos.map(photo => ({
-            photoId: photo.id,
-            urlMin: photo.urlMin,
-        })),
+        photos: photos
+            .sort((a, b) => (a.position - b.position))
+            .map(photo => ({
+                photoId: photo.id,
+                urlMin: photo.urlMin,
+            })),
         pricePeriods: pricePeriods.map(i => ({
             startDate: i.startDate,
             endDate: i.endDate,
