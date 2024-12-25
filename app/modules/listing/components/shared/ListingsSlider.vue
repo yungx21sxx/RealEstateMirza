@@ -8,7 +8,6 @@
 				:pagination="{
                     dynamicBullets: true,
                 }"
-				:free-mode="true"
 				:modules="modules"
 				@swiper="getSwiperInstance"
 				class="listings-swiper"
@@ -21,7 +20,7 @@
 						paddingBottom: '32px'
 					}"
 				>
-					<ListingItemCatalog :key="listing.id" class="mr-4 w-[320px] max-w-[350px]:300px" :listing="listing"/>
+					<ListingItemCatalog :key="listing.id" class="mr-2 w-[320px] max-[390px]:w-[100%] max-[390px]:mr-0" :listing="listing"/>
 				</SwiperSlide>
 			</Swiper>
 			<div v-else class="h-[380px] flex justify-center items-center">
@@ -81,13 +80,22 @@
 	}
 	
 	
-	const modules = [Pagination, Navigation, FreeMode]
+	const modules = [Pagination, Navigation]
 	
 	const {data, error, refresh, status} = await useAsyncData<{
 		listings: ListingCatalogResponse[],
 		count: number
 	}>('listings', () => $fetch(`/api/listing/catalog`));
 	
+	// const testData = computed(() => {
+	// 	let listings: ListingCatalogResponse[] = []
+	// 	for(let i =0; i < 10; i++) {
+	// 		if (data.value?.listings)
+	// 			listings.push(...data.value?.listings)
+	// 	}
+	// 	return listings
+	// })
+	//
 	const mounted = ref(false)
 	
 	onMounted(() => {
@@ -109,9 +117,12 @@
 	
 	&__slide {
 		width: fit-content !important;
+		@media screen and (max-width: 390px) {
+			width: 100% !important;
+		}
 		display: flex !important;
-		justify-content: center;
-		align-items: center;
+		justify-content: center !important;
+		align-items: center !important;
 	}
 	
 	&__img {
