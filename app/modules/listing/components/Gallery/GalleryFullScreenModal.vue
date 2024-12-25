@@ -13,13 +13,13 @@
              padding: 'px-0 py-0 !p-0'
           }
         }">
-			<div class="flex items-center pl-2 md:pl-4 h-[6svh]">
+			<div class="flex items-center pl-2 md:pl-4 h-[6dvh]">
 				<button class="text-white flex items-center gap-1 outline-none" @click="closeModal">
 					<UIcon name="i-material-symbols:chevron-left" class="h-6 w-6"/>
 					<span>Назад</span>
 				</button>
 			</div>
-			<div border="0" class="h-[92svh]">
+			<div border="0" class="h-[92dvh]">
 				<div class="img-preview__wrapper">
 					<client-only>
 						<Swiper
