@@ -52,8 +52,8 @@ import CallSubmitForm from "~/common/forms/CallSubmitForm.vue";
 				<div class="contact" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
 					<AddressIcon class="contact__icon"/>
 					<div class="contact__info">
-						<h3 class="contact__title" itemprop="streetAddress">Адрес</h3>
-						<div class="contact__data">Овражная улица, 47А, Новоивановское, Московская Область</div>
+						<h3 class="contact__title">Адрес</h3>
+						<div class="contact__data"  itemprop="streetAddress">Овражная улица, 47А, Новоивановское, Московская Область</div>
 					</div>
 				</div>
 				<div class="contact">

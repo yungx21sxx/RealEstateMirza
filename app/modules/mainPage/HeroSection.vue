@@ -23,18 +23,18 @@ const {openCallSubmitModal} = useModals()
 		<MenuMain variant="light" class="absolute z-10"/>
 		<div class="z-10 wrapper">
 			<div class="text-white py-44 max-w-2xl">
-				<h1 class="font-semibold text-5xl max-md:text-4xl mb-4 leading-[55px] max-md:leading-[45px] max-[364px]:text-3xl  max-[364px]:leading-[40px]">Управление жилой <br> недвижимостью в Москве</h1>
+				<h1 class="font-semibold text-5xl max-md:text-4xl mb-4 leading-[55px] max-md:leading-[45px] max-[364px]:text-3xl max-[364px]:leading-[40px] max-[310px]:text-[28px] max-[310px]:leading-[35px]">Управление жилой <br> недвижимостью в Москве</h1>
 				<div class="mt-2 p-4 bg-gradient-to-r from-accent/50 backdrop-blur-xl to-accent/0 max-w-xl rounded-md">
-					<p class="text-xl max-md:text-lg  text-gray-100">Сдача квартир посуточно с гарантией надежности и максимальной доходности.</p>
+					<p class="text-xl max-md:text-lg max-[364px]:text-base  text-gray-100">Сдача квартир посуточно с гарантией надежности и максимальной доходности.</p>
 				</div>
 <!--				<p class="text-lg mt-2 text-gray-100">Сдача квартир посуточно с гарантией надежности и максимальной доходности.</p>-->
-				<div class="flex gap-4 mt-10 max-md:mt-8">
+				<div class="flex gap-4 mt-10 max-md:mt-8 ">
 					<UButton @click="openCallSubmitModal">Оставить заявку</UButton>
 					<UButton variant="soft" class="max-[373px]:hidden" to="/catalog">Подобрать жилье</UButton>
 				</div>
 			</div>
 		</div>
-		<NuxtImg fit="cover" alt="Сдача квартир посуточно с гарантией надежности и максимальной доходности" class="object-cover absolute -z-10 w-full h-full top-0 left-0 right-0 bottom-0" src="/hero.jpeg" format="webp" quality="100"/>
+		<NuxtImg fit="cover" alt="Сдача квартир посуточно с гарантией надежности и максимальной доходности" class="object-cover absolute -z-10 w-full h-full top-0 left-0 right-0 bottom-0" src="/hero.jpeg" format="webp" quality="90"/>
 	</header>
 </template>
 

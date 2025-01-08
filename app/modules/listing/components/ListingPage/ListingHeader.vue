@@ -4,6 +4,7 @@
 	import useAuthUser from "~/modules/auth/composables/useAuthUser";
 	import type {LocationQuery} from "vue-router";
 	import {parseQueryToBookingFilters} from "#shared/utils/booking.utils";
+	import type {BreadcrumbLink} from "#ui/types";
 	
 	const authUser = useAuthUser();
 	
@@ -34,7 +35,7 @@
 		childrenAges: [] as number[],
 		childrenCount: 0,
 	};
-	const breadCrumbs = computed(() => {
+	const breadCrumbs = computed<BreadcrumbLink[]>(() => {
 		const {checkIn, checkOut, ...guests} = bookingData.value
 		const query = Object.entries(bookingData.value).reduce((result, [key, value]) => {
 			if (JSON.stringify(value) !== JSON.stringify(defaultBookingData[key as keyof typeof defaultBookigData])) {
@@ -49,7 +50,8 @@
 			},
 			{
 				label: 'Каталог',
-				to: `/catalog?${objectToQueryString(query)}`
+				to: `/catalog?${objectToQueryString(query)}`,
+				external: true
 			}
 		]
 	})
@@ -87,8 +89,8 @@
 <template>
 	<div class="listing-card">
 		<UBreadcrumb :links="breadCrumbs"/>
-		<div class="max-[640px]:flex-col gap-3 flex justify-between mt-3">
-			<h1 class="font-semibold text-2xl">{{listing.title}}</h1>
+		<div class="mt-3">
+			<h1 class="font-semibold text-2xl mb-3">{{listing.title}}</h1>
 			<div class="font-medium text-xl text-secondary">{{priceStr}}</div>
 		</div>
 		<div class="flex gap-4 flex-wrap mt-3">

@@ -40,8 +40,6 @@ withDefaults(
 	}
 )
 
-const datesSelectModal = ref(false);
-
 const resetDates = () => {
 	bookingData.value.checkIn = null;
 	bookingData.value.checkOut = null;

@@ -63,9 +63,6 @@ export default defineEventHandler<Promise<ListingSuccessCreateResponse | H3Error
             photos: {
                 connect: photos.map(photo => ({id: photo.photoId})),
             },
-            pricePeriods: {
-                create: pricePeriods
-            },
             appliances: {
                 create: appliances.map(applince => ({label: applince}))
             },

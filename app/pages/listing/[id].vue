@@ -14,6 +14,7 @@
 	import ListingBookingConfirmModal from "~/modules/listing/components/ListingBooking/ListingBookingConfirmModal.vue";
 	import RealtorContacts from "~/modules/listing/components/ListingPage/RealtorContacts.vue";
 	import {getRoomLabel} from "~/common/utils/listing.utils";
+	import type {NavigateToOptions} from "#app/composables/router";
 	
 	
 	
@@ -39,18 +40,14 @@
 	watch(bookingData, async (booking) => {
 		const {checkIn, checkOut, ...guests} = booking;
 		
-		if (!checkIn && !checkOut) {
-			return;
-		}
-		
 		const {pricePeriods, minPrice} = listing.value;
 		const prices = calculatePrices(pricePeriods, minPrice, checkIn, checkOut);
 		setPrices(prices);
 		await navigateTo({
 			path: `/listing/${listing.value.id}`,
 			query: {
-				checkIn: checkIn?.toISOString(),
-				checkOut: checkOut?.toISOString(),
+				checkIn: checkIn ? checkIn?.toISOString() : null,
+				checkOut: checkOut ? checkOut?.toISOString() : null,
 				...guests
 			}
 		})
@@ -79,7 +76,7 @@
 				<ListingYMap/>
 				<ListingDescription/>
 			</div>
-			<div class="space-y-6 sticky top-16 max-[960px]:hidden">
+			<div class="space-y-6 sticky top-16 max-[960px]:hidden z-[2]">
 				<RealtorContacts/>
 				<ListingSetBookingInfo/>
 			</div>
