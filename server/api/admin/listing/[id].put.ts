@@ -21,23 +21,22 @@ export default defineEventHandler<Promise<ListingSuccessCreateResponse | H3Error
         })
     }
 
-    if (pricePeriods.length > 0) {
-        await prisma.pricePeriod.deleteMany({
-            where: {
-                listingId: id
-            }
-        })
-        for (const period of pricePeriods) {
-            await prisma.pricePeriod.create({
-                data: {
-                    listingId: id,
-                    price: period.price,
-                    startDate: new Date(period.startDate),
-                    endDate: new Date(period.endDate),
-                },
-            });
+    await prisma.pricePeriod.deleteMany({
+        where: {
+            listingId: id
         }
+    })
+    for (const period of pricePeriods) {
+        await prisma.pricePeriod.create({
+            data: {
+                listingId: id,
+                price: period.price,
+                startDate: new Date(period.startDate),
+                endDate: new Date(period.endDate),
+            },
+        });
     }
+
     await prisma.amenity.deleteMany({
         where: {
             listingId: id,
