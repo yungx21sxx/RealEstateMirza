@@ -28,6 +28,7 @@ import CallSubmitForm from "~/common/forms/CallSubmitForm.vue";
 								aria-label="Написать в WhatsApp"
 								itemprop="sameAs"
 								content="https://wa.me/79816981100"
+								external
 							>
 								<template #leading>
 									<WhatsUpIcon fill="white"/>
@@ -39,6 +40,7 @@ import CallSubmitForm from "~/common/forms/CallSubmitForm.vue";
 								to="https://t.me/Mir_durov"
 								title="Написать в Telegram"
 								aria-label="Написать в Telegram"
+								external
 								itemprop="sameAs" content="https://t.me/Mir_durov"
 							>
 								<template #leading>
@@ -53,14 +55,14 @@ import CallSubmitForm from "~/common/forms/CallSubmitForm.vue";
 					<AddressIcon class="contact__icon"/>
 					<div class="contact__info">
 						<h3 class="contact__title">Адрес</h3>
-						<div class="contact__data"  itemprop="streetAddress">Овражная улица, 47А, Новоивановское, Московская Область</div>
+						<NuxtLink aria-label="Открыть карту" external  to="https://yandex.com/maps/-/CHUZZD6-" class="contact__data"  itemprop="streetAddress">Овражная улица, 47А, Новоивановское, Московская Область</NuxtLink>
 					</div>
 				</div>
 				<div class="contact">
 					<MailIcon class="contact__icon"/>
 					<div class="contact__info">
 						<h3 class="contact__title">Почта</h3>
-						<NuxtLink aria-label="Отправить письмо на sheikhov.amin@mail.ru" itemprop="email" to="mailto:sheikhov.amin@mail.ru" class="contact__data">sheikhov.amin@mail.ru</NuxtLink>
+						<NuxtLink aria-label="Отправить письмо на sheikhov.amin@mail.ru" itemprop="email" external to="mailto:sheikhov.amin@mail.ru" class="contact__data">sheikhov.amin@mail.ru</NuxtLink>
 					</div>
 				</div>
 			</div>
