@@ -53,7 +53,7 @@
 		};
 		const {sendBookingInfo} = useTelegram();
 		try {
-			await sendBookingInfo(dto, `https://sky-apartments.ru/listing/${listing.value.id}`);
+			await sendBookingInfo(dto, `https://sky-apartaments.ru/listing/${listing.value.id}`);
 			bookingConfirmModal.value = false;
 			const toast = useToast();
 			toast.add({ title: 'Заявка успешно отправлена!' });

@@ -2,6 +2,7 @@
 	import type {FormError, FormSubmitEvent} from '#ui/types'
 	import PhoneInput from "~/common/inputs/PhoneInput.vue";
 	import useTelegram from "~/common/composables/useTelegram";
+	import {parsePhone} from "#shared/utils/booking.utils";
 	
 	const emits = defineEmits(['onSubmit']);
 	
@@ -28,7 +29,8 @@
 		if (!state.name || !state.phone) {
 			return;
 		}
-		await fetchForCallData(state.phone, state.name, state.question);
+		const formatedPhone = await parsePhone(state.phone);
+		await fetchForCallData(formatedPhone, state.name, state.question);
 		loading.value = false;
 		const toast = useToast()
 		emits('onSubmit');
