@@ -76,7 +76,7 @@ const {isMobile} = useDevice()
 	<header class="hero relative bg-gradient-to-b from-black/60 to-black/40">
 		<MenuMain variant="light" class="absolute z-10"/>
 		<div class="z-10 wrapper w-full">
-			<div class="text-white py-44 ">
+			<div class="text-white py-32 md:py-44 hero-content ">
 				<h1 class="font-semibold max-w-xl text-5xl max-md:text-4xl mb-4 leading-[55px] max-md:leading-[45px]">Аппартаменты посуточно в Москве</h1>
 				<div class="p-4 bg-gradient-to-r from-accent/50 backdrop-blur-md to-accent/0 max-w-xl rounded-md">
 					<p class="text-xl max-md:text-base ">Просторные апартаменты бизнес-класса с современным дизайном и удобным расположением. Идеально подходят для длительного проживания, работы и отдыха.</p>
