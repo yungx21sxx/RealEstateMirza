@@ -14,7 +14,7 @@ export default () => {
 			`**Дата выезда:** ${beautifyDate( bookingData.checkOut)}`,
 			`Цена за ${formatNights(bookingData.daysCount)}: ${bookingData.totalPrice.toLocaleString()} ₽`,
 			`Имя: ${bookingData.userName}`,
-			`Телефон: ${bookingData.userPhone}`,
+			`Телефон: ${encodeURIComponent(bookingData.userPhone)}`,
 			`Способ связи: ${bookingData.communication}`,
 			`Взрослые: ${bookingData.adults}`,
 			`Дети: ${bookingData.childrenCount}`,
@@ -40,8 +40,7 @@ export default () => {
 
 
 	const fetchForCallData = async (phone: string, name: string, question: string | undefined ) => {
-		const parsedPhone = await parsePhone(phone);
-		let text = `Клиент оставил заявку на звонок: %0A👶Имя: ${name} %0A📱Номер телефона: ${parsedPhone} `
+		let text = `Клиент оставил заявку на звонок: %0A👶Имя: ${name} %0A📱Номер телефона: ${encodeURIComponent(phone)}%0A Вопрос: ${question ? question : 'Нет'}`;
 		const url = getUrl(text, bookingBotToken, bookingBotChatID);
 		return useFetch(url)
 	}

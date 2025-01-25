@@ -40,19 +40,19 @@
 	const loading = ref(false)
 	async function onSubmit(event: FormSubmitEvent<BookingFormState>) {
 		const {userPhone, ...formData} = state.value;
-		const formatedPhone = await parsePhone(userPhone);
 		const dto: BookingCreateDTO = {
 			checkIn: bookingData.value.checkIn,
 			checkOut: bookingData.value.checkOut,
 			adults: bookingData.value.adults,
 			childrenAges: bookingData.value.childrenAges,
 			childrenCount: bookingData.value.childrenCount,
-			userPhone: formatedPhone,
+			userPhone,
 			...formData,
 			...calculatedPrices.value
 		};
 		const {sendBookingInfo} = useTelegram();
 		try {
+			loading.value = true;
 			await sendBookingInfo(dto, `https://sky-apartaments.ru/listing/${listing.value.id}`);
 			bookingConfirmModal.value = false;
 			const toast = useToast();
@@ -92,7 +92,7 @@
 				<UFormGroup name="comment" label="Комментарий (необязательно)">
 					<UTextarea v-model="state.comment" autoresize/>
 				</UFormGroup>
-				<UButton type="submit">Оставить заявку</UButton>
+				<UButton :loading="loading" type="submit">Оставить заявку</UButton>
 				<p class="text-gray-500 mt-6 text-sm text-center max-md:text-xs">Нажимая кнопку "Оставить заявку", вы соглашаетесь с условиями <NuxtLink to="/obrabotka_personalnyh_dannyh" class="text-main">обработки персональных данных</NuxtLink> </p>
 			</UForm>
 			

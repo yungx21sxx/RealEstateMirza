@@ -16,8 +16,7 @@
 	
 	const validate = (state: any): FormError[] => {
 		const errors = []
-		if (!state.name) errors.push({ path: 'email', message: 'Введите имя' })
-		if (!state.phone) errors.push({ path: 'phone', message: 'Введите номер телелфона' })
+		if (!state.name) errors.push({ path: 'name', message: 'Введите имя' })
 		return errors
 	}
 	
@@ -29,8 +28,7 @@
 		if (!state.name || !state.phone) {
 			return;
 		}
-		const formatedPhone = await parsePhone(state.phone);
-		await fetchForCallData(formatedPhone, state.name, state.question);
+		await fetchForCallData(state.phone, state.name, state.question);
 		loading.value = false;
 		const toast = useToast()
 		emits('onSubmit');
@@ -47,9 +45,8 @@
 			<UInput v-model="state.name"/>
 		</UFormGroup>
 		
-		<UFormGroup label="Телефон" name="phone">
-			<PhoneInput v-model="state.phone"/>
-		</UFormGroup>
+		<PhoneInput v-model="state.phone"/>
+
 		
 		<UFormGroup label="Ваш вопрос (необязательно)">
 			<UTextarea v-model="state.question" />
