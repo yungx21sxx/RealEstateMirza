@@ -3,7 +3,7 @@
 import useModals from "~/common/composables/useModals";
 import CallSubmitForm from "~/common/forms/CallSubmitForm.vue";
 
-const {closeCallSubmitModal, callSubmitModal} = useModals()
+const {closeCallSubmitModal, callSubmitModal} = useModals();
 
 </script>
 

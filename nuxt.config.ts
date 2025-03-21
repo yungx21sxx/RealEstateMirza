@@ -25,6 +25,8 @@ export default defineNuxtConfig({
     ],
   },
   nitro: {
+    minify: true,
+    serveStatic: false,
     compressPublicAssets: {
       brotli: true, gzip: true
     },
@@ -47,13 +49,22 @@ export default defineNuxtConfig({
     app: 'app'
   },
   vite: {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          api: "modern",
-        },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('v-calendar') || id.includes('@popperjs/core')) return 'calendar'
+              if (id.includes('vue-tel-input')) return 'telinput'
+              if (id.includes('vue-draggable-next')) return 'vue-draggable-next'
+              if (id.includes('swiper')) return 'swiper'
+              if (id.includes('libphonenumber-js')) return 'phone'
+              if (id.includes('@vue')) return 'vue'
+            }
+          }
+        }
       }
-    }
+    },
   },
   sourcemap: {
     server: process.env.NODE_ENV === 'development',
@@ -62,17 +73,7 @@ export default defineNuxtConfig({
   site: {
     url: 'https://sky-apartaments.ru/'
   },
-  delayHydration: {
-    // enables nuxt-delay-hydration in dev mode for testing
-    // NOTE: you should disable this once you've finished testing, it will break HMR
-    debug: process.env.NODE_ENV === 'development',
-    mode: 'mount'
-  },
-  // vitalizer: {
-  //   // Remove the render-blocking entry CSS
-  //   disableStylesheets: 'entry',
-  //   disablePrefetchLinks: true
-  // },
+
   experimental: {
     scanPageMeta: 'after-resolve',
     sharedPrerenderData: false,

@@ -2,7 +2,6 @@
 	import type {FormError, FormSubmitEvent} from '#ui/types'
 	import PhoneInput from "~/common/inputs/PhoneInput.vue";
 	import useTelegram from "~/common/composables/useTelegram";
-	import {parsePhone} from "#shared/utils/booking.utils";
 	
 	const emits = defineEmits(['onSubmit']);
 	

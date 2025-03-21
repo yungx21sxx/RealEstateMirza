@@ -9,6 +9,10 @@ dist
 # Node dependencies
 node_modules
 
+uploads
+
+upload.txt
+
 # Logs
 logs
 *.log
