@@ -1,9 +1,13 @@
 export default () => {
   const callSubmitModal = useState<boolean>(() => false);
 
-  const openCallSubmitModal = () => (callSubmitModal.value = true);
+  const openCallSubmitModal = () => {
+    callSubmitModal.value = true;
+  };
 
-  const closeCallSubmitModal = () => (callSubmitModal.value = false);
+  const closeCallSubmitModal = () => {
+    callSubmitModal.value = false;
+  };
 
   return {
     callSubmitModal,

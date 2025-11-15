@@ -81,7 +81,7 @@
         <ListingSetBookingInfo class="max-[960px]:block hidden" />
         <ListingParams />
         <RealtorContacts class="max-[960px]:flex hidden" />
-        <ListingYMap />
+        <ListingYMap id="map" />
         <ListingDescription />
       </div>
       <div class="space-y-6 sticky top-16 max-[960px]:hidden z-[2]">

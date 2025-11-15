@@ -62,7 +62,7 @@
           variant="soft"
           block
           class="mb-4"
-          to="/admin/create-listing"
+          @click="goToLink('/admin/create-listing')"
           >Создать объект</UButton
         >
         <UButton block class="mb-4" @click="openSubmitModal">Заявка на звонок</UButton>

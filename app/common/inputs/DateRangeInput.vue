@@ -110,7 +110,11 @@
     </UPopover>
     <div v-else>
       <UButton
-        :class="[target === 'listing-page' ? 'listing-page_btn' : 'catalog_btn']"
+        :class="[
+          target === 'listing-page'
+            ? 'bg-block-gray text-main flex-row-reverse justify-between mt-1 hover:bg-gray-200 active:bg-gray-200 transition-all'
+            : 'catalog_btn',
+        ]"
         :block="block"
         icon="i-heroicons-calendar-days-20-solid"
         @click="dateInputOpen = true"

@@ -95,16 +95,24 @@
 <template>
   <div class="listing-card">
     <UBreadcrumb :items="breadCrumbs" />
-    <div class="mt-3">
+    <div class="mt-4">
       <h1 class="font-semibold text-2xl mb-3">{{ listing.title }}</h1>
       <div class="font-medium text-xl text-secondary">{{ priceStr }}</div>
     </div>
-    <div class="flex gap-4 flex-wrap mt-3">
-      <div class="flex gap-2 items-center">
-        <UIcon name="i-material-symbols:location-on-outline" class="text-secondary" />
-        <span class="text-secondary">{{ listing.address }}</span>
-      </div>
-      <UButton variant="link" icon="material-symbols:map-outline">На карте</UButton>
+    <div class="flex gap-4 max-[370px]:gap-0 flex-wrap mt-4">
+      <!--      <div class="flex gap-2 items-center">-->
+      <!--        <UIcon name="i-material-symbols:location-on-outline" class="text-secondary" />-->
+      <!--        <span class="text-secondary">{{ listing.address }}</span>-->
+      <!--      </div>-->
+      <UButton
+        variant="link"
+        icon="i-material-symbols:location-on-outline"
+        class="text-secondary px-0"
+        >{{ listing.address }}</UButton
+      >
+      <UButton to="#map" variant="link" icon="material-symbols:map-outline" class="px-0"
+        >На карте</UButton
+      >
     </div>
 
     <div v-if="isAdmin" class="flex gap-4 mt-4 max-md:flex-col">
