@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import {prisma} from "~~/server/service/prisma.service";
+import { prisma } from '~~/server/service/prisma.service';
 
 const logoSVG = `
     <svg width="158" height="35" viewBox="0 0 158 35" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -16,19 +16,19 @@ const logoSVG = `
     </linearGradient>
     </defs>
     </svg>
-`
+`;
 
 export async function sendEmailVerificationCode(email: string, code: string) {
-    const transporter = nodemailer.createTransport({
-        service: "gmail",
-        host: "smtp.gmail.com",
-        port: 465,
-        auth: {
-            user: 'aura.tour.abkhazia@gmail.com',
-            pass: 'opyc advt eszx arql',
-        },
-    });
-    const htmlContent = `
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    auth: {
+      user: 'aura.tour.abkhazia@gmail.com',
+      pass: 'opyc advt eszx arql',
+    },
+  });
+  const htmlContent = `
         <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
           <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 20px; border-radius: 8px;">
             <div>
@@ -57,41 +57,39 @@ export async function sendEmailVerificationCode(email: string, code: string) {
           </div>
         </div>
   `;
-    const mailOptions = {
-        from: `aura.tour.abkhazia@gmail.com`,
-        to: email,
-        subject: 'Код подтверждения электронной почты',
-        html: htmlContent,
-    };
+  const mailOptions = {
+    from: `aura.tour.abkhazia@gmail.com`,
+    to: email,
+    subject: 'Код подтверждения электронной почты',
+    html: htmlContent,
+  };
 
-    // Отправка письма
-    try {
-        await transporter.sendMail(mailOptions);
-    } catch (error) {
-        throw new Error('Не удалось отправить письмо с кодом подтверждения');
-    }
-
+  // Отправка письма
+  try {
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    throw new Error('Не удалось отправить письмо с кодом подтверждения');
+  }
 }
 
 export async function generateVerificationCode(userId: number): Promise<string> {
-    // Генерируем код
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
+  // Генерируем код
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // Устанавливаем время истечения кода
-    const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString();
+  // Устанавливаем время истечения кода
+  const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString();
 
-    // Сохраняем код в базе данных
-    await prisma.emailVerificationCode.create({
-        data: {
-            code,
-            userId,
-            expiresAt,
-            used: false,
-            attempts: 0,
-            lastAttempt: new Date(0),
-        },
-    });
+  // Сохраняем код в базе данных
+  await prisma.emailVerificationCode.create({
+    data: {
+      code,
+      userId,
+      expiresAt,
+      used: false,
+      attempts: 0,
+      lastAttempt: new Date(0),
+    },
+  });
 
-    return code;
+  return code;
 }
-

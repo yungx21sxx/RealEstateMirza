@@ -1,0 +1,29 @@
+@layer utilities {
+  .contact {
+    @apply flex gap-6 items-start mb-8;
+  }
+
+  .contact__title {
+    @apply text-lg font-semibold mb-2;
+  }
+
+  .contact__icon {
+    @apply h-16 w-16 shrink-0;
+  }
+
+  .contact__text {
+    @apply text-secondary mb-4;
+  }
+
+  .contact__data {
+    @apply block mb-4;
+  }
+
+  /* Медиазапросы Tailwind */
+}
+
+@media (max-width: 768px) {
+  .contact__icon {
+    @apply h-12 w-12;
+  }
+}

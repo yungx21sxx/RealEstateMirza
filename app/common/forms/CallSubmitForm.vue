@@ -1,63 +1,66 @@
 <script setup lang="ts">
-	import type {FormError, FormSubmitEvent} from '#ui/types'
-	import PhoneInput from "~/common/inputs/PhoneInput.vue";
-	import useTelegram from "~/common/composables/useTelegram";
-	
-	const emits = defineEmits(['onSubmit']);
-	
-	
-	
-	const state = reactive({
-		name: undefined,
-		phone: undefined,
-		question: undefined
-	})
-	
-	const validate = (state: any): FormError[] => {
-		const errors = []
-		if (!state.name) errors.push({ path: 'name', message: 'Введите имя' })
-		return errors
-	}
-	
-	const loading = ref(false);
-	
-	async function onSubmit(event: FormSubmitEvent<any>) {
-		loading.value = true;
-		const {fetchForCallData} = useTelegram();
-		if (!state.name || !state.phone) {
-			return;
-		}
-		await fetchForCallData(state.phone, state.name, state.question);
-		loading.value = false;
-		const toast = useToast()
-		emits('onSubmit');
-		toast.add({ title: 'Заявка отправлена!' })
-	}
+  import type { FormError, FormSubmitEvent } from '#ui/types';
+  import PhoneInput from '~/common/inputs/PhoneInput.vue';
+  import useTelegram from '~/common/composables/useTelegram';
 
+  const emits = defineEmits(['onSubmit']);
 
+  const state = reactive({
+    name: undefined,
+    phone: undefined,
+    question: undefined,
+  });
+
+  const validate = (state: any): FormError[] => {
+    const errors = [];
+    if (!state.name) errors.push({ path: 'name', message: 'Введите имя' });
+    return errors;
+  };
+
+  const loading = ref(false);
+
+  async function onSubmit(event: FormSubmitEvent<any>) {
+    loading.value = true;
+    const { fetchForCallData } = useTelegram();
+    if (!state.name || !state.phone) {
+      return;
+    }
+    await fetchForCallData(state.phone, state.name, state.question);
+    loading.value = false;
+    const toast = useToast();
+    emits('onSubmit');
+    toast.add({
+      title: 'Заявка отправлена!',
+      icon: 'i-material-symbols:check-circle-outline-sharp',
+      description: 'Оператор свяжется с вами в ближайшее время.',
+    });
+  }
 </script>
 
 <template>
-	
-	<UForm :validate="validate" :state="state" class="space-y-4" @submit="onSubmit">
-		<UFormGroup label="Как Вас зовут?" name="name">
-			<UInput v-model="state.name"/>
-		</UFormGroup>
-		
-		<PhoneInput v-model="state.phone"/>
+  <UForm :validate="validate" :state="state" class="space-y-4" @submit="onSubmit">
+    <UFormField label="Как Вас зовут?" name="name">
+      <UInput v-model="state.name" class="w-full" />
+    </UFormField>
 
-		
-		<UFormGroup label="Ваш вопрос (необязательно)">
-			<UTextarea v-model="state.question" />
-		</UFormGroup>
-		
-		<UButton type="submit" class="mt-10" block :loading="loading">
-			Отправить заявку
-		</UButton>
-	</UForm>
-	<p class="text-gray-500 mt-6 text-sm text-center max-md:text-xs">Нажимая кнопку "Отправить Заявку", вы соглашаетесь с условиями <NuxtLink to="/obrabotka_personalnyh_dannyh" title="Обработка персональных данных" aria-label="Обработка персональных данных"  class="text-accent">обработки персональных данных</NuxtLink> </p>
+    <PhoneInput v-model="state.phone" />
+
+    <UFormField label="Ваш вопрос (необязательно)">
+      <UTextarea v-model="state.question" class="w-full" />
+    </UFormField>
+
+    <UButton type="submit" class="mt-10" block :loading="loading"> Отправить заявку </UButton>
+  </UForm>
+  <p class="text-gray-500 mt-6 text-sm text-center max-md:text-xs">
+    Нажимая кнопку "Отправить Заявку", вы соглашаетесь с условиями
+    <NuxtLink
+      to="/obrabotka_personalnyh_dannyh"
+      title="Обработка персональных данных"
+      aria-label="Обработка персональных данных"
+      class="text-accent"
+      >обработки персональных данных</NuxtLink
+    >
+  </p>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

@@ -1,6 +1,6 @@
-ssh root@31.129.110.160
+ssh root@217.114.14.198
 
-7AgWkKXTJ!D*
+_hGd5TAa%4Pb
 
 cp .output/server/node_modules/.prisma/client/dev.db prisma/
 cp prisma/dev.db .output/server/node_modules/.prisma/client

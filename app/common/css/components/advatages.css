@@ -1,0 +1,18 @@
+@layer utilities {
+  .advantages {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(273px, 1fr));
+    gap: 16px;
+    justify-content: center;
+  }
+
+  .advantage {
+    @apply rounded-md border border-gray-200 px-4 py-6 text-center flex flex-col items-center w-full;
+  }
+  .advantage__title {
+    @apply font-semibold text-lg mt-4 mb-2;
+  }
+  .advantage__text {
+    @apply text-secondary;
+  }
+}

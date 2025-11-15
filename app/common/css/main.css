@@ -1,0 +1,50 @@
+@import 'tailwindcss';
+@import '@nuxt/ui';
+@import './base.css';
+@import './components/contacts.css';
+@import './components/advatages.css';
+@import './components/chips.css';
+
+/* Tailwind v4 theme tokens */
+@theme {
+  /* Map primary palette to accent to satisfy Nuxt UI defaults */
+  --color-primary-50: #fff5f2;
+  --color-primary-100: #ffe2d4;
+  --color-primary-200: #ffc1a9;
+  --color-primary-300: #ff8a63;
+  --color-primary-400: #fe5f39;
+  --color-primary-500: #fc3513;
+  --color-primary-600: #ed1c09;
+  --color-primary-700: #c50f09;
+  --color-primary-800: #9c1012;
+  --color-primary-900: #7e1011;
+  --color-primary-950: #440608;
+  --color-primary: #ff8a63;
+
+  /* Brand / Accent palette */
+  --color-accent-50: #fff5f2;
+  --color-accent-100: #ffe2d4;
+  --color-accent-200: #ffc1a9;
+  --color-accent-300: #ff8a63;
+  --color-accent-400: #fe5f39;
+  --color-accent-500: #fc3513;
+  --color-accent-600: #ed1c09;
+  --color-accent-700: #c50f09;
+  --color-accent-800: #9c1012;
+  --color-accent-900: #7e1011;
+  --color-accent-950: #440608;
+  /* Default alias used by classes like bg-accent, text-accent */
+  --color-accent: #ff8a63;
+
+  /* Base colors used across the app */
+  --color-block-gray: #f1f3f9;
+  --color-light-gray: #fafafc;
+  --color-black-background: #292c32;
+  --color-white: #ffffff;
+  --color-main: #333d46;
+  --color-secondary: #626262;
+
+  /* Shadows */
+  --shadow-card: 0 3px 15px rgba(0, 0, 0, 0.05);
+  --shadow-card-active: 0 3px 15px rgba(0, 0, 0, 0.15);
+}

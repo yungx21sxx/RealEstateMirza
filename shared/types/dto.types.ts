@@ -1,32 +1,31 @@
-import type {IListingProperties, IListingPricePeriod} from "#shared/types/listing.types";
+import type { IListingProperties, IListingPricePeriod } from '#shared/types/listing.types';
 
 export interface ListingCreateDTO extends IListingProperties {
-    photos: PhotoConnectDTO[];
-    pricePeriods: IListingPricePeriod[];
+  photos: PhotoConnectDTO[];
+  pricePeriods: IListingPricePeriod[];
 }
 
 export interface ListingUpdateDTO extends ListingCreateDTO {
-    id: number;
+  id: number;
 }
 
 export interface PhotoConnectDTO {
-    photoId: number;
-    position: number;
+  photoId: number;
+  position: number;
 }
 
 export interface PhotoRotateDTO {
-    target: 'left' | 'right'
-    photoId: number;
+  target: 'left' | 'right';
+  photoId: number;
 }
 
 export interface BookingFiltersDTO extends IGuestsOptions {
-    checkIn: Date | null,
-    checkOut: Date | null,
+  checkIn: Date | null;
+  checkOut: Date | null;
 }
 
-
 export interface IGuestsOptions {
-    adults: number,
-    childrenCount: number,
-    childrenAges: number[],
+  adults: number;
+  childrenCount: number;
+  childrenAges: number[];
 }

@@ -1,18 +1,19 @@
 <template>
-	<NuxtLoadingIndicator/>
-	<NuxtLayout>
-		<NuxtPage/>
-	</NuxtLayout>
-	<BurgerMenuModal/>
-	<UNotifications />
-	<CallSubmitModal/>
+  <NuxtLoadingIndicator />
+  <UApp :toaster="toaster">
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+    <BurgerMenuModal />
+    <CallSubmitModal />
+  </UApp>
 </template>
 
-
-<style lang="scss">
-	@import "~/common/scss/main";
-</style>
 <script setup lang="ts">
-	import BurgerMenuModal from "~/modules/menu/components/BurgerMenuModal.vue";
-	import CallSubmitModal from "~/common/modals/CallSubmitModal.vue";
+  import BurgerMenuModal from '~/modules/menu/components/BurgerMenuModal.vue';
+  import CallSubmitModal from '~/common/modals/CallSubmitModal.vue';
+  const toaster = { max: 3 };
 </script>
+<style lang="scss">
+  @use '~/common/scss/main';
+</style>
