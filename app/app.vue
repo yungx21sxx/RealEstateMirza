@@ -14,6 +14,4 @@
   import CallSubmitModal from '~/common/modals/CallSubmitModal.vue';
   const toaster = { max: 3 };
 </script>
-<style lang="scss">
-  @use '~/common/scss/main';
-</style>
+<style lang="scss"></style>
