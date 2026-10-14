@@ -1,91 +1,89 @@
 <script setup lang="ts">
-  import MenuMain from '~/modules/menu/components/MenuMain.vue';
-  import ListingItemCatalog from '~/modules/listing/components/shared/ListingItemCatalog.vue';
-  import GuestsInput from '~/common/inputs/GuestsInput.vue';
-  import DateRangeInput from '~/common/inputs/DateRangeInput.vue';
-  import type { LocationQuery } from 'vue-router';
-  import type { BookingFiltersDTO } from '#shared/types/dto.types';
-  import type { ListingCatalogResponse } from '#shared/types/response.types';
+import type { BookingFiltersDTO } from '#shared/types/dto.types'
+import type { ListingCatalogResponse } from '#shared/types/response.types'
+import { parseQueryToBookingFilters } from '#shared/utils/booking.utils'
+import DateRangeInput from '~/common/inputs/DateRangeInput.vue'
+import GuestsInput from '~/common/inputs/GuestsInput.vue'
+import ListingItemCatalog from '~/modules/listing/components/shared/ListingItemCatalog.vue'
+import MenuMain from '~/modules/menu/components/MenuMain.vue'
 
-  useSeoMeta({
-    title: 'Снять аппартаменты в Москве посуточно, цены на 2025 год',
-    description:
+useSeoMeta({
+  title: 'Снять аппартаменты в Москве посуточно, цены на 2025 год',
+  description:
       'Удобное расположение, стильный интерьер и проверенные объекты для комфортного проживания в Москве',
-    ogTitle: 'Снять аппартаменты в Москве посуточно, цены на 2025 год',
-    ogDescription:
+  ogTitle: 'Снять аппартаменты в Москве посуточно, цены на 2025 год',
+  ogDescription:
       'Удобное расположение, стильный интерьер и проверенные объекты для комфортного проживания в Москве',
-    ogImage: '/catalog.jpeg',
-  });
-  useHead({
-    script: [
-      {
-        type: 'application/ld+json',
-        innerHTML: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'BreadcrumbList',
-          itemListElement: [
-            {
-              '@type': 'ListItem',
-              position: 1,
-              name: 'Главная',
-              item: 'https://sky-apartaments.ru/',
-            },
-            {
-              '@type': 'ListItem',
-              position: 2,
-              name: 'Каталог',
-              item: 'https://sky-apartaments.ru/catalog',
-            },
-          ],
-        }),
-      },
-    ],
-  });
+  ogImage: '/catalog.jpeg'
+})
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+          {
+            '@type': 'ListItem',
+            'position': 1,
+            'name': 'Главная',
+            'item': 'https://sky-apartaments.ru/'
+          },
+          {
+            '@type': 'ListItem',
+            'position': 2,
+            'name': 'Каталог',
+            'item': 'https://sky-apartaments.ru/catalog'
+          }
+        ]
+      })
+    }
+  ]
+})
 
-  const route = useRoute();
-  const query = { ...route.query } as LocationQuery;
+const route = useRoute()
+const query = { ...route.query } as Parameters<typeof parseQueryToBookingFilters>[0]
 
-  const bookingFilters = useState<BookingFiltersDTO>('bookingFilters', () =>
-    parseQueryToBookingFilters(query),
-  );
+const bookingFilters = useState<BookingFiltersDTO>('bookingFilters', () =>
+  parseQueryToBookingFilters(query))
 
-  const { data, error, refresh } = await useAsyncData<{
-    listings: ListingCatalogResponse[];
-    count: number;
-  }>('listings', () =>
-    $fetch(`/api/listing/catalog`, {
+const { data, error, refresh } = await useAsyncData<{
+  listings: ListingCatalogResponse[]
+  count: number
+}>('listings', () =>
+  $fetch(`/api/listing/catalog`, {
+    query: {
+      ...bookingFilters.value
+    }
+  }))
+
+watch(
+  bookingFilters,
+  async (booking: BookingFiltersDTO) => {
+    const { checkIn, checkOut, ...guests } = booking
+
+    await refresh()
+    await navigateTo({
+      path: `/catalog`,
       query: {
-        ...bookingFilters.value,
-      },
-    }),
-  );
+        checkIn: checkIn ? checkIn.toISOString() : null,
+        checkOut: checkOut ? checkOut.toISOString() : null,
+        ...guests
+      }
+    })
+  },
+  { deep: true }
+)
 
-  watch(
-    bookingFilters,
-    async (booking) => {
-      const { checkIn, checkOut, ...guests } = booking;
-
-      await refresh();
-      await navigateTo({
-        path: `/catalog`,
-        query: {
-          checkIn: checkIn ? checkIn.toISOString() : null,
-          checkOut: checkOut ? checkOut.toISOString() : null,
-          ...guests,
-        },
-      });
-    },
-    { deep: true },
-  );
-
-  const { isMobile } = useDevice();
+const { isMobile } = useDevice()
 </script>
 
 <template>
   <header class="hero relative bg-gradient-to-b from-black/60 to-black/40">
-    <MenuMain variant="light" class="absolute z-10" />
+    <MenuMain />
     <div class="z-10 wrapper w-full">
-      <div class="text-white py-32 md:py-44 hero-content">
+      <div class="text-white py-32 md:py-38 hero-content">
         <h1
           class="font-semibold max-w-xl text-5xl max-md:text-4xl mb-4 leading-[55px] max-md:leading-[45px]"
         >
@@ -99,7 +97,7 @@
             Идеально подходят для длительного проживания, работы и отдыха.
           </p>
         </div>
-        <!--				<p class="text-xl max-md:text-base max-w-xl">Просторные апартаменты бизнес-класса с современным дизайном и удобным расположением. Идеально подходят для длительного проживания, работы и отдыха.</p>-->
+        <!--				<p class="text-xl max-md:text-base max-w-xl">Просторные апартаменты бизнес-класса с современным дизайном и удобным расположением. Идеально подходят для длительного проживания, работы и отдыха.</p> -->
       </div>
     </div>
     <NuxtImg
@@ -123,7 +121,7 @@
           :key="listing.id"
           :booking-info="bookingFilters"
           :listing="listing"
-        ></ListingItemCatalog>
+        />
       </div>
     </div>
   </div>

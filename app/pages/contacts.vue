@@ -1,13 +1,12 @@
 <script setup lang="ts">
-  import MenuMain from '~/modules/menu/components/MenuMain.vue';
-  import ContactsBlock from '~/modules/mainPage/ContactsBlock.vue';
-  import ReviewsWidget from '~/modules/mainPage/ReviewsWidget.vue';
+import ContactsBlock from '~/modules/mainPage/ContactsBlock.vue'
+import MenuMain from '~/modules/menu/components/MenuMain.vue'
 
-  useSeoMeta({
-    title: 'Sky Apartments: Контакты',
-    description:
-      'Контакты Sky Apartments: свяжитесь с нами для аренды квартир в Москве. Позвоните по телефону, напишите в WhatsApp или Telegram, отправьте заявку онлайн. Мы всегда на связи!',
-  });
+useSeoMeta({
+  title: 'Sky Apartments: Контакты',
+  description:
+      'Контакты Sky Apartments: свяжитесь с нами для аренды квартир в Москве. Позвоните по телефону, напишите в WhatsApp или Telegram, отправьте заявку онлайн. Мы всегда на связи!'
+})
 </script>
 
 <template>
@@ -21,7 +20,7 @@
       frameborder="1"
       allowfullscreen="true"
       style="position: relative; width: 100%; border-radius: 12px"
-    ></iframe>
+    />
   </div>
 </template>
 

@@ -1,0 +1,13 @@
+shellEmulator: true
+
+allowBuilds:
+  '@parcel/watcher': false
+  '@prisma/engines': true
+  '@tailwindcss/oxide': false
+  better-sqlite3: true
+  core-js: true
+  esbuild: true
+  maplibre-gl: true
+  prisma: true
+  unrs-resolver: false
+  vue-demi: false

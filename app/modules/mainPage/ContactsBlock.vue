@@ -1,17 +1,19 @@
 <script setup lang="ts">
-  import PhoneIcon from '~/modules/mainPage/icons/contacts/PhoneIcon.vue';
-  import WhatsUpIcon from '~/modules/mainPage/icons/WhatsUpIcon.vue';
-  import TelegramIcon from '~/modules/mainPage/icons/TelegramIcon.vue';
-  import AddressIcon from '~/modules/mainPage/icons/contacts/AddressIcon.vue';
-  import MailIcon from '~/modules/mainPage/icons/contacts/MailIcon.vue';
-  import CallSubmitForm from '~/common/forms/CallSubmitForm.vue';
+import CallSubmitForm from '~/common/forms/CallSubmitForm.vue'
+import AddressIcon from '~/modules/mainPage/icons/contacts/AddressIcon.vue'
+import MailIcon from '~/modules/mainPage/icons/contacts/MailIcon.vue'
+import PhoneIcon from '~/modules/mainPage/icons/contacts/PhoneIcon.vue'
+import TelegramIcon from '~/modules/mainPage/icons/TelegramIcon.vue'
+import WhatsUpIcon from '~/modules/mainPage/icons/WhatsUpIcon.vue'
 </script>
 
 <template>
   <section class="py-10 bg-block-gray" itemscope itemtype="http://schema.org/Organization">
     <div class="wrapper grid md:grid-cols-2 gap-10">
       <div>
-        <h2 class="font-bold text-2xl md:text-3xl mb-2">Мои контакты</h2>
+        <h2 class="font-bold text-2xl md:text-3xl mb-2">
+          Мои контакты
+        </h2>
         <p class="text-secondary mb-6">
           Вы можете написать свой вопрос заранее на сайте или озвучить его по телефону
         </p>
@@ -23,21 +25,25 @@
         >
           <PhoneIcon class="contact__icon" />
           <div class="contact__info">
-            <h3 class="contact__title">Телефон</h3>
+            <h3 class="contact__title">
+              Телефон
+            </h3>
             <NuxtLink
               itemprop="telephone"
               aria-label="Позвонить по телефону +7 (981) 698-11-00"
               to="tel:/+79816981100"
               class="contact__data"
-              >+7 (981) 698-11-00</NuxtLink
             >
+              +7 (981) 698-11-00
+            </NuxtLink>
             <NuxtLink
               aria-label="Позвонить по телефону +7 (993) 916-34-54"
               itemprop="telephone"
               to="tel:/+79939163454"
               class="contact__data"
-              >+7 (993) 916-34-54</NuxtLink
             >
+              +7 (993) 916-34-54
+            </NuxtLink>
             <div class="flex gap-4 mt-3 flex-wrap">
               <UButton
                 class="rounded-full py-1"
@@ -78,34 +84,42 @@
         >
           <AddressIcon class="contact__icon" />
           <div class="contact__info">
-            <h3 class="contact__title">Адрес</h3>
+            <h3 class="contact__title">
+              Адрес
+            </h3>
             <NuxtLink
               aria-label="Открыть карту"
               external
               to="https://yandex.com/maps/-/CHUZZD6-"
               class="contact__data"
               itemprop="streetAddress"
-              >Овражная улица, 47А, Новоивановское, Московская Область</NuxtLink
             >
+              Овражная улица, 47А, Новоивановское, Московская Область
+            </NuxtLink>
           </div>
         </div>
         <div class="contact">
           <MailIcon class="contact__icon" />
           <div class="contact__info">
-            <h3 class="contact__title">Почта</h3>
+            <h3 class="contact__title">
+              Почта
+            </h3>
             <NuxtLink
               aria-label="Отправить письмо на sheikhov.amin@mail.ru"
               itemprop="email"
               external
               to="mailto:sheikhov.amin@mail.ru"
               class="contact__data"
-              >sheikhov.amin@mail.ru</NuxtLink
             >
+              sheikhov.amin@mail.ru
+            </NuxtLink>
           </div>
         </div>
       </div>
       <div class="bg-white rounded-md py-4 px-8 max-md:px-4 h-fit">
-        <h4 class="font-semibold mb-4 text-xl">Оставить заявку</h4>
+        <h4 class="font-semibold mb-4 text-xl">
+          Оставить заявку
+        </h4>
         <CallSubmitForm />
       </div>
     </div>
@@ -133,8 +147,7 @@
     @apply block mb-4;
   }
 
-  /* Медиазапросы Tailwind */
-  @media (max-width: theme('screens.md')) {
+  @media (width < 48rem) {
     .contact__icon {
       @apply h-12 w-12;
     }

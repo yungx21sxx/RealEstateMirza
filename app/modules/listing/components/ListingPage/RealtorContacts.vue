@@ -1,13 +1,17 @@
 <script setup lang="ts">
-  import TelegramIcon from '~/modules/mainPage/icons/TelegramIcon.vue';
-  import WhatsUpIcon from '~/modules/mainPage/icons/WhatsUpIcon.vue';
+import TelegramIcon from '~/modules/mainPage/icons/TelegramIcon.vue'
+import WhatsUpIcon from '~/modules/mainPage/icons/WhatsUpIcon.vue'
 </script>
 
 <template>
   <div class="listing-card flex flex-col justify-center items-center">
     <NuxtImg src="/gay.jpg" class="object-cover h-16 w-16 rounded-full" />
-    <h3 class="font-semibold text-xl mt-4">Мирза</h3>
-    <NuxtLink class="text-lg mt-2" to="tel:/+79816981100">+7 (981) 698-11-00</NuxtLink>
+    <h3 class="font-semibold text-xl mt-4">
+      Мирза
+    </h3>
+    <NuxtLink class="text-lg mt-2" to="tel:/+79816981100">
+      +7 (981) 698-11-00
+    </NuxtLink>
     <div class="flex gap-2 mt-4">
       <UButton
         to="https://wa.me/79816981100"

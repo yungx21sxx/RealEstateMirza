@@ -1,9 +1,8 @@
-import { prisma } from '~~/server/service/prisma.service';
-import type { IListingFormData } from '~/modules/admin/types/formData.types';
-import type { H3Error } from 'h3';
+import type { IListingFormData } from '~/modules/admin/types/formData.types'
+import { prisma } from '~~/server/service/prisma.service'
 
-export default defineEventHandler<Promise<IListingFormData | H3Error>>(async (event) => {
-  const id = getRouterParam(event, 'id');
+export default defineEventHandler<Promise<IListingFormData>>(async (event: any) => {
+  const id = getRouterParam(event, 'id')
 
   const listing = await prisma.listing.findUnique({
     where: { id: parseInt(<string>id) },
@@ -12,35 +11,35 @@ export default defineEventHandler<Promise<IListingFormData | H3Error>>(async (ev
       pricePeriods: true,
       appliances: true,
       internetAndTV: true,
-      amenities: true,
-    },
-  });
+      amenities: true
+    }
+  })
 
   if (!listing) {
     return createError({
       statusCode: 404,
-      message: 'Объект не найден',
-    });
+      message: 'Объект не найден'
+    })
   }
 
-  const { photos, pricePeriods, appliances, amenities, internetAndTV, ...listingUpdateData } =
-    listing;
+  const { photos, pricePeriods, appliances, amenities, internetAndTV, ...listingUpdateData }
+    = listing
 
   return {
     ...listingUpdateData,
     photos: photos
       .sort((a, b) => a.position - b.position)
-      .map((photo) => ({
+      .map(photo => ({
         photoId: photo.id,
-        urlMin: photo.urlMin,
+        urlMin: photo.urlMin
       })),
-    pricePeriods: pricePeriods.map((i) => ({
+    pricePeriods: pricePeriods.map(i => ({
       startDate: i.startDate,
       endDate: i.endDate,
-      price: i.price,
+      price: i.price
     })),
-    appliances: appliances.map((i) => i.label),
-    amenities: amenities.map((i) => i.label),
-    internetAndTV: internetAndTV.map((i) => i.label),
-  };
-});
+    appliances: appliances.map(i => i.label),
+    amenities: amenities.map(i => i.label),
+    internetAndTV: internetAndTV.map(i => i.label)
+  }
+})

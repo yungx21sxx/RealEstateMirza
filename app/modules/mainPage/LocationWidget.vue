@@ -11,8 +11,7 @@
         box-sizing: border-box;
       "
       src="https://yandex.ru/maps-reviews-widget/117668261158?comments"
-    ></iframe
-    ><a
+    /><a
       href="https://yandex.com/maps/org/sky_apartment_mirza/117668261158/"
       target="_blank"
       style="
@@ -37,8 +36,7 @@
         padding: 0 16px;
         box-sizing: border-box;
       "
-      >Sky Apartment Mirza на карте Москвы и Московской области — Яндекс Карты</a
-    >
+    >Sky Apartment Mirza на карте Москвы и Московской области — Яндекс Карты</a>
   </div>
 </template>
 

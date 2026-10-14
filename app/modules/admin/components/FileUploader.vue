@@ -1,97 +1,98 @@
 <script setup lang="ts">
-  import type { PhotoUploadResponse } from '#shared/types/response.types';
-  import { VueDraggableNext } from 'vue-draggable-next';
-  import type { H3Error } from 'h3';
-  import type { FetchOptions } from 'ofetch';
+import type { PhotoUploadResponse } from '#shared/types/response.types'
+import { VueDraggableNext } from 'vue-draggable-next'
 
-  const photos = defineModel<PhotoUploadResponse[]>({ required: true });
+const photos = defineModel<PhotoUploadResponse[]>({ required: true })
 
-  const filesLoading = ref(false);
-  const files = ref<File[]>([]);
+const filesLoading = ref(false)
+const files = ref<File[]>([])
 
-  const handleFileChange = (filesInput: File[]) => {
-    // Проверяем, что событие содержит корректный target
+function handleFileChange(filesInput: File[]) {
+  // Проверяем, что событие содержит корректный target
 
-    // FileList из target.files
-    const selectedFiles = Array.from(filesInput); // Преобразуем FileList в массив
+  // FileList из target.files
+  const selectedFiles = Array.from(filesInput) // Преобразуем FileList в массив
 
-    console.log('Выбранные файлы:', selectedFiles);
+  console.log('Выбранные файлы:', selectedFiles)
 
-    files.value = [...files.value, ...selectedFiles];
-    filesInput = [];
-  };
+  files.value = [...files.value, ...selectedFiles]
+  filesInput = []
+}
 
-  async function uploadPhotos() {
-    const formData = new FormData();
-    if (files.value.length === 0) {
-      alert('Необходимо загрузить фотографии');
-      return;
-    }
-    for (let i = 0; i < files.value.length; i++) {
-      const file = files.value[i];
-      if (file) {
-        formData.append(`photo${i}`, file);
-      }
-    }
-    try {
-      filesLoading.value = true;
-
-      const photosResponse = await $fetch<PhotoUploadResponse[]>(`/api/photo/upload-photos`, {
-        method: 'POST',
-        body: formData,
-      } satisfies FetchOptions);
-
-      filesLoading.value = false;
-      files.value = [];
-
-      if (photos.value) {
-        photos.value.push(...photosResponse);
-      }
-    } catch (e) {
-      console.log(e);
+async function uploadPhotos() {
+  const formData = new FormData()
+  if (files.value.length === 0) {
+    alert('Необходимо загрузить фотографии')
+    return
+  }
+  for (let i = 0; i < files.value.length; i++) {
+    const file = files.value[i]
+    if (file) {
+      formData.append(`photo${i}`, file)
     }
   }
+  try {
+    filesLoading.value = true
 
-  interface rotateDTO {
-    target: 'left' | 'right';
-    photoId: number;
+    const photosResponse = await $fetch<PhotoUploadResponse[]>(`/api/photo/upload-photos`, {
+      method: 'POST',
+      body: formData
+    })
+
+    filesLoading.value = false
+    files.value = []
+
+    if (photos.value) {
+      photos.value.push(...photosResponse)
+    }
+  } catch (e) {
+    console.log(e)
   }
+}
 
-  const rotate = async (dto: rotateDTO) => {
-    try {
-      await $fetch('/api/photo/rotate', {
-        method: 'POST',
-        body: {
-          target: dto.target,
-          photoId: dto.photoId,
-        },
-      });
-      const index = photos.value.findIndex((p) => p.photoId === dto.photoId);
-      if (index !== -1) {
-        // Добавляем метку времени для обновления кэшированного изображения
-        photos.value[index].urlMin = `${photos.value[index].urlMin}?t=${new Date().getTime()}`;
+interface rotateDTO {
+  target: 'left' | 'right'
+  photoId: number
+}
+
+async function rotate(dto: rotateDTO) {
+  try {
+    await $fetch('/api/photo/rotate', {
+      method: 'POST',
+      body: {
+        target: dto.target,
+        photoId: dto.photoId
       }
-    } catch (e: H3Error) {
-      console.log(e.data.message);
+    })
+    const index = photos.value.findIndex((p: PhotoUploadResponse) => p.photoId === dto.photoId)
+    if (index !== -1) {
+      // Добавляем метку времени для обновления кэшированного изображения
+      photos.value[index].urlMin = `${photos.value[index].urlMin}?t=${Date.now()}`
     }
-  };
+  } catch (e: unknown) {
+    console.log((e as { data?: { message?: string } }).data?.message)
+  }
+}
 
-  const deletePhoto = async (id: number) => {
-    try {
-      await $fetch(`/api/photo/${id}`, {
-        method: 'DELETE',
-      });
-      if (photos.value) photos.value = photos.value.filter((photo) => photo.photoId !== id);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+async function deletePhoto(id: number) {
+  try {
+    await $fetch(`/api/photo/${id}`, {
+      method: 'DELETE'
+    })
+    if (photos.value)
+      photos.value = photos.value.filter((photo: PhotoUploadResponse) => photo.photoId !== id)
+  } catch (e) {
+    console.log(e)
+  }
+}
 </script>
 
 <template>
   <UCard class="-mx-4">
     <template #header>
-      <h2 class="text-xl font-semibold">Загрузка фотографий</h2>
+      <h2 class="text-xl font-semibold">
+        Загрузка фотографий
+      </h2>
     </template>
 
     <div>
@@ -113,7 +114,9 @@
         Загрузить
       </UButton>
       <div v-if="photos && photos.length > 0" class="overflow mt-4">
-        <h3 class="font-bold mb-2">Загруженные фотки</h3>
+        <h3 class="font-bold mb-2">
+          Загруженные фотки
+        </h3>
         <p>Фотографии можно менять местами и переворачивать.</p>
         <VueDraggableNext v-model="photos" class="gallery mt-4">
           <transition-group>
@@ -122,28 +125,28 @@
               :key="photo.photoId"
               class="img bg-no-repeat bg-cover h-16"
               :style="{
-                backgroundImage: `url('${photo.urlMin}')`,
+                backgroundImage: `url('${photo.urlMin}')`
               }"
             >
               <div class="image-control">
                 <UButton
                   class="delete-btn w-11"
-                  icon="i-material-symbols:delete-forever-outline"
+                  icon="i-lucide-trash-2"
                   density="compact"
                   size="md"
                   @click="deletePhoto(photo.photoId)"
-                ></UButton>
+                />
                 <div class="rotate-btns">
                   <UButton
-                    icon="i-material-symbols:rotate-left"
+                    icon="i-lucide-rotate-ccw"
                     density="compact"
                     @click="rotate({ target: 'left', photoId: photo.photoId })"
-                  ></UButton>
+                  />
                   <UButton
-                    icon="i-material-symbols:rotate-right"
+                    icon="i-lucide-rotate-cw"
                     density="compact"
                     @click="rotate({ target: 'right', photoId: photo.photoId })"
-                  ></UButton>
+                  />
                 </div>
               </div>
             </div>

@@ -1,13 +1,13 @@
-import { setCookie } from 'h3';
+import { setCookie } from 'h3'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event: any) => {
   // Очищаем cookie с токеном
   setCookie(event, 'auth_token', '', {
     httpOnly: true,
     sameSite: 'lax',
     path: '/',
-    maxAge: -1, // Удаляем cookie
-  });
+    maxAge: -1 // Удаляем cookie
+  })
 
-  return { message: 'Вы успешно вышли из системы' };
-});
+  return { message: 'Вы успешно вышли из системы' }
+})

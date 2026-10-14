@@ -1,37 +1,37 @@
-import type { IListingFormData } from '~/modules/admin/types/formData.types';
-import type { ListingCreateDTO } from '#shared/types/dto.types';
-import type { ListingSuccessCreateResponse } from '#shared/types/response.types';
-import type { H3Error } from 'h3';
+import type { ListingCreateDTO } from '#shared/types/dto.types'
+import type { ListingSuccessCreateResponse } from '#shared/types/response.types'
+import type { IListingFormData } from '~/modules/admin/types/formData.types'
 
 export default () => {
   async function fetchUpdateData(id: number): Promise<IListingFormData> {
-    const { pricePeriods, ...response } = await $fetch(`/api/admin/listing/${id}`);
+    const response = await $fetch<IListingFormData>(`/api/admin/listing/${id}`)
+    const { pricePeriods, ...rest } = response
     return {
-      ...response,
+      ...rest,
       pricePeriods: pricePeriods.map((i) => ({
         startDate: new Date(i.startDate),
         endDate: new Date(i.endDate),
-        price: i.price,
-      })),
-    };
+        price: i.price
+      }))
+    }
   }
 
   async function updateListing(
     listingId: number,
-    dto: ListingCreateDTO,
+    dto: ListingCreateDTO
   ): Promise<ListingSuccessCreateResponse> {
     try {
       return await $fetch<ListingSuccessCreateResponse>(`/api/admin/listing/${listingId}`, {
         method: 'PUT',
-        body: dto,
-      });
-    } catch (e: H3Error | any) {
-      throw e;
+        body: dto
+      })
+    } catch (e: unknown) {
+      throw e
     }
   }
 
   return {
     fetchUpdateData,
-    updateListing,
-  };
-};
+    updateListing
+  }
+}

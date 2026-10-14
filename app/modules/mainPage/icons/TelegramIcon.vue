@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  const { fill = '#818487' } = defineProps<{
-    fill?: string;
-  }>();
+const { fill = '#818487' } = defineProps<{
+  fill?: string
+}>()
 </script>
 
 <template>

@@ -1,40 +1,40 @@
+<script setup>
+import MenuMain from './MenuMain.vue'
+
+const isMenuVisible = ref(false)
+let lastScrollY = 0
+
+const route = useRoute()
+
+function handleScroll() {
+  const currentScrollY = window.scrollY
+
+  // Показываем меню, если скроллим вниз и скрываем только при старте страницы
+  if (currentScrollY > lastScrollY && currentScrollY > 200) {
+    isMenuVisible.value = true
+  } else if (currentScrollY < 100) {
+    isMenuVisible.value = false
+  }
+
+  lastScrollY = currentScrollY
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
+</script>
+
 <template>
   <transition name="slide-fade">
     <div v-if="isMenuVisible" class="header-wrapper">
-      <MenuMain variant="dark" />
+      <MenuMain />
     </div>
   </transition>
 </template>
-
-<script setup>
-  import MenuMain from './MenuMain.vue';
-
-  const isMenuVisible = ref(false);
-  let lastScrollY = 0;
-
-  const route = useRoute();
-
-  const handleScroll = () => {
-    const currentScrollY = window.scrollY;
-
-    // Показываем меню, если скроллим вниз и скрываем только при старте страницы
-    if (currentScrollY > lastScrollY && currentScrollY > 200) {
-      isMenuVisible.value = true;
-    } else if (currentScrollY < 100) {
-      isMenuVisible.value = false;
-    }
-
-    lastScrollY = currentScrollY;
-  };
-
-  onMounted(() => {
-    window.addEventListener('scroll', handleScroll);
-  });
-
-  onUnmounted(() => {
-    window.removeEventListener('scroll', handleScroll);
-  });
-</script>
 
 <style scoped lang="scss">
   .header-wrapper {

@@ -1,3 +1,72 @@
+<script setup lang="ts">
+import { FreeMode, Navigation, Pagination, Scrollbar, Thumbs, Zoom } from 'swiper/modules'
+
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import useGallery from '~/modules/listing/composables/useGallery'
+import useListing from '~/modules/listing/composables/useListing'
+import 'swiper/css'
+import 'swiper/css/free-mode'
+import 'swiper/css/navigation'
+import 'swiper/css/thumbs'
+import 'swiper/css/zoom'
+
+const { currentPhoto } = useGallery()
+
+const { listing } = useListing()
+
+interface SwiperLike {
+  activeIndex: number
+  allowSlideNext: boolean
+  allowSlidePrev: boolean
+  slideTo: (index: number, speed?: number) => void
+}
+
+const swiperController = ref<SwiperLike | null>(null)
+const thumbsSwiper = ref<SwiperLike | null>(null)
+
+function getSwiperInstance(swiper: SwiperLike) {
+  swiperController.value = swiper
+  const currentPhotoIndex = currentPhoto.value.index
+  swiperController.value?.slideTo(currentPhotoIndex, 0)
+}
+
+function onZoomChange(swiper: SwiperLike, scale: number) {
+  if (scale > 1) {
+    swiper.allowSlideNext = false
+    swiper.allowSlidePrev = false
+  } else {
+    swiper.allowSlideNext = true
+    swiper.allowSlidePrev = true
+  }
+}
+
+function setThumbsSwiper(swiper: SwiperLike) {
+  thumbsSwiper.value = swiper
+}
+
+function closeModal() {
+  currentPhoto.value.modal = false
+}
+
+function onSlideChange(swiper: SwiperLike) {
+  currentPhoto.value.index = swiper.activeIndex
+}
+
+const photos = computed(() => {
+  return listing.value.photos
+})
+
+// Срабаьывает в момент открытия и закрытия модального окна
+// watch(currentPhoto, () => {
+// 	console.log(swiperController.value?.slideTo)
+// 	const currentPhotoIndex = currentPhoto.value.index;
+// 	swiperController.value?.slideTo(currentPhotoIndex, 0)
+//
+// }, {
+// 	deep: true
+// })
+</script>
+
 <template>
   <UModal
     v-model:open="currentPhoto.modal"
@@ -5,7 +74,7 @@
     :close="{
       color: 'primary',
       variant: 'soft',
-      class: 'h-11 w-11 -mt-2',
+      class: 'rounded-full h-10 w-10 justify-center items-center flex'
     }"
   >
     <template #body>
@@ -17,10 +86,10 @@
             :zoom="true"
             :style="{
               '--swiper-navigation-color': '#7059FF',
-              '--swiper-pagination-color': '#7059FF',
+              '--swiper-pagination-color': '#7059FF'
             }"
             :pagination="{
-              type: 'fraction',
+              type: 'fraction'
             }"
             :thumbs="{ swiper: thumbsSwiper }"
             :modules="[Zoom, Pagination, Navigation, Scrollbar, Thumbs, FreeMode]"
@@ -36,7 +105,7 @@
                   :alt="listing.title"
                   class="img-preview__img"
                   :src="photo.urlFull"
-                />
+                >
               </div>
             </SwiperSlide>
           </Swiper>
@@ -46,97 +115,20 @@
     <template #footer>
       <Swiper
         :space-between="10"
-        :slides-per-view="'auto'"
+        slides-per-view="auto"
         :modules="[Pagination, Navigation, Scrollbar, Thumbs, FreeMode]"
         :free-mode="true"
         :watch-slides-progress="true"
         class="img-preview__thumbs"
         @swiper="setThumbsSwiper"
       >
-        <swiper-slide v-for="photo of photos" class="img-preview__thumbs__slide">
-          <img :alt="listing.title" class="thumbs__img" :src="photo.urlMin" />
-        </swiper-slide>
+        <SwiperSlide v-for="photo of photos" class="img-preview__thumbs__slide">
+          <img :alt="listing.title" class="thumbs__img" :src="photo.urlMin">
+        </SwiperSlide>
       </Swiper>
     </template>
   </UModal>
 </template>
-<script setup lang="ts">
-  import 'swiper/css';
-
-  import 'swiper/css/free-mode';
-  import 'swiper/css/navigation';
-  import 'swiper/css/thumbs';
-  import 'swiper/css/zoom';
-  import { Swiper, SwiperSlide } from 'swiper/vue';
-  import { Scrollbar, FreeMode, Thumbs, Pagination, Navigation, Zoom } from 'swiper/modules';
-  import useGallery from '~/modules/listing/composables/useGallery';
-  import useListing from '~/modules/listing/composables/useListing';
-
-  const { currentPhoto } = useGallery();
-
-  const { listing } = useListing();
-
-  const swiperController = ref();
-  const thumbsSwiper = ref();
-  //@ts-ignore
-  const getSwiperInstance = (swiper) => {
-    swiperController.value = swiper;
-    const currentPhotoIndex = currentPhoto.value.index;
-    swiperController.value?.slideTo(currentPhotoIndex, 0);
-  };
-  //
-  // onMounted(() => {
-  // 	const swiper = useSwiper();
-  // 	//@ts-ignore
-  // 	swiper.on('zoomChange', (_,scale) => {
-  // 		if (scale > 1) {
-  // 			swiper.allowSlideNext = false;
-  // 			swiper.allowSlidePrev = false;
-  // 		} else {
-  // 			swiper.allowSlideNext = true;
-  // 			swiper.allowSlidePrev = true;
-  // 		}
-  // 	})
-  // })
-
-  const onZoomChange = (swiper, scale) => {
-    if (scale > 1) {
-      swiper.allowSlideNext = false;
-      swiper.allowSlidePrev = false;
-    } else {
-      swiper.allowSlideNext = true;
-      swiper.allowSlidePrev = true;
-    }
-  };
-
-  //@ts-ignore
-  const setThumbsSwiper = (swiper) => {
-    thumbsSwiper.value = swiper;
-  };
-
-  const closeModal = () => {
-    currentPhoto.value.modal = false;
-  };
-
-  //@ts-ignore
-  const onSlideChange = (swiper) => {
-    currentPhoto.value.index = swiper.activeIndex;
-  };
-
-  const photos = computed(() => {
-    return listing.value.photos;
-  });
-
-  //Срабаьывает в момент открытия и закрытия модального окна
-  // watch(currentPhoto, () => {
-  // 	console.log(swiperController.value?.slideTo)
-  // 	const currentPhotoIndex = currentPhoto.value.index;
-  // 	swiperController.value?.slideTo(currentPhotoIndex, 0)
-  //
-  // }, {
-  // 	deep: true
-  // })
-</script>
 
 <style lang="scss">
   .swiper-button-prev,

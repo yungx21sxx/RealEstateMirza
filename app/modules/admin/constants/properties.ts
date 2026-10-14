@@ -7,11 +7,11 @@ export const appliancesProperties = [
   'телевизор',
   'фен',
   'утюг',
-  'кондиционер',
-];
-export const internetAndTVProperties = ['Wi-Fi', 'Телевидение', 'Smart TV'];
-export const amenitiesProperties = ['постельное белье', 'полотенца', 'средства гигиены'];
+  'кондиционер'
+]
+export const internetAndTVProperties = ['Wi-Fi', 'Телевидение', 'Smart TV']
+export const amenitiesProperties = ['постельное белье', 'полотенца', 'средства гигиены']
 
-export const balconyProperties = ['Нет', 'Балкон', 'Лоджия', 'Терраса'];
+export const balconyProperties = ['Нет', 'Балкон', 'Лоджия', 'Терраса']
 
-export const parkingProperties = ['Нет', 'На улице', 'В здании'];
+export const parkingProperties = ['Нет', 'На улице', 'В здании']

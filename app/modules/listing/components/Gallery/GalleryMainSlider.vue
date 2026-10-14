@@ -1,20 +1,54 @@
+<script setup lang="ts">
+import { FreeMode, Navigation, Pagination, Scrollbar, Thumbs } from 'swiper/modules'
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import useGallery from '~/modules/listing/composables/useGallery'
+import useListing from '~/modules/listing/composables/useListing'
+
+const { currentPhoto } = useGallery()
+
+function openGalleryModal(index: number) {
+  currentPhoto.value.index = index
+  currentPhoto.value.modal = true
+}
+
+const { listing } = useListing()
+
+const swiperController = ref()
+// @ts-ignore
+function getSwiperInstance(swiper) {
+  swiperController.value = swiper
+}
+
+// //Срабаьывает в момент открытия и закрытия модального окна
+watch(
+  currentPhoto,
+  () => {
+    swiperController.value.slideTo(currentPhoto.value.index, 0)
+  },
+  {
+    deep: true
+  }
+)
+</script>
+
 <template>
   <div class="gallery">
-    <!--		<UCarousel v-slot="{ item }" arrows :items="listing.photos" :ui="{ item: 'basis-full' }" class="rounded-lg overflow-hidden" indicators>-->
-    <!--			<div class="relative w-full">-->
-    <!--				<img :src="item.urlFull" class="w-full max-[640px]:h-[300px] max-[960px]:h-[500px] h-[450px] object-cover" draggable="false">-->
-    <!--			</div>-->
-    <!--		</UCarousel>-->
+    <!--		<UCarousel v-slot="{ item }" arrows :items="listing.photos" :ui="{ item: 'basis-full' }" class="rounded-lg overflow-hidden" indicators> -->
+    <!--			<div class="relative w-full"> -->
+    <!--				<img :src="item.urlFull" class="w-full max-[640px]:h-[300px] max-[960px]:h-[500px] h-[450px] object-cover" draggable="false"> -->
+    <!--			</div> -->
+    <!--		</UCarousel> -->
 
     <Swiper
       :space-between="16"
       :navigation="true"
       :style="{
         '--swiper-navigation-color': '#fff',
-        '--swiper-pagination-color': '#fff',
+        '--swiper-pagination-color': '#fff'
       }"
       :pagination="{
-        type: 'fraction',
+        type: 'fraction'
       }"
       :modules="[Pagination, Navigation, Scrollbar, Thumbs, FreeMode]"
       class="swiper-multiply"
@@ -25,50 +59,16 @@
         class="swiper-multiply__slide"
         @click="openGalleryModal(photo.position)"
       >
-        <img :src="photo.urlFull" class="swiper-multiply__img object-cover" :alt="listing.title" />
-        <!--				<v-card>-->
-        <!--					<v-img cover :alt="listing.title"  class="swiper-multiply__img" :src="photo.urlFull" >-->
-        <!--						<v-btn color="#FFFF" @click="openGalleryModal(photo.id)" variant="flat"  class="gallery__btn1" :icon="mdiFullscreen"></v-btn>-->
-        <!--					</v-img>-->
-        <!--				</v-card>-->
+        <img :src="photo.urlFull" class="swiper-multiply__img object-cover" :alt="listing.title">
+        <!--				<v-card> -->
+        <!--					<v-img cover :alt="listing.title"  class="swiper-multiply__img" :src="photo.urlFull" > -->
+        <!--						<v-btn color="#FFFF" @click="openGalleryModal(photo.id)" variant="flat"  class="gallery__btn1" :icon="mdiFullscreen"></v-btn> -->
+        <!--					</v-img> -->
+        <!--				</v-card> -->
       </SwiperSlide>
     </Swiper>
   </div>
 </template>
-
-<script setup lang="ts">
-  // Import Swiper Vue.js components
-  import { Swiper, SwiperSlide } from 'swiper/vue';
-  import useGallery from '~/modules/listing/composables/useGallery';
-  import useListing from '~/modules/listing/composables/useListing';
-  import { FreeMode, Navigation, Pagination, Scrollbar, Thumbs } from 'swiper/modules';
-
-  const { currentPhoto } = useGallery();
-
-  function openGalleryModal(index: number) {
-    currentPhoto.value.index = index;
-    currentPhoto.value.modal = true;
-  }
-
-  const { listing } = useListing();
-
-  const swiperController = ref();
-  //@ts-ignore
-  const getSwiperInstance = (swiper) => {
-    swiperController.value = swiper;
-  };
-
-  // //Срабаьывает в момент открытия и закрытия модального окна
-  watch(
-    currentPhoto,
-    () => {
-      swiperController.value.slideTo(currentPhoto.value.index, 0);
-    },
-    {
-      deep: true,
-    },
-  );
-</script>
 
 <style lang="scss">
   .swiper-button-next:after,

@@ -1,51 +1,54 @@
 <script setup lang="ts">
-  import type { YMap } from '@yandex/ymaps3-types';
-  import {
-    YandexMap,
-    YandexMapControls,
-    YandexMapDefaultFeaturesLayer,
-    YandexMapDefaultSchemeLayer,
-    YandexMapMarker,
-    YandexMapZoomControl,
-  } from 'vue-yandex-maps';
+import {
+  YandexMap,
+  YandexMapControls,
+  YandexMapDefaultFeaturesLayer,
+  YandexMapDefaultSchemeLayer,
+  YandexMapMarker,
+  YandexMapZoomControl,
+} from 'vue-yandex-maps'
 
-  import useListing from '~/modules/listing/composables/useListing';
+import useListing from '~/modules/listing/composables/useListing'
 
-  const { listing } = useListing();
+type YMap = object
 
-  const map = shallowRef<null | YMap>(null);
+const { listing } = useListing()
+
+const map = shallowRef<null | YMap | undefined>(null)
 </script>
 
 <template>
   <div class="map listing-card">
-    <h2 class="listing-title">Жилье на карте</h2>
-    <yandex-map
+    <h2 class="listing-title">
+      Жилье на карте
+    </h2>
+    <YandexMap
       v-model="map"
       class="map__canvas"
       :settings="{
         location: {
           center: [listing.longitude, listing.latitude],
-          zoom: 17,
-        },
+          zoom: 17
+        }
       }"
       width="100%"
     >
-      <yandex-map-default-scheme-layer />
-      <yandex-map-default-features-layer />
-      <yandex-map-controls :settings="{ position: 'right' }">
-        <yandex-map-zoom-control />
-      </yandex-map-controls>
-      <yandex-map-marker
+      <YandexMapDefaultSchemeLayer />
+      <YandexMapDefaultFeaturesLayer />
+      <YandexMapControls :settings="{ position: 'right' }">
+        <YandexMapZoomControl />
+      </YandexMapControls>
+      <YandexMapMarker
         position="top left-center"
         :settings="{
-          coordinates: [listing.longitude, listing.latitude],
+          coordinates: [listing.longitude, listing.latitude]
         }"
       >
         <div class="marker">
-          <UIcon name="i-material-symbols:house-rounded" class="h-5 w-5 text-white" />
+          <UIcon name="i-lucide-house" class="h-5 w-5 text-white" />
         </div>
-      </yandex-map-marker>
-    </yandex-map>
+      </YandexMapMarker>
+    </YandexMap>
   </div>
 </template>
 

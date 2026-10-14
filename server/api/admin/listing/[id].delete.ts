@@ -1,50 +1,51 @@
-import { prisma } from '~~/server/service/prisma.service';
-import path from 'path';
-import fs from 'fs';
-import { fileURLToPath } from 'url';
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { prisma } from '~~/server/service/prisma.service'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.resolve(path.dirname(__filename), '../../');
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.resolve(path.dirname(__filename), '../../')
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event: any) => {
   try {
-    const id = getRouterParam(event, 'id');
+    const id = getRouterParam(event, 'id')
 
     const listing = await prisma.listing.findUnique({
       where: { id: parseInt(<string>id) },
       include: {
-        photos: true,
-      },
-    });
+        photos: true
+      }
+    })
 
-    let uploadDir = '';
+    let uploadDir = ''
     if (process.env.NODE_ENV === 'development') {
-      uploadDir = './uploads';
+      uploadDir = './uploads'
     } else {
-      uploadDir = path.join(__dirname, './uploads');
+      uploadDir = path.join(__dirname, './uploads')
     }
 
-    if (!listing)
+    if (!listing) {
       return createError({
-        statusCode: 404,
-      });
+        statusCode: 404
+      })
+    }
 
     for (const photo of listing.photos) {
-      const filePathFull = uploadDir + '/' + photo.urlFull.split('/')[2];
-      const filePathMin = uploadDir + '/' + photo.urlMin.split('/')[2];
+      const filePathFull = `${uploadDir}/${photo.urlFull.split('/')[2]}`
+      const filePathMin = `${uploadDir}/${photo.urlMin.split('/')[2]}`
       if (!fs.existsSync(filePathFull) || !fs.existsSync(filePathMin)) {
-        continue;
+        continue
       }
-      fs.rmSync(filePathFull);
-      fs.rmSync(filePathMin);
+      fs.rmSync(filePathFull)
+      fs.rmSync(filePathMin)
     }
 
     return prisma.listing.delete({
       where: {
-        id: parseInt(id as string),
-      },
-    });
+        id: parseInt(id as string)
+      }
+    })
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-});
+})

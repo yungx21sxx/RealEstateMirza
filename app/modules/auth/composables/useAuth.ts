@@ -1,37 +1,37 @@
-import useAuthUser from '~/modules/auth/composables/useAuthUser';
-import type { UserResponse } from '#shared/types/auth.types';
-import { AuthAPI } from '~/modules/auth/api/auth.api';
+import type { UserResponse } from '#shared/types/auth.types'
+import { AuthAPI } from '~/modules/auth/api/auth.api'
+import useAuthUser from '~/modules/auth/composables/useAuthUser'
 
-export const useAuth = () => {
-  const authUser = useAuthUser();
+export function useAuth() {
+  const authUser = useAuthUser()
 
   const setAuthUser = (user: UserResponse | null) => {
-    authUser.value = user;
-  };
+    authUser.value = user
+  }
 
   const setCookie = (cookie: any) => {
-    cookie.value = cookie;
-  };
+    cookie.value = cookie
+  }
 
   const logout = async () => {
-    await AuthAPI.logout();
-    setAuthUser(null);
-  };
+    await AuthAPI.logout()
+    setAuthUser(null)
+  }
 
   const fetchProfile = async () => {
     try {
-      const data = await AuthAPI.fetchProfile();
+      const data = await AuthAPI.fetchProfile()
       if (data) {
-        setAuthUser(data);
+        setAuthUser(data)
       }
     } catch (error) {
-      setAuthUser(null);
+      setAuthUser(null)
     }
-  };
+  }
 
   return {
     logout,
     fetchProfile,
-    setAuthUser,
-  };
-};
+    setAuthUser
+  }
+}

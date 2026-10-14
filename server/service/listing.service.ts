@@ -1,44 +1,44 @@
-import type { ListingCreateDTO } from '#shared/types/dto.types';
-import { prisma } from '~~/server/service/prisma.service';
-import type { ListingSuccessCreateResponse } from '#shared/types/response.types';
+import type { ListingCreateDTO } from '#shared/types/dto.types'
+import type { ListingSuccessCreateResponse } from '#shared/types/response.types'
+import { prisma } from '~~/server/service/prisma.service'
 
 export default class ListingService {
   async createListing(dto: ListingCreateDTO): Promise<ListingSuccessCreateResponse> {
-    const { pricePeriods, photos, appliances, internetAndTV, amenities, ...createData } = dto;
+    const { pricePeriods, photos, appliances, internetAndTV, amenities, ...createData } = dto
     const createdListing = await prisma.listing.create({
       data: {
         ...createData,
         photos: {
-          connect: photos.map((photo) => ({ id: photo.photoId })),
+          connect: photos.map(photo => ({ id: photo.photoId }))
         },
         pricePeriods: {
-          create: pricePeriods,
+          create: pricePeriods
         },
         appliances: {
-          create: appliances.map((applince) => ({ label: applince })),
+          create: appliances.map(applince => ({ label: applince }))
         },
         internetAndTV: {
-          create: internetAndTV.map((i) => ({ label: i })),
+          create: internetAndTV.map(i => ({ label: i }))
         },
         amenities: {
-          create: amenities.map((i) => ({ label: i })),
-        },
-      },
-    });
+          create: amenities.map(i => ({ label: i }))
+        }
+      }
+    })
 
     for (const [index, photo] of photos.entries()) {
       await prisma.photo.update({
         where: {
-          id: photo.photoId,
+          id: photo.photoId
         },
         data: {
-          position: index,
-        },
-      });
+          position: index
+        }
+      })
     }
 
     return {
-      listingId: createdListing.id,
-    };
+      listingId: createdListing.id
+    }
   }
 }

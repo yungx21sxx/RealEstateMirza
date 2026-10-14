@@ -1,72 +1,70 @@
 <script setup lang="ts">
-  import useListing from '~/modules/listing/composables/useListing';
-  import { parseQueryToBookingFilters } from '#shared/utils/booking.utils';
-  import useBooking from '~/modules/listing/composables/useBooking';
-  import type { LocationQuery } from 'vue-router';
-  import MenuMain from '~/modules/menu/components/MenuMain.vue';
-  import ListingHeader from '~/modules/listing/components/ListingPage/ListingHeader.vue';
-  import ListingParams from '~/modules/listing/components/ListingPage/ListingParams.vue';
-  import ListingSetBookingInfo from '~/modules/listing/components/ListingBooking/ListingSetBookingInfo.vue';
-  import GalleryMainSlider from '~/modules/listing/components/Gallery/GalleryMainSlider.vue';
-  import GalleryFullScreenModal from '~/modules/listing/components/Gallery/GalleryFullScreenModal.vue';
-  import ListingYMap from '~/modules/listing/components/ListingPage/ListingYMap.vue';
-  import ListingDescription from '~/modules/listing/components/ListingPage/ListingDescription.vue';
-  import ListingBookingConfirmModal from '~/modules/listing/components/ListingBooking/ListingBookingConfirmModal.vue';
-  import RealtorContacts from '~/modules/listing/components/ListingPage/RealtorContacts.vue';
-  import { getRoomLabel } from '~/common/utils/listing.utils';
-  import type { NavigateToOptions } from '#app/composables/router';
+import { parseQueryToBookingFilters } from '#shared/utils/booking.utils'
+import { getRoomLabel } from '~/common/utils/listing.utils'
+import GalleryFullScreenModal from '~/modules/listing/components/Gallery/GalleryFullScreenModal.vue'
+import GalleryMainSlider from '~/modules/listing/components/Gallery/GalleryMainSlider.vue'
+import ListingBookingConfirmModal from '~/modules/listing/components/ListingBooking/ListingBookingConfirmModal.vue'
+import ListingSetBookingInfo from '~/modules/listing/components/ListingBooking/ListingSetBookingInfo.vue'
+import ListingDescription from '~/modules/listing/components/ListingPage/ListingDescription.vue'
+import ListingHeader from '~/modules/listing/components/ListingPage/ListingHeader.vue'
+import ListingParams from '~/modules/listing/components/ListingPage/ListingParams.vue'
+import ListingYMap from '~/modules/listing/components/ListingPage/ListingYMap.vue'
+import RealtorContacts from '~/modules/listing/components/ListingPage/RealtorContacts.vue'
+import useBooking from '~/modules/listing/composables/useBooking'
+import useListing from '~/modules/listing/composables/useListing'
+import MenuMain from '~/modules/menu/components/MenuMain.vue'
 
-  const { fetchListingData, listing } = useListing();
-  const { setBookingData, setPrices, bookingData } = useBooking();
+const { fetchListingData, listing } = useListing()
+const { setBookingData, setPrices, bookingData } = useBooking()
 
-  const route = useRoute();
-  const id = parseInt(route.params.id as string, 10);
-  const query = { ...route.query } as LocationQuery;
+const route = useRoute()
+const id = parseInt(route.params.id as string, 10)
+const query = { ...route.query } as Parameters<typeof parseQueryToBookingFilters>[0]
 
-  const bookingFilters = parseQueryToBookingFilters(query);
-  setBookingData(bookingFilters);
+const bookingFilters = parseQueryToBookingFilters(query)
+setBookingData(bookingFilters)
 
-  if (!isNaN(id)) {
-    await fetchListingData(id, bookingFilters);
-    const { pricePeriods, minPrice } = listing.value;
-    const prices = calculatePrices(
-      pricePeriods,
-      minPrice,
-      bookingFilters.checkIn,
-      bookingFilters.checkOut,
-    );
-    setPrices(prices);
-  } else {
-    console.error('Invalid ID');
-  }
+if (!isNaN(id)) {
+  await fetchListingData(id, bookingFilters)
+  const { pricePeriods, minPrice } = listing.value
+  const prices = calculatePrices(
+    pricePeriods,
+    minPrice,
+    bookingFilters.checkIn,
+    bookingFilters.checkOut
+  )
+  setPrices(prices)
+} else {
+  console.error('Invalid ID')
+}
 
-  watch(
-    bookingData,
-    async (booking) => {
-      const { checkIn, checkOut, ...guests } = booking;
+watch(
+  bookingData,
+  async (booking: typeof bookingData.value) => {
+    const { checkIn, checkOut, ...guests } = booking
 
-      const { pricePeriods, minPrice } = listing.value;
-      const prices = calculatePrices(pricePeriods, minPrice, checkIn, checkOut);
-      setPrices(prices);
-      await navigateTo({
-        path: `/listing/${listing.value.id}`,
-        query: {
-          checkIn: checkIn ? checkIn?.toISOString() : null,
-          checkOut: checkOut ? checkOut?.toISOString() : null,
-          ...guests,
-        },
-      });
-    },
-    { deep: true },
-  );
+    const { pricePeriods, minPrice } = listing.value
+    const prices = calculatePrices(pricePeriods, minPrice, checkIn, checkOut)
+    setPrices(prices)
+    await navigateTo({
+      path: `/listing/${listing.value.id}`,
+      query: {
+        checkIn: checkIn ? checkIn?.toISOString() : null,
+        checkOut: checkOut ? checkOut?.toISOString() : null,
+        ...guests
+      }
+    })
+  },
+  { deep: true }
+)
 
-  useSeoMeta({
-    title: `Sky apartments: ${listing.value.title}`,
-    description: `Аренда квартиры в ${listing.value.address} с ${listing.value.roomCount} комнатами, ${listing.value.area} м². Цена от ${listing.value.minPrice} руб. в месяц. Уютная и удобная для ${listing.value.places} человек.`,
-    ogTitle: `Sky apartments: ${listing.value.title}`,
-    ogDescription: `Аренда квартиры: ${getRoomLabel(listing.value.roomCount)}, ${listing.value.address}, ${listing.value.area} м². Цена от ${listing.value.minPrice} руб. в месяц. Уютная и удобная для ${listing.value.places} человек.`,
-    ogImage: listing.value.photos[0].urlFull,
-  });
+useSeoMeta({
+  title: `Sky apartments: ${listing.value.title}`,
+  description: `Аренда квартиры в ${listing.value.address} с ${listing.value.roomCount} комнатами, ${listing.value.area} м². Цена от ${listing.value.minPrice} руб. в месяц. Уютная и удобная для ${listing.value.places} человек.`,
+  ogTitle: `Sky apartments: ${listing.value.title}`,
+  ogDescription: `Аренда квартиры: ${getRoomLabel(listing.value.roomCount)}, ${listing.value.address}, ${listing.value.area} м². Цена от ${listing.value.minPrice} руб. в месяц. Уютная и удобная для ${listing.value.places} человек.`,
+  ogImage: listing.value.photos[0]?.urlFull ?? '/catalog.jpeg'
+})
 </script>
 
 <template>

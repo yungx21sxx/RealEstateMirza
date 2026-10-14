@@ -1,5 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-export default defineNuxtConfig({
+const config = {
   devtools: { enabled: true },
   modules: [
     '@nuxt/ui',
@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     'vue-yandex-maps/nuxt',
     '@nuxtjs/seo',
-    '@nuxt/eslint',
+    '@nuxt/eslint'
   ],
   css: ['~/common/css/main.css'],
   routeRules: {
@@ -17,60 +17,61 @@ export default defineNuxtConfig({
     '/contacts': { sitemap: { priority: 0.6, changefreq: 'yearly' } },
     '/obrabotka_personalnyh_dannyh': { sitemap: { priority: 0.1, changefreq: 'never' } },
     '/api/**': { cors: true },
-    '/admin/**': { sitemap: false, robots: false },
+    '/admin/**': { sitemap: false, robots: false }
   },
   sitemap: {
     xsl: false,
-    sources: ['/api/__sitemap__/urls'],
+    sources: ['/api/__sitemap__/urls']
   },
   nitro: {
     minify: true,
-    serveStatic: false,
+    serveStatic: true,
     compressPublicAssets: {
       brotli: true,
-      gzip: true,
-    },
+      gzip: true
+    }
   },
   googleFonts: {
     families: {
-      Rubik: true,
-    },
+      Inter: true
+    }
   },
   yandexMaps: {
-    apikey: '3f9c10df-563a-4f31-9dc7-32dab70c1e14',
+    apikey: '3f9c10df-563a-4f31-9dc7-32dab70c1e14'
   },
   colorMode: {
-    preference: 'light',
+    preference: 'light', // устанавливает предпочтение на светлую тему
+    fallback: 'light', // устанавливает светлую тему как fallback
+    dataValue: 'light', // атрибут data-* будет всегда 'light'
+    storageKey: 'nuxt-color-mode'
   },
   vite: {
     build: {
       rollupOptions: {
         output: {
-          manualChunks(id) {
+          manualChunks(id: string) {
             if (id.includes('node_modules')) {
-              if (id.includes('v-calendar') || id.includes('@popperjs/core')) return 'calendar';
-              if (id.includes('vue-tel-input')) return 'telinput';
-              if (id.includes('vue-draggable-next')) return 'vue-draggable-next';
-              if (id.includes('swiper')) return 'swiper';
-              if (id.includes('libphonenumber-js')) return 'phone';
-              if (id.includes('@vue')) return 'vue';
+              if (id.includes('v-calendar') || id.includes('@popperjs/core'))
+                return 'calendar'
+              if (id.includes('swiper'))
+                return 'swiper'
             }
-          },
-        },
-      },
-    },
+          }
+        }
+      }
+    }
   },
   sourcemap: {
     server: process.env.NODE_ENV === 'development',
-    client: process.env.NODE_ENV === 'development',
+    client: process.env.NODE_ENV === 'development'
   },
   site: {
-    url: 'https://sky-apartaments.ru/',
+    url: 'https://sky-apartaments.ru/'
   },
   app: {
     head: {
       htmlAttrs: {
-        lang: 'ru',
+        lang: 'ru'
       },
       link: [
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
@@ -78,17 +79,18 @@ export default defineNuxtConfig({
         { rel: 'icon', sizes: '16x16', type: 'image/png', href: '/favicon-16x16.png' },
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
         { rel: 'manifest', href: '/site.webmanifest' },
-        { rel: 'mask-icon', color: '#ffffff', href: '/safari-pinned-tab.svg' },
+        { rel: 'mask-icon', color: '#ffffff', href: '/safari-pinned-tab.svg' }
       ],
       meta: [
         { name: 'msapplication-TileColor', content: '#ffffff' },
         { name: 'theme-color', content: '#ffffff' },
         { charset: 'utf-16' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no' },
-        { name: 'format-detection', content: 'telephone=no' },
-      ],
-    },
+        { name: 'format-detection', content: 'telephone=no' }
+      ]
+    }
   },
+  compatibilityDate: '2024-11-23'
+}
 
-  compatibilityDate: '2024-11-23',
-});
+export default defineNuxtConfig(config as any)

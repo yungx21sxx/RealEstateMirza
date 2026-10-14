@@ -1,15 +1,17 @@
 <script setup lang="ts">
-  import useListing from '~/modules/listing/composables/useListing';
-  import { getRoomLabel } from '~/common/utils/listing.utils';
+import { getRoomLabel } from '~/common/utils/listing.utils'
+import useListing from '~/modules/listing/composables/useListing'
 
-  const { listing } = useListing();
+const { listing } = useListing()
 
-  const detailsModal = ref(false);
+const detailsModal = ref(false)
 </script>
 
 <template>
   <div class="listing-card">
-    <h2 class="listing-title">О квартире</h2>
+    <h2 class="listing-title">
+      О квартире
+    </h2>
 
     <div class="max-[640px]:block grid grid-cols-2">
       <ul>
@@ -40,8 +42,9 @@
         variant="link"
         class="max-[640px]:block hidden p-0 mt-4 text-accent text-base"
         @click="detailsModal = true"
-        >Показать все</UButton
       >
+        Показать все
+      </UButton>
       <ul class="max-[640px]:hidden">
         <li>
           Техника: <strong>{{ listing.appliances.join(', ') }}</strong>
@@ -58,7 +61,9 @@
       </ul>
     </div>
 
-    <h2 class="listing-title mt-6">Правила</h2>
+    <h2 class="listing-title mt-6">
+      Правила
+    </h2>
 
     <div class="max-[640px]:block max-[640px]:space-y-4 grid grid-cols-2">
       <ul>

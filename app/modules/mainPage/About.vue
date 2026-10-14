@@ -1,17 +1,17 @@
 <script setup lang="ts">
-  import TimeIcon from '~/modules/mainPage/icons/about/TimeIcon.vue';
-  import ReviewIcon from '~/modules/mainPage/icons/about/ReviewIcon.vue';
-  import TelegramIcon from '~/modules/mainPage/icons/TelegramIcon.vue';
-  import WhatsUpIcon from '~/modules/mainPage/icons/WhatsUpIcon.vue';
+import ReviewIcon from '~/modules/mainPage/icons/about/ReviewIcon.vue'
+import TimeIcon from '~/modules/mainPage/icons/about/TimeIcon.vue'
+import TelegramIcon from '~/modules/mainPage/icons/TelegramIcon.vue'
+import WhatsUpIcon from '~/modules/mainPage/icons/WhatsUpIcon.vue'
 
-  const img = useImage();
+const img = useImage()
 
-  const backgroundImage = computed(() => {
-    const imgUrl = img('/gay.jpg', { format: 'webp' });
-    return {
-      backgroundImage: `url('${imgUrl}')`,
-    };
-  });
+const backgroundImage = computed(() => {
+  const imgUrl = img('/gay.jpg', { format: 'webp' })
+  return {
+    backgroundImage: `url('${imgUrl}')`
+  }
+})
 </script>
 
 <template>
@@ -34,11 +34,15 @@
       >
         <li class="flex items-center gap-3">
           <TimeIcon class="shrink-0 max-sm:h-6 max-sm:w-6" />
-          <div class="font-medium"><strong class="mr-1">5 лет</strong> опыта в аренде</div>
+          <div class="font-medium">
+            <strong class="mr-1">5 лет</strong> опыта в аренде
+          </div>
         </li>
         <li class="flex items-center gap-3">
           <ReviewIcon class="shrink-0 max-sm:h-6 max-sm:w-6" />
-          <div class="font-medium"><strong class="mr-1">~10 000</strong> довольных клиентов</div>
+          <div class="font-medium">
+            <strong class="mr-1">~10 000</strong> довольных клиентов
+          </div>
         </li>
       </ul>
       <div
@@ -50,8 +54,7 @@
           title="Отзывы на Яндекс Картах"
           style="width: 100%; height: 100%; box-sizing: border-box; background: #fafafa"
           src="https://yandex.ru/maps-reviews-widget/117668261158?comments"
-        >
-        </iframe>
+        />
       </div>
     </div>
     <div
@@ -61,8 +64,12 @@
       <div
         class="bg-white/80 rounded-md p-4 flex flex-col justify-center items-center text-center gap-1"
       >
-        <h3 itemprop="name" class="font-semibold">Мирза Шихабудинов</h3>
-        <p class="text-secondary text-sm">Риелтор</p>
+        <h3 itemprop="name" class="font-semibold">
+          Мирза Шихабудинов
+        </h3>
+        <p class="text-secondary text-sm">
+          Риелтор
+        </p>
         <div class="flex gap-4 mt-2">
           <NuxtLink
             to="https://wa.me/79816981100"

@@ -1,80 +1,78 @@
-import { IListingFormData } from '~/modules/admin/types/formData.types';
-import type { H3Error } from 'h3';
-import type { ListingSuccessCreateResponse } from '#shared/types/response.types';
-import type { ListingCreateDTO } from '#shared/types/dto.types';
-import { prisma } from '~~/server/service/prisma.service';
+import type { ListingCreateDTO } from '#shared/types/dto.types'
+import type { ListingSuccessCreateResponse } from '#shared/types/response.types'
+import { prisma } from '~~/server/service/prisma.service'
 
-export default defineEventHandler<Promise<ListingSuccessCreateResponse | H3Error>>(
-  async (event) => {
-    const id = parseInt(getRouterParam(event, 'id') as string);
-    const dto = await readBody<ListingCreateDTO>(event);
+export default defineEventHandler<Promise<ListingSuccessCreateResponse>>(
+  async (event: any) => {
+    const id = parseInt(getRouterParam(event, 'id') as string)
+    const dto = await readBody<ListingCreateDTO>(event)
 
-    const { pricePeriods, photos, appliances, internetAndTV, amenities, ...updateData } = dto;
+    const { pricePeriods, photos, appliances, internetAndTV, amenities, ...updateData } = dto
 
     for (const [index, photo] of photos.entries()) {
       await prisma.photo.update({
         where: {
-          id: photo.photoId,
+          id: photo.photoId
         },
         data: {
-          position: index,
-        },
-      });
+          position: index
+        }
+      })
     }
 
     await prisma.pricePeriod.deleteMany({
       where: {
-        listingId: id,
-      },
-    });
+        listingId: id
+      }
+    })
     for (const period of pricePeriods) {
       await prisma.pricePeriod.create({
         data: {
           listingId: id,
           price: period.price,
           startDate: new Date(period.startDate),
-          endDate: new Date(period.endDate),
-        },
-      });
+          endDate: new Date(period.endDate)
+        }
+      })
     }
 
     await prisma.amenity.deleteMany({
       where: {
-        listingId: id,
-      },
-    });
+        listingId: id
+      }
+    })
     await prisma.appliances.deleteMany({
       where: {
-        listingId: id,
-      },
-    });
+        listingId: id
+      }
+    })
     await prisma.internetAndTV.deleteMany({
       where: {
-        listingId: id,
-      },
-    });
+        listingId: id
+      }
+    })
 
     const updatedListing = await prisma.listing.update({
       where: { id },
       data: {
         ...updateData,
         photos: {
-          connect: photos.map((photo) => ({ id: photo.photoId })),
+          connect: photos.map((photo: ListingCreateDTO['photos'][number]) => ({ id: photo.photoId }))
         },
         appliances: {
-          create: appliances.map((applince) => ({ label: applince })),
+          create: appliances.map((appliance: string) => ({ label: appliance }))
         },
         internetAndTV: {
-          create: internetAndTV.map((i) => ({ label: i })),
+          create: internetAndTV.map((i: string) => ({ label: i }))
         },
         amenities: {
-          create: amenities.map((i) => ({ label: i })),
-        },
-      },
-    });
+          create: amenities.map((i: string) => ({ label: i }))
+        }
+      }
+    })
 
     return {
-      listingId: updatedListing.id,
-    };
-  },
-);
+      listingId: updatedListing.id
+    }
+  }
+)

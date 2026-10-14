@@ -1,120 +1,127 @@
+<script setup lang="ts">
+import useAuthUser from '~/modules/auth/composables/useAuthUser'
+import useBurgerMenu from '~/modules/menu/composables/useBurgerMenu'
+import useLinks from '~/modules/menu/composables/useLinks'
+import MainLogo from '~/modules/menu/icons/MainLogo.vue'
+
+const { open } = useBurgerMenu()
+
+const authUser = useAuthUser()
+
+const links = useLinks()
+
+function getLinkIcon(to: string) {
+  const icons: Record<string, string> = {
+    '/': 'i-lucide-house',
+    '/contacts': 'i-lucide-phone-call',
+    '/catalog': 'i-lucide-building-2'
+  }
+
+  return icons[to] ?? 'i-lucide-circle'
+}
+
+const navigationItems = computed(() =>
+  links.value.map(link => ({
+    label: link.label,
+    to: link.to,
+    icon: getLinkIcon(link.to),
+    active: link.isActive,
+    class: 'min-h-9'
+  }))
+)
+</script>
+
 <template>
-  <nav :class="['w-full', variant === 'dark' ? 'nav_dark' : 'nav_light']">
-    <div class="wrapper py-2 flex items-center">
+  <nav class="menu-main w-full border-b border-black/10">
+    <div class="wrapper h-14 flex items-center gap-3">
       <NuxtLink
         to="/"
         external
         title="Главная страница"
         aria-label="Главная страница"
-        class="block md:pr-6 md:border-r border-text-primary"
+        class="block shrink-0 pr-3 lg:pr-4"
       >
-        <MainLogo :variant="variant" />
+        <MainLogo />
       </NuxtLink>
-      <div class="ml-6 hidden md:flex items-center">
-        <NuxtLink
-          v-for="link of links"
-          :key="link.to"
-          :to="link.to"
-          :class="[
-            'mr-6 flex items-center gap-2 hover:dark:bg-gray-100',
-            {
-              '!text-accent': link.isActive,
-              'hover:text-secondary': !link.isActive,
-            },
-          ]"
-          :aria-label="link.label"
-          :title="link.label"
-          :aria-current="link.isActive ? 'page' : undefined"
+
+      <UNavigationMenu
+        :items="navigationItems"
+        color="neutral"
+        class="hidden lg:flex min-w-0"
+        :ui="{
+          root: 'min-w-0',
+          list: 'gap-1',
+          link: 'px-3 py-2 text-sm'
+        }"
+      />
+
+      <div class="hidden lg:flex items-center gap-1.5 ml-auto">
+        <UButton
+          v-if="authUser && authUser.role === 'ADMIN'"
+          to="/admin/create-listing"
+          icon="i-lucide-plus"
+          variant="soft"
+          color="primary"
+          size="sm"
         >
-          <UIcon class="h-4 w-4" :name="link.icon" />
-          <span>{{ link.label }}</span>
-        </NuxtLink>
-      </div>
-      <div class="hidden md:flex items-center gap-4 ml-auto">
-        <UButton v-if="authUser && authUser.role === 'ADMIN'" to="/admin/create-listing"
-          >Создать объект</UButton
-        >
-        <NuxtLink
+          Создать
+        </UButton>
+
+        <UButton
           v-else
-          :class="[
-            'rounded-full h-10 px-4 flex items-center active transition-all',
-            variant === 'light'
-              ? 'bg-white/10 hover:bg-white/20 '
-              : 'bg-gray-100 hover:bg-gray-200',
-          ]"
+          variant="soft"
+          color="neutral"
+          icon="i-lucide-phone"
           to="tel:/+79816981100"
           title="Позвонить"
           aria-label="Позвонить"
+          size="sm"
         >
-          <UIcon name="i-prime:phone" class="h-6 w-6" />
-          <span class="ml-2"> +7 (981) 698-11-00 </span>
-        </NuxtLink>
+          <span class="max-[1320px]:hidden">+7 (981) 698-11-00</span>
+        </UButton>
 
-        <NuxtLink
+        <UButton
           to="https://wa.me/79816981100"
-          class="bg-accent rounded-full h-10 w-10 p-0 flex justify-center items-center hover:bg-accent-200 transition-all"
+          variant="soft"
+          color="primary"
+          icon="i-lucide-message-circle"
+          class="h-9 w-9 justify-center"
           aria-label="Написать в WhatsApp"
           title="Написать в WhatsApp"
-        >
-          <WhatsIcon class="h-5 w-5" />
-        </NuxtLink>
+          size="sm"
+        />
 
-        <NuxtLink
+        <UButton
           to="https://t.me/Mir_durov"
-          class="bg-accent rounded-full h-10 w-10 p-0 flex justify-center items-center hover:bg-accent-200 transition-all"
+          variant="soft"
+          color="primary"
+          icon="i-lucide-send"
+          class="h-9 w-9 justify-center"
           aria-label="Написать в Telegram"
           title="Написать в Telegram"
-        >
-          <TelegramIcon class="h-5 w-5" />
-        </NuxtLink>
+          size="sm"
+        />
       </div>
-      <button
-        class="block md:hidden p-0 ml-auto"
+
+      <UButton
+        class="lg:hidden ml-auto"
+        color="neutral"
+        variant="ghost"
+        icon="i-lucide-menu"
+        size="sm"
+        square
         aria-label="Открыть меню"
         title="Открыть меню"
         @click="open()"
-      >
-        <BurgerIcon :variant="variant" class="h-6 w-6" />
-      </button>
+      />
     </div>
   </nav>
 </template>
 
-<script setup lang="ts">
-  import useBurgerMenu from '~/modules/menu/composables/useBurgerMenu';
-  import type { MenuVariants } from '~/modules/menu/types/menu.types';
-  import MainLogo from '~/modules/menu/icons/MainLogo.vue';
-  import useLinks from '~/modules/menu/composables/useLinks';
-  import WhatsIcon from '~/modules/menu/icons/WhatsIcon.vue';
-  import TelegramIcon from '~/modules/menu/icons/TelegramIcon.vue';
-  import BurgerIcon from '~/modules/menu/icons/BurgerIcon.vue';
-  import useAuthUser from '~/modules/auth/composables/useAuthUser';
-
-  const { open } = useBurgerMenu();
-
-  const props = withDefaults(
-    defineProps<{
-      variant?: MenuVariants;
-    }>(),
-    {
-      variant: 'dark',
-    },
-  );
-
-  const authUser = useAuthUser();
-
-  const links = useLinks();
-</script>
-
 <style lang="scss" scoped>
-  .nav_dark {
+  .menu-main {
     box-shadow: var(--shadow-card);
-    background: white;
-  }
-
-  .nav_light {
-    a {
-      color: #fff;
-    }
+    background: color-mix(in srgb, white 92%, var(--color-block-gray));
+    backdrop-filter: blur(10px);
   }
 </style>

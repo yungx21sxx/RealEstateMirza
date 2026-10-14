@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  import WhatsUpIcon from '~/modules/mainPage/icons/WhatsUpIcon.vue';
-  import TelegramIcon from '~/modules/mainPage/icons/TelegramIcon.vue';
-  import PhoneIcon from '~/modules/mainPage/icons/contacts/PhoneIcon.vue';
+import PhoneIcon from '~/modules/mainPage/icons/contacts/PhoneIcon.vue'
+import TelegramIcon from '~/modules/mainPage/icons/TelegramIcon.vue'
+import WhatsUpIcon from '~/modules/mainPage/icons/WhatsUpIcon.vue'
 </script>
 
 <template>
@@ -29,25 +29,48 @@
         <p class="text-gray-300 mb-5 mt-4">
           Сдача квартир посуточно с гарантией надежности и максимальной доходности.
         </p>
-        <div class="text-gray-500 text-sm">Sky Apartments 2024 © Все права защещены</div>
-      </div>
-      <div>
-        <h4 class="font-semibold text-xl">Карта сайта</h4>
-        <div class="links flex md:flex-col flex-wrap gap-4 text-gray-200 mt-4">
-          <NuxtLink to="/">Главная</NuxtLink>
-          <NuxtLink to="/contacts">Контакты</NuxtLink>
-          <NuxtLink to="/catalog">Апартаменты</NuxtLink>
-          <NuxtLink to="/obrabotka_personalnyh_dannyh">Обработка персональных данных</NuxtLink>
+        <div class="text-gray-500 text-sm">
+          Sky Apartments 2024 © Все права защещены
         </div>
       </div>
       <div>
-        <h4 class="font-semibold text-xl mb-4">Контакты</h4>
+        <h4 class="font-semibold text-xl">
+          Карта сайта
+        </h4>
+        <div class="links flex md:flex-col flex-wrap gap-4 text-gray-200 mt-4">
+          <NuxtLink to="/">
+            Главная
+          </NuxtLink>
+          <NuxtLink to="/contacts">
+            Контакты
+          </NuxtLink>
+          <NuxtLink to="/catalog">
+            Апартаменты
+          </NuxtLink>
+          <NuxtLink to="/obrabotka_personalnyh_dannyh">
+            Согласие на обработку персональных данных
+          </NuxtLink>
+          <NuxtLink to="/politika_konfidencialnosti">
+            Политика конфиденциальности
+          </NuxtLink>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-semibold text-xl mb-4">
+          Контакты
+        </h4>
         <div class="contact">
           <PhoneIcon class="contact__icon" />
           <div class="contact__info">
-            <div class="contact__title">Телефон:</div>
-            <NuxtLink to="tel:/+79816981100" class="contact__data">+7 (981) 698-11-00</NuxtLink>
-            <NuxtLink to="tel:/+79939163454" class="contact__data">+7 (993) 916-34-54</NuxtLink>
+            <div class="contact__title">
+              Телефон:
+            </div>
+            <NuxtLink to="tel:/+79816981100" class="contact__data">
+              +7 (981) 698-11-00
+            </NuxtLink>
+            <NuxtLink to="tel:/+79939163454" class="contact__data">
+              +7 (993) 916-34-54
+            </NuxtLink>
             <div class="flex gap-4 mt-3 flex-wrap">
               <UButton
                 class="rounded-full py-1"
@@ -74,13 +97,13 @@
             </div>
           </div>
         </div>
-        <!--				<div class="contact">-->
-        <!--					<UIcon name="i-prime:map-marker" class="contact__icon"/>-->
-        <!--					<div class="contact__info">-->
-        <!--						<div class="contact__title">Адрес:</div>-->
-        <!--						<NuxtLink class="contact__data">Овражная улица, 47А, Новоивановское, Московская Область</NuxtLink>-->
-        <!--					</div>-->
-        <!--				</div>-->
+        <!--				<div class="contact"> -->
+        <!--					<UIcon name="i-prime:map-marker" class="contact__icon"/> -->
+        <!--					<div class="contact__info"> -->
+        <!--						<div class="contact__title">Адрес:</div> -->
+        <!--						<NuxtLink class="contact__data">Овражная улица, 47А, Новоивановское, Московская Область</NuxtLink> -->
+        <!--					</div> -->
+        <!--				</div> -->
       </div>
     </div>
   </footer>

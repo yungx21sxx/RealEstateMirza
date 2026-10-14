@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import MenuFixed from '~/modules/menu/components/MenuFixed.vue';
-  import CFooter from '~/common/CFooter.vue';
+import CFooter from '~/common/CFooter.vue'
+import MenuFixed from '~/modules/menu/components/MenuFixed.vue'
 </script>
 
 <template>

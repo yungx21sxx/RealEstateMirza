@@ -1,4 +1,4 @@
-import type { IListingFormData } from '~/modules/admin/types/formData.types';
+import type { IListingFormData } from '~/modules/admin/types/formData.types'
 
 export default () => {
   const listingFormData: globalThis.Ref<IListingFormData> = useState('listing-form-data', () => ({
@@ -28,10 +28,10 @@ export default () => {
     monthlyRental: false,
     withAnimals: false,
     places: null,
-    parkingDescription: null,
-  }));
+    parkingDescription: null
+  }))
 
   return {
-    listingFormData,
-  };
-};
+    listingFormData
+  }
+}

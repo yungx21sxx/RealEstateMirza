@@ -1,67 +1,84 @@
 <script setup lang="ts">
-  import useBooking from '~/modules/listing/composables/useBooking';
-  import DateRangeInput from '~/common/inputs/DateRangeInput.vue';
-  import GuestsInput from '~/common/inputs/GuestsInput.vue';
-  import PhoneInput from '~/common/inputs/PhoneInput.vue';
-  import { parsePhone } from '#shared/utils/booking.utils';
-  import type { BookingCreateDTO } from '#shared/types/booking.types';
-  import type { FormError, FormSubmitEvent } from '#ui/types';
-  import useTelegram from '~/common/composables/useTelegram';
-  import useListing from '~/modules/listing/composables/useListing';
+import type { BookingCreateDTO } from '#shared/types/booking.types'
+import type { FormError } from '#ui/types'
+import { parsePhone } from '#shared/utils/booking.utils'
+import useTelegram from '~/common/composables/useTelegram'
+import DateRangeInput from '~/common/inputs/DateRangeInput.vue'
+import GuestsInput from '~/common/inputs/GuestsInput.vue'
+import useBooking from '~/modules/listing/composables/useBooking'
+import useListing from '~/modules/listing/composables/useListing'
 
-  const { bookingConfirmModal, bookingData, calculatedPrices } = useBooking();
-  const { listing } = useListing();
-  const { isMobile } = useDevice();
+const { bookingConfirmModal, bookingData, calculatedPrices } = useBooking()
+const { listing } = useListing()
+const { isMobile } = useDevice()
 
-  const methods = ['По телефону', 'Whats up', 'Telegram'];
+const methods = ['По телефону', 'Whats up', 'Telegram']
 
-  interface BookingFormState {
-    userName?: string;
-    userPhone?: string;
-    comment?: string;
-    communication: string;
+interface BookingFormState {
+  userName?: string
+  userPhone?: string
+  comment?: string
+  communication: string
+  personalDataConsent: boolean
+}
+
+const state = ref<BookingFormState>({
+  userName: undefined,
+  userPhone: undefined,
+  comment: undefined,
+  communication: 'По телефону',
+  personalDataConsent: false
+})
+
+watch(bookingConfirmModal, () => {
+  state.value.personalDataConsent = false
+})
+
+async function validateState(state: BookingFormState): Promise<FormError[]> {
+  const errors = []
+  const formatedPhone = state.userPhone ? await parsePhone(state.userPhone) : null
+  if (!state.userName)
+    errors.push({ name: 'userName', message: 'Введите имя' })
+  if (!state.userPhone || !formatedPhone)
+    errors.push({ name: 'userPhone', message: 'Введите телефон в корректном формате' })
+  if (!state.personalDataConsent)
+    errors.push({ name: 'personalDataConsent', message: 'Необходимо согласие на обработку персональных данных' })
+  return errors
+}
+const loading = ref(false)
+async function onSubmit() {
+  const { userPhone, userName, comment, communication, personalDataConsent } = state.value
+  const { checkIn, checkOut } = bookingData.value
+  const prices = calculatedPrices.value
+  if (loading.value || !personalDataConsent || !userPhone || !userName || !checkIn || !checkOut || !prices || !listing.value) {
+    return
   }
-
-  const state = ref<BookingFormState>({
-    userName: undefined,
-    userPhone: undefined,
-    comment: undefined,
-    communication: 'По телефону',
-  });
-
-  async function validateState(state: any): Promise<FormError[]> {
-    const errors = [];
-    const formatedPhone = await parsePhone(state.userPhone);
-    if (!state.userName) errors.push({ path: 'userName', message: 'Введите имя' });
-    if (!state.userPhone || !formatedPhone)
-      errors.push({ path: 'userPhone', message: 'Введите телефон в корректном формате' });
-    return errors;
+  const dto: BookingCreateDTO = {
+    checkIn,
+    checkOut,
+    adults: bookingData.value.adults,
+    childrenAges: bookingData.value.childrenAges,
+    childrenCount: bookingData.value.childrenCount,
+    userPhone,
+    userName,
+    comment: comment ?? '',
+    communication,
+    listingId: listing.value.id,
+    ...prices
   }
-  const loading = ref(false);
-  async function onSubmit(event: FormSubmitEvent<BookingFormState>) {
-    const { userPhone, ...formData } = state.value;
-    const dto: BookingCreateDTO = {
-      checkIn: bookingData.value.checkIn,
-      checkOut: bookingData.value.checkOut,
-      adults: bookingData.value.adults,
-      childrenAges: bookingData.value.childrenAges,
-      childrenCount: bookingData.value.childrenCount,
-      userPhone,
-      ...formData,
-      ...calculatedPrices.value,
-    };
-    const { sendBookingInfo } = useTelegram();
-    try {
-      loading.value = true;
-      await sendBookingInfo(dto, `https://sky-apartaments.ru/listing/${listing.value.id}`);
-      bookingConfirmModal.value = false;
-      const toast = useToast();
-      toast.add({ title: 'Заявка успешно отправлена!' });
-    } catch (e) {
-    } finally {
-      loading.value = false;
-    }
+  const { sendBookingInfo } = useTelegram()
+  try {
+    loading.value = true
+    await sendBookingInfo(dto, `https://sky-apartaments.ru/listing/${listing.value.id}`)
+    bookingConfirmModal.value = false
+    const toast = useToast()
+    toast.add({ title: 'Заявка успешно отправлена!' })
+  } catch {
+    useToast().add({ title: 'Не удалось отправить заявку', description: 'Попробуйте позже.', color: 'error' })
+  } finally {
+    loading.value = false
   }
+}
 </script>
 
 <template>
@@ -71,7 +88,7 @@
         <DateRangeInput v-model="bookingData" block target="listing-page" />
         <GuestsInput v-model="bookingData" block target="listing-page" />
         <UFormField name="userPhone" label="Номер телефона">
-          <PhoneInput v-model="state.userPhone" />
+          <UInput v-model="state.userPhone" class="w-full" />
         </UFormField>
         <UFormField name="userName" label="Как вас зовут?">
           <UInput v-model="state.userName" class="w-full" />
@@ -84,13 +101,23 @@
         <UFormField name="comment" label="Комментарий (необязательно)">
           <UTextarea v-model="state.comment" autoresize class="w-full" />
         </UFormField>
-        <UButton block :loading="loading" type="submit">Оставить заявку</UButton>
-        <p class="text-gray-500 mt-6 text-sm text-center max-md:text-xs">
-          Нажимая кнопку "Оставить заявку", вы соглашаетесь с условиями
-          <NuxtLink to="/obrabotka_personalnyh_dannyh" class="text-main"
-            >обработки персональных данных</NuxtLink
-          >
-        </p>
+        <UFormField name="personalDataConsent">
+          <UCheckbox v-model="state.personalDataConsent" :disabled="loading" required>
+            <template #label>
+              Я даю
+              <NuxtLink to="/obrabotka_personalnyh_dannyh" target="_blank" rel="noopener noreferrer" class="text-accent-700 underline underline-offset-2" @click.stop>
+                согласие на обработку персональных данных
+              </NuxtLink>
+              и ознакомлен(а) с
+              <NuxtLink to="/politika_konfidencialnosti" target="_blank" rel="noopener noreferrer" class="text-accent-700 underline underline-offset-2" @click.stop>
+                политикой конфиденциальности
+              </NuxtLink>.
+            </template>
+          </UCheckbox>
+        </UFormField>
+        <UButton block :loading="loading" type="submit" :disabled="!state.personalDataConsent">
+          Оставить заявку
+        </UButton>
       </UForm>
     </template>
   </UModal>

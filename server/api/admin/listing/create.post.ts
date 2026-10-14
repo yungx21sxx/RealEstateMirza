@@ -1,23 +1,22 @@
-import ListingService from '~~/server/service/listing.service';
-import type { ListingCreateDTO } from '#shared/types/dto.types';
-import type { ListingSuccessCreateResponse } from '#shared/types/response.types';
-import type { H3Error } from 'h3';
+import type { ListingCreateDTO } from '#shared/types/dto.types'
+import type { ListingSuccessCreateResponse } from '#shared/types/response.types'
+import ListingService from '~~/server/service/listing.service'
 
-export default defineEventHandler<Promise<ListingSuccessCreateResponse | H3Error>>(
-  async (event) => {
-    const listingService = new ListingService();
-    const dto = await readBody<ListingCreateDTO>(event);
+export default defineEventHandler<Promise<ListingSuccessCreateResponse>>(
+  async (event: any) => {
+    const listingService = new ListingService()
+    const dto = await readBody<ListingCreateDTO>(event)
     try {
-      const { listingId } = await listingService.createListing(dto);
+      const { listingId } = await listingService.createListing(dto)
 
       return {
-        listingId,
-      };
+        listingId
+      }
     } catch (error) {
       throw createError({
         status: 404,
-        message: `Ошибка создания объекта. Билиберда ебаная: ${error} `,
-      });
+        message: `Ошибка создания объекта. Билиберда ебаная: ${error} `
+      })
     }
-  },
-);
+  }
+)

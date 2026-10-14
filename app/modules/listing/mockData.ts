@@ -1,4 +1,4 @@
-import type { ListingCatalogResponse } from '#shared/types/response.types';
+import type { ListingCatalogResponse } from '#shared/types/response.types'
 
 export const listings: ListingCatalogResponse[] = [
   {
@@ -9,7 +9,8 @@ export const listings: ListingCatalogResponse[] = [
     area: 50,
     type: 'flat',
     places: 3,
-    price: 5000,
+    minPrice: 5000,
+    calculatedPrices: null
   },
   {
     id: 2,
@@ -19,7 +20,8 @@ export const listings: ListingCatalogResponse[] = [
     area: 50,
     type: 'flat',
     places: 3,
-    price: 5000,
+    minPrice: 5000,
+    calculatedPrices: null
   },
   {
     id: 3,
@@ -29,7 +31,8 @@ export const listings: ListingCatalogResponse[] = [
     area: 50,
     type: 'flat',
     places: 3,
-    price: 5000,
+    minPrice: 5000,
+    calculatedPrices: null
   },
   {
     id: 1,
@@ -39,7 +42,8 @@ export const listings: ListingCatalogResponse[] = [
     area: 50,
     type: 'flat',
     places: 3,
-    price: 5000,
+    minPrice: 5000,
+    calculatedPrices: null
   },
   {
     id: 2,
@@ -49,7 +53,8 @@ export const listings: ListingCatalogResponse[] = [
     area: 50,
     type: 'flat',
     places: 3,
-    price: 5000,
+    minPrice: 5000,
+    calculatedPrices: null
   },
   {
     id: 3,
@@ -59,6 +64,7 @@ export const listings: ListingCatalogResponse[] = [
     area: 50,
     type: 'flat',
     places: 3,
-    price: 5000,
-  },
-];
+    minPrice: 5000,
+    calculatedPrices: null
+  }
+]

@@ -1,42 +1,45 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
+import photoService from '~~/server/service/photo.service'
 
-import type { H3Event, MultiPartData } from 'h3';
-import photoService from '~~/server/service/photo.service';
+interface UploadedPart {
+  type?: string
+  filename: string
+  data: Buffer
+}
 
-export default defineEventHandler(async (event: H3Event) => {
-  const files: MultiPartData[] | undefined = await readMultipartFormData(event);
-  console.log(files);
-  const uploadedImages = [];
+export default defineEventHandler(async (event: any) => {
+  const files = await readMultipartFormData(event) as UploadedPart[] | undefined
+  console.log(files)
+  const uploadedImages = []
 
   if (!files) {
     return createError({
       statusCode: 403,
-      message: 'Загрузите фотки',
-    });
+      message: 'Загрузите фотки'
+    })
   }
 
   for (const file of files) {
-    if (!file.type) continue;
-    const [type, ext] = file.type.split('/');
+    if (!file.type)
+      continue
+    const [type, ext] = file.type.split('/')
     if (type !== 'image') {
       return createError({
         statusCode: 403,
-        message: 'Загружать можно только фотки',
-      });
+        message: 'Загружать можно только фотки'
+      })
     }
     try {
-      const photo = await photoService.writePhoto(file);
-      uploadedImages.push(photo);
+      const photo = await photoService.writePhoto(file)
+      uploadedImages.push(photo)
     } catch (e) {
-      console.log(e);
+      console.log(e)
       return createError({
         statusCode: 403,
         message:
-          'Возможно одна из фоток в неправильном формате, принимаем все кроме heic от айфона',
-      });
+          'Возможно одна из фоток в неправильном формате, принимаем все кроме heic от айфона'
+      })
     }
   }
 
-  return uploadedImages;
-});
+  return uploadedImages
+})

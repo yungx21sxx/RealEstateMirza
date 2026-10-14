@@ -1,7 +1,29 @@
 @layer base {
+  :root,
+  html,
+  body,
+  html.dark,
+  body.dark,
+  .dark {
+    color-scheme: light;
+    --ui-bg: #ffffff;
+    --ui-text: #333d46;
+    --ui-color-neutral-50: #f9fafb;
+    --ui-color-neutral-100: #f3f4f6;
+    --ui-color-neutral-200: #e5e7eb;
+    --ui-color-neutral-300: #d1d5db;
+    --ui-color-neutral-400: #9ca3af;
+    --ui-color-neutral-500: #6b7280;
+    --ui-color-neutral-600: #4b5563;
+    --ui-color-neutral-700: #374151;
+    --ui-color-neutral-800: #1f2937;
+    --ui-color-neutral-900: #111827;
+  }
+
   body {
     @apply text-main;
-    font-family: 'Rubik', sans-serif;
+    background-color: #ffffff;
+    font-family: 'Inter', sans-serif;
     font-style: normal;
     font-optical-sizing: auto;
     -webkit-font-smoothing: antialiased;

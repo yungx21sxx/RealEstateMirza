@@ -1,12 +1,12 @@
 <script setup lang="ts">
-  import useBooking from '~/modules/listing/composables/useBooking';
-  import DateRangeInput from '~/common/inputs/DateRangeInput.vue';
-  import GuestsInput from '~/common/inputs/GuestsInput.vue';
-  import { formatNights } from '../../../../common/utils/dates.utils';
+import DateRangeInput from '~/common/inputs/DateRangeInput.vue'
+import GuestsInput from '~/common/inputs/GuestsInput.vue'
+import useBooking from '~/modules/listing/composables/useBooking'
+import { formatNights } from '../../../../common/utils/dates.utils'
 
-  const { calculatedPrices, bookingData, bookingConfirmModal } = useBooking();
+const { calculatedPrices, bookingData, bookingConfirmModal } = useBooking()
 
-  const dateSelectOpen = ref(false);
+const dateSelectOpen = ref(false)
 </script>
 
 <template>
@@ -19,7 +19,9 @@
     />
     <GuestsInput v-model="bookingData" class="mt-4" block target="listing-page" />
     <div v-if="!calculatedPrices" class="mt-4">
-      <UButton block @click="dateSelectOpen = true">Выбрать даты</UButton>
+      <UButton class="justify-center" block @click="dateSelectOpen = true">
+        Выбрать даты
+      </UButton>
     </div>
     <div v-else class="mt-6">
       <div class="flex justify-between my-4">
@@ -30,7 +32,9 @@
         <strong>За {{ formatNights(calculatedPrices.daysCount) }}</strong>
         <strong>{{ calculatedPrices.totalPrice.toLocaleString('RU-ru') }} ₽</strong>
       </div>
-      <UButton block @click="bookingConfirmModal = true">Забронировать</UButton>
+      <UButton block @click="bookingConfirmModal = true">
+        Забронировать
+      </UButton>
     </div>
   </div>
 </template>

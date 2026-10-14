@@ -1,5 +1,5 @@
-import type { IListingFormData } from '~/modules/admin/types/formData.types';
-import type { ListingCreateDTO } from '#shared/types/dto.types';
+import type { ListingCreateDTO } from '#shared/types/dto.types'
+import type { IListingFormData } from '~/modules/admin/types/formData.types'
 
 export function transformFormToDTO(formData: IListingFormData): ListingCreateDTO {
   return {
@@ -22,11 +22,11 @@ export function transformFormToDTO(formData: IListingFormData): ListingCreateDTO
     pricePeriods: formData.pricePeriods ?? [],
     photos: formData.photos.map((photo, index) => ({
       position: index,
-      photoId: photo.photoId,
+      photoId: photo.photoId
     })),
     monthlyRental: formData.monthlyRental,
     withAnimals: formData.withAnimals,
     places: formData.places ?? 2,
-    parkingDescription: formData.parkingDescription ?? 'Нет',
-  };
+    parkingDescription: formData.parkingDescription ?? 'Нет'
+  }
 }

@@ -1,59 +1,61 @@
 <script setup lang="ts">
-  import type { BookingFiltersDTO } from '#shared/types/dto.types';
-  import { DatePicker } from 'v-calendar';
-  import { beautifyDate, calculateDaysBetweenDates } from '../utils/dates.utils';
+import type { BookingFiltersDTO } from '#shared/types/dto.types'
+import { DatePicker } from 'v-calendar'
+import { beautifyDate, calculateDaysBetweenDates } from '../utils/dates.utils'
 
-  const bookingData = defineModel<BookingFiltersDTO>({ required: true });
-  const { isMobile } = useDevice();
+withDefaults(
+  defineProps<{
+    block?: boolean
+    target?: 'listing-page' | 'catalog'
+  }>(),
+  {
+    block: false,
+    target: 'catalog'
+  }
+)
+const bookingData = defineModel<BookingFiltersDTO>({ required: true })
+const { isMobile } = useDevice()
 
-  // v-calendar expects undefined for empty range parts in v-model.range
-  // Use a relaxed type for v-model.range to satisfy v-calendar typings
-  const dates = ref<any>({
-    start: bookingData.value.checkIn ?? undefined,
-    end: bookingData.value.checkOut ?? undefined,
-  });
+interface DateRangeValue {
+  start: Date | null | any
+  end: Date | null | any
+}
 
-  const dateInputOpen = defineModel<boolean>('open', { default: false });
+const dates = ref<DateRangeValue>({
+  start: bookingData.value.checkIn ?? null,
+  end: bookingData.value.checkOut ?? null
+})
 
-  watch(dates, (newValue) => {
-    const { start, end } = newValue;
-    bookingData.value.checkIn = start ?? null;
-    bookingData.value.checkOut = end ?? null;
-  });
+const dateInputOpen = defineModel<boolean>('open', { default: false })
 
-  watch(
-    () => [bookingData.value.checkIn, bookingData.value.checkOut],
-    ([checkIn, checkOut]) => {
-      dates.value.start = checkIn || undefined;
-      dates.value.end = checkOut || undefined;
-    },
-  );
+watch(dates, (newValue: DateRangeValue) => {
+  const { start, end } = newValue
+  bookingData.value.checkIn = start ?? null
+  bookingData.value.checkOut = end ?? null
+})
 
-  withDefaults(
-    defineProps<{
-      block?: boolean;
-      target?: 'listing-page' | 'catalog';
-    }>(),
-    {
-      block: false,
-      target: 'catalog',
-    },
-  );
+watch(
+  () => [bookingData.value.checkIn, bookingData.value.checkOut] as const,
+  ([checkIn, checkOut]) => {
+    dates.value.start = checkIn ?? null
+    dates.value.end = checkOut ?? null
+  }
+)
 
-  const resetDates = () => {
-    bookingData.value.checkIn = null;
-    bookingData.value.checkOut = null;
-    dateInputOpen.value = false;
-  };
+function resetDates() {
+  bookingData.value.checkIn = null
+  bookingData.value.checkOut = null
+  dateInputOpen.value = false
+}
 
-  const buttonLabel = computed(() => {
-    if (!dates.value.start && !dates.value.end) {
-      return 'Выберите даты';
-    }
-    return `${beautifyDate(dates.value.start || new Date())} - ${beautifyDate(
-      dates.value.end || new Date(),
-    )}`;
-  });
+const buttonLabel = computed(() => {
+  if (!dates.value.start && !dates.value.end) {
+    return 'Выберите даты'
+  }
+  return `${beautifyDate(dates.value.start || new Date())} - ${beautifyDate(
+    dates.value.end || new Date()
+  )}`
+})
 </script>
 
 <template>
@@ -68,10 +70,10 @@
         :class="[
           target === 'listing-page'
             ? 'bg-block-gray text-main flex-row-reverse justify-between mt-1 hover:bg-gray-200 active:bg-gray-200 transition-all'
-            : 'catalog_btn',
+            : 'catalog_btn'
         ]"
         :block="block"
-        icon="i-heroicons-calendar-days-20-solid"
+        icon="i-lucide-calendar-days"
       >
         {{ buttonLabel }}
       </UButton>
@@ -102,8 +104,12 @@
             />
           </template>
           <template #footer>
-            <UButton variant="soft" @click="resetDates">Сбросить</UButton>
-            <UButton class="ml-4" @click="dateInputOpen = false">Сохранить</UButton>
+            <UButton variant="soft" @click="resetDates">
+              Сбросить
+            </UButton>
+            <UButton class="ml-4" @click="dateInputOpen = false">
+              Сохранить
+            </UButton>
           </template>
         </UCard>
       </template>
@@ -113,36 +119,42 @@
         :class="[
           target === 'listing-page'
             ? 'bg-block-gray text-main flex-row-reverse justify-between mt-1 hover:bg-gray-200 active:bg-gray-200 transition-all'
-            : 'catalog_btn',
+            : 'catalog_btn'
         ]"
         :block="block"
-        icon="i-heroicons-calendar-days-20-solid"
+        icon="i-lucide-calendar-days"
         @click="dateInputOpen = true"
       >
         {{ buttonLabel }}
       </UButton>
-      <UModal v-model:open="dateInputOpen" fullscreen>
-        <template #header>
-          <div class="w-full">
-            <div class="flex items-center justify-between gap-4 mb-4 w-full">
-              <h3 class="font-semibold text-xl">Выберите даты</h3>
-              <button class="block p-0" @click="dateInputOpen = false">
-                <UIcon class="h-7 w-7" name="i-material-symbols:close-rounded" />
-              </button>
-            </div>
-            <div v-if="!dates.start && !dates.end">
-              <p class="mb-4">Введите даты поездки чтобы увидеть актуальные цены</p>
-            </div>
-            <div v-else class="header__dates">
-              <h2 class="font-semibold text-lg mb-2">
-                {{ beautifyDate(dates.start || new Date()) }} -
-                {{ beautifyDate(dates.end || new Date()) }}
-              </h2>
-              <p class="mb-4">
-                {{ calculateDaysBetweenDates(dates.start || new Date(), dates.end || new Date()) }}
-              </p>
-            </div>
-          </div>
+      <UDrawer
+        v-model:open="dateInputOpen"
+        title="Выберите даты"
+        :close="{ 'aria-label': 'Закрыть выбор дат', 'square': true }"
+        :ui="{
+          content: 'mt-0 h-[90dvh] max-h-[calc(100dvh-1rem)] overflow-hidden rounded-t-3xl',
+          handle: 'mt-3',
+          container: 'min-h-0 flex-1 gap-0 overflow-hidden p-0',
+          header: 'shrink-0 items-start gap-3 border-b border-gray-100 px-5 py-4',
+          title: 'text-xl leading-10 tracking-tight',
+          description: 'mt-1 text-sm leading-5 text-secondary',
+          body: 'min-h-0 overflow-x-hidden overflow-y-auto overscroll-contain px-3 py-3',
+          footer: 'shrink-0 border-t border-gray-100 bg-white px-5 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]'
+        }"
+      >
+        <template #description>
+          <span v-if="!dates.start && !dates.end">
+            Укажите даты поездки, чтобы увидеть актуальные цены
+          </span>
+          <span v-else class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+            <span class="font-medium text-main">
+              {{ beautifyDate(dates.start || new Date()) }} —
+              {{ beautifyDate(dates.end || new Date()) }}
+            </span>
+            <span>
+              · {{ calculateDaysBetweenDates(dates.start || new Date(), dates.end || new Date()) }}
+            </span>
+          </span>
         </template>
         <template #body>
           <DatePicker
@@ -152,12 +164,15 @@
             :rows="12"
             :columns="1"
             color="orange"
+            borderless
           />
-          <div class="fixed bottom-0 left-0 right-0 z-[1000] p-4">
-            <UButton block @click="dateInputOpen = false">Сохранить</UButton>
-          </div>
         </template>
-      </UModal>
+        <template #footer>
+          <UButton block @click="dateInputOpen = false">
+            Сохранить
+          </UButton>
+        </template>
+      </UDrawer>
     </div>
   </div>
 </template>

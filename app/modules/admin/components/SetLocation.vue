@@ -1,97 +1,101 @@
 <script setup lang="ts">
-  import {
-    initYmaps,
-    YandexMap,
-    YandexMapControls,
-    YandexMapDefaultFeaturesLayer,
-    YandexMapDefaultSchemeLayer,
-    YandexMapMarker,
-    YandexMapZoomControl,
-  } from 'vue-yandex-maps';
-  import type { Feature, YMap } from '@yandex/ymaps3-types';
-  import useListingFormData from '~/modules/admin/state/useListingFormData';
-  import { useDebounce } from '~/common/composables/useDebounce';
-  const { listingFormData } = useListingFormData();
+import {
+  initYmaps,
+  YandexMap,
+  YandexMapControls,
+  YandexMapDefaultFeaturesLayer,
+  YandexMapDefaultSchemeLayer,
+  YandexMapMarker,
+  YandexMapZoomControl
+} from 'vue-yandex-maps'
+import { useDebounce } from '~/common/composables/useDebounce'
+import useListingFormData from '~/modules/admin/state/useListingFormData'
 
-  interface IAddressSearchResponse {
-    address: string | null;
-    longitude: number | null;
-    latitude: number | null;
+type YMap = object
+
+const { listingFormData } = useListingFormData()
+
+interface IAddressSearchResponse {
+  address: string | null
+  longitude: number | null
+  latitude: number | null
+}
+
+const selectedAddress = ref<IAddressSearchResponse>({
+  address: null,
+  longitude: null,
+  latitude: null
+})
+const searchQuery = ref('')
+const searchedAddresses = ref<IAddressSearchResponse[]>([])
+const loading = ref(false)
+const error = ref(false)
+const map = shallowRef<null | YMap>(null)
+
+function setAddress(address: IAddressSearchResponse) {
+  listingFormData.value.address = address.address
+  listingFormData.value.longitude = address.longitude
+  listingFormData.value.latitude = address.latitude
+}
+
+if (
+  listingFormData.value.longitude
+  && listingFormData.value.latitude
+  && listingFormData.value.address
+) {
+  selectedAddress.value = {
+    address: listingFormData.value.address,
+    latitude: listingFormData.value.latitude,
+    longitude: listingFormData.value.longitude
   }
+}
 
-  const selectedAddress = ref<IAddressSearchResponse>({
-    address: null,
-    longitude: null,
-    latitude: null,
-  });
-  const searchQuery = ref('');
-  const searchedAddresses = ref<IAddressSearchResponse[]>([]);
-  const loading = ref(false);
-  const error = ref(false);
-  const map = shallowRef<null | YMap>(null);
+async function fetchAddresses(query: string): Promise<void> {
+  loading.value = true
+  error.value = false
+  try {
+    await initYmaps()
+    const addresses = await ymaps3.search({ text: query })
+    console.log(addresses)
+    searchedAddresses.value = addresses.map((address: any) => ({
+      address: address.properties.name,
+      latitude: address.geometry?.coordinates[1] ?? null,
+      longitude: address.geometry?.coordinates[0] ?? null
+    }))
+  } catch (e) {
+    console.log('dfgfdg', e)
+    error.value = true
+  } finally {
+    loading.value = false
+  }
+}
 
-  const setAddress = (address: IAddressSearchResponse) => {
-    listingFormData.value.address = address.address;
-    listingFormData.value.longitude = address.longitude;
-    listingFormData.value.latitude = address.latitude;
-  };
+const { debounce } = useDebounce()
 
+watch(
+  searchQuery,
+  debounce(() => {
+    fetchAddresses(searchQuery.value)
+  }, 200)
+)
+
+watch(selectedAddress, () => {
   if (
-    listingFormData.value.longitude &&
-    listingFormData.value.latitude &&
-    listingFormData.value.address
+    selectedAddress.value.address
+    && selectedAddress.value.longitude
+    && selectedAddress.value.latitude
   ) {
-    selectedAddress.value = {
-      address: listingFormData.value.address,
-      latitude: listingFormData.value.latitude,
-      longitude: listingFormData.value.longitude,
-    };
+    setAddress(selectedAddress.value)
   }
-
-  const fetchAddresses = async (query: string): Promise<void> => {
-    loading.value = true;
-    error.value = false;
-    try {
-      await initYmaps();
-      const addresses = await ymaps3.search({ text: query });
-      console.log(addresses);
-      searchedAddresses.value = addresses.map((address) => ({
-        address: address.properties.name,
-        latitude: address.geometry?.coordinates[1] ?? null,
-        longitude: address.geometry?.coordinates[0] ?? null,
-      }));
-    } catch (e) {
-      console.log('dfgfdg', e);
-      error.value = true;
-    } finally {
-      loading.value = false;
-    }
-  };
-
-  const { debounce } = useDebounce();
-
-  watch(
-    searchQuery,
-    debounce(() => {
-      fetchAddresses(searchQuery.value);
-    }, 200),
-  );
-
-  watch(selectedAddress, () => {
-    if (
-      selectedAddress.value.address &&
-      selectedAddress.value.longitude &&
-      selectedAddress.value.latitude
-    ) {
-      setAddress(selectedAddress.value);
-    }
-  });
+})
 </script>
 
 <template>
   <UCard class="address -mx-4">
     <template #header>
-      <h2 class="text-xl font-semibold mb-2">Рассположение</h2>
+      <h2 class="text-xl font-semibold mb-2">
+        Рассположение
+      </h2>
       <p>
         Введите полный адрес, затем выберите его в выпадающем меню. Если объект не имеет
         адреса/номера дома, то введите приблизительный и укажите координаты.
@@ -114,37 +118,41 @@
       v-if="selectedAddress.address && selectedAddress.longitude && selectedAddress.latitude"
       class="map listingFormData-block"
     >
-      <h2 class="mb-2 mt-4 font-semibold text-lg">Жилье на карте</h2>
-      <p class="mb-4"><strong>Улица дом:</strong> {{ selectedAddress.address }}</p>
+      <h2 class="mb-2 mt-4 font-semibold text-lg">
+        Жилье на карте
+      </h2>
+      <p class="mb-4">
+        <strong>Улица дом:</strong> {{ selectedAddress.address }}
+      </p>
 
-      <yandex-map
+      <YandexMap
         v-model="map"
         class="map__canvas"
         :settings="{
           location: {
             center: [selectedAddress.longitude, selectedAddress.latitude],
-            zoom: 17,
-          },
+            zoom: 17
+          }
         }"
         width="100%"
       >
-        <yandex-map-default-scheme-layer />
-        <yandex-map-default-features-layer />
-        <yandex-map-controls :settings="{ position: 'right' }">
-          <yandex-map-zoom-control />
-        </yandex-map-controls>
-        <yandex-map-marker
+        <YandexMapDefaultSchemeLayer />
+        <YandexMapDefaultFeaturesLayer />
+        <YandexMapControls :settings="{ position: 'right' }">
+          <YandexMapZoomControl />
+        </YandexMapControls>
+        <YandexMapMarker
           v-if="selectedAddress.longitude && selectedAddress.latitude"
           position="top left-center"
           :settings="{
-            coordinates: [selectedAddress.longitude, selectedAddress.latitude],
+            coordinates: [selectedAddress.longitude, selectedAddress.latitude]
           }"
         >
           <div class="marker">
-            <UIcon class="text-accent-50 h-6 w-6" name="i-material-symbols:house-outline"></UIcon>
+            <UIcon class="text-accent-50 h-6 w-6" name="i-material-symbols:house-outline" />
           </div>
-        </yandex-map-marker>
-      </yandex-map>
+        </YandexMapMarker>
+      </YandexMap>
     </div>
   </UCard>
 </template>

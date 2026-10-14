@@ -7,7 +7,7 @@
       width="100%"
       class="h-[295px] max-[520px]:h-[600px]"
       frameborder="0"
-    ></iframe>
+    />
   </div>
 </template>
 
