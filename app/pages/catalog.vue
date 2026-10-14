@@ -8,10 +8,10 @@ import ListingItemCatalog from '~/modules/listing/components/shared/ListingItemC
 import MenuMain from '~/modules/menu/components/MenuMain.vue'
 
 useSeoMeta({
-  title: 'Снять аппартаменты в Москве посуточно, цены на 2025 год',
+  title: 'Снять аппартаменты в Москве посуточно, цены на 2026 год',
   description:
       'Удобное расположение, стильный интерьер и проверенные объекты для комфортного проживания в Москве',
-  ogTitle: 'Снять аппартаменты в Москве посуточно, цены на 2025 год',
+  ogTitle: 'Снять аппартаменты в Москве посуточно, цены на 2026 год',
   ogDescription:
       'Удобное расположение, стильный интерьер и проверенные объекты для комфортного проживания в Москве',
   ogImage: '/catalog.jpeg'
